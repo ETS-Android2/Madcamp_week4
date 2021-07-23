@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/santo"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="40dp">
+
+        <EditText
+            android:id="@+id/emailEdit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:hint="Enter email"
+            android:ems="20"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/custom_input"
+            android:drawableLeft="@drawable/custom_email_icon"
+            android:drawablePadding="12dp"
+            android:paddingLeft="15dp"
+            android:layout_above="@id/passwordEdit" />
+
+        <EditText
+            android:id="@+id/passwordEdit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:hint="Enter password"
+            android:ems="20"
+            android:background="@drawable/custom_input"
+            android:drawableLeft="@drawable/custom_http_icon"
+            android:inputType="textPassword"
+            android:drawablePadding="12dp"
+            android:paddingLeft="15dp"
+            android:layout_above="@id/login"
+            android:layout_centerVertical="true"/>
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="Log in"
+            android:layout_centerVertical="true" />
+
+
+        <Button
+            android:id="@+id/signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_centerVertical="true"
+            android:hint="signup"
+            android:layout_below="@id/login"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
