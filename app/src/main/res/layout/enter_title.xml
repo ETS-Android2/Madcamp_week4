@@ -1,55 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:orientation="vertical"
+    >
 
     <EditText
         android:id="@+id/inputTitle"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="8dp"
-        android:hint="Enter name"
+        android:hint="코스 제목을 입력해주세요"
         android:ems="20"
         android:background="@drawable/custom_input"
         android:drawablePadding="12dp"
         android:paddingLeft="15dp"
         android:layout_above="@id/emailEdit"
         android:layout_centerVertical="true"/>
-
-    <EditText
-        android:id="@+id/emailEdit"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="8dp"
-        android:hint="Enter email"
-        android:ems="20"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/custom_input"
-        android:drawableLeft="@drawable/custom_email_icon"
-        android:drawablePadding="12dp"
-        android:paddingLeft="15dp"
-        android:layout_above="@id/passwordEdit" />
-
-    <EditText
-        android:id="@+id/passwordEdit"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="8dp"
-        android:hint="Enter password"
-        android:ems="20"
-        android:background="@drawable/custom_input"
-        android:drawableLeft="@drawable/custom_http_icon"
-        android:inputType="textPassword"
-        android:drawablePadding="12dp"
-        android:paddingLeft="15dp"
-        android:layout_above="@id/login"
-        android:layout_centerVertical="true"/>
-
-
-
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -64,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/colorPrimary"
-            android:text="Sign up"
+            android:text="경로 저장"
             android:id="@+id/bt_finalsavepath"
             android:textStyle="bold"/>
     </androidx.cardview.widget.CardView>

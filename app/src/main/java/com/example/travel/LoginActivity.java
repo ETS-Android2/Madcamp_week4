@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         email = findViewById(R.id.emailEdit);
         password = findViewById(R.id.passwordEdit);
         login = findViewById(R.id.login);
-        signup = findViewById(R.id.signup);
+        signup = findViewById(R.id.bt_finalsavepath);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -76,8 +76,8 @@ public class LoginActivity extends AppCompatActivity {
         AlertDialog ad = builder.create();
         builder.show();
 
-        Button signupBtn = view.findViewById(R.id.signup);
-        final EditText nameEdit = view.findViewById(R.id.nameEdit);
+        Button signupBtn = view.findViewById(R.id.bt_finalsavepath);
+        final EditText nameEdit = view.findViewById(R.id.inputTitle);
         final EditText emailEdit = view.findViewById(R.id.emailEdit);
         final EditText passwordEdit = view.findViewById(R.id.passwordEdit);
 

@@ -1,6 +1,7 @@
 package com.example.travel;
 
 import com.example.travel.items.Pathinfo;
+import com.example.travel.items.SavePathInput;
 import com.example.travel.items.Userinfo;
 
 import java.util.HashMap;
@@ -20,4 +21,7 @@ public interface RetrofitInterface {
 
     @POST("/course/courseList")
     Call<List<Pathinfo>> executeUserPath(@Body HashMap<String, String> map );
+
+    @POST("/course/saveCourse")
+    Call <Void> executeSavePath (@Body SavePathInput savePathInput);
 }
