@@ -36,6 +36,7 @@ public class UserPathActivity extends AppCompatActivity {
     private String useremail = MainActivity.useremail;
 
     private ArrayList<PathItem> pathlist=new ArrayList<>();
+    private ArrayList<Placeinfo> plist=new ArrayList<>();
     private String placetitle, placeregion;
 
     @Override
@@ -70,11 +71,12 @@ public class UserPathActivity extends AppCompatActivity {
             public void onResponse(Call<List<Pathinfo>> call, Response<List<Pathinfo>> response) {
                 if(response.code() == 200) {
                     List<Pathinfo> resultList = response.body();
+                    Log.d("check", resultList.get(0).getLocations().get(0).getAddress());
                     PathItem item = new PathItem();
 
                     for (Pathinfo result : resultList) {
                         Log.d("path", "" + result.getTitle());
-                        item = new PathItem(result.getTitle(), result.getpathRegion(), result.getTotalsize());
+                        item = new PathItem(result.getTitle(), result.getRegion(), result.getTotalSize().toString());
                         pathlist.add(item);
                     }
 
@@ -86,9 +88,11 @@ public class UserPathActivity extends AppCompatActivity {
                         public void onItemClick(int position) {
                             placetitle =pathlist.get(position).getPathtitle();
                             placeregion=pathlist.get(position).getPathregion();
+                            plist = resultList.get(position).getLocations();
                             Intent intent = new Intent(getApplicationContext(), UserPlaceActivity.class);
                             intent.putExtra("title", placetitle);
                             intent.putExtra("region", placeregion);
+                            intent.putExtra("list", plist);
                             startActivity(intent);
 
                         }

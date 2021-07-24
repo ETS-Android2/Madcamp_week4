@@ -16,6 +16,7 @@
         android:background="@drawable/custom_input"
         android:drawablePadding="12dp"
         android:paddingLeft="15dp"
+        android:drawableLeft="@drawable/custom_person_icon"
         android:layout_above="@id/emailEdit"
         android:layout_centerVertical="true"/>
 
