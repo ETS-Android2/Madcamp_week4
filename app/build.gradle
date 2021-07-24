@@ -40,4 +40,12 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2' // 레트로핏 설치 (필수)
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2' // 컨버터 (선택)
+    implementation 'com.google.code.gson:gson:2.8.5' //GSON (선택)
+
+
+    implementation 'com.github.john990:WaveView:v0.9'
 }

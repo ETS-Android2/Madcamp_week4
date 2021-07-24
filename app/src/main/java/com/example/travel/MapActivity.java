@@ -10,6 +10,7 @@ import android.app.FragmentManager;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -57,13 +58,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     boolean locationPermission = false;
     private List<Polyline> polylines = null;
 
+    private String place;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
         editText = (EditText) findViewById(R.id.editText);
         button=(Button)findViewById(R.id.button);
         bt_searchpath = (Button)findViewById(R.id.bt_pathsearch);
+
+        Intent intent = getIntent();
+        place = intent.getStringExtra("place");
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -185,8 +192,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
 
         // Add a marker in Sydney and move the camera
-        LatLng Seoul = new LatLng(36.5680281276506, 127.68838295507976);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(Seoul, 7));
+//        LatLng Seoul = new LatLng(36.5680281276506, 127.68838295507976);
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(Seoul, 7));
+
+
     }
 
     @Override
@@ -255,5 +264,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, "onConnectionFailed", Toast.LENGTH_SHORT).show();
+
     }
 }
