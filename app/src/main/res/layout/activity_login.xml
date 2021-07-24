@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/santo"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,6 +50,8 @@
             android:layout_margin="4dp"
             android:hint="Log in"
             android:layout_centerVertical="true" />
+
+
 
 
         <Button

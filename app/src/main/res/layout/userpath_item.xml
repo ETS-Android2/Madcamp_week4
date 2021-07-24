@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+<androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="8dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginHorizontal="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:id="@+id/pathImg"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/custom_email_icon"/>
+
+            <TextView
+                android:id="@+id/pathTitle"
+                android:text="여행명"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_weight="4"
+                android:layout_gravity="center_horizontal|center"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/pathPlace"
+                android:text="place"
+                android:textSize="18sp"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/pathCount"
+                android:text="장소"
+                android:textSize="16sp"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
