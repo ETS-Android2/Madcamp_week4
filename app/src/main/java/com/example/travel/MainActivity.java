@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+
+
         Intent intent = getIntent();
         username = intent.getStringExtra("name");
         useremail = intent.getStringExtra("email");
