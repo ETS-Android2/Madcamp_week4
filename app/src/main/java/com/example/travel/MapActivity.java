@@ -156,6 +156,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     e.printStackTrace();
                 }
 
+
+
                 System.out.println(addressList.get(0).toString());
                 // 콤마를 기준으로 split
                 String []splitStr = addressList.get(0).toString().split(",");
