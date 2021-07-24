@@ -1,5 +1,6 @@
 package com.example.travel;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -67,7 +68,59 @@ public class LoginActivity extends AppCompatActivity {
 
     private void register() {
 
+        View view = getLayoutInflater().inflate(R.layout.signup_dialog, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setView(view);
+        AlertDialog ad = builder.create();
+        builder.show();
+
+        Button signupBtn = view.findViewById(R.id.signup);
+        final EditText nameEdit = view.findViewById(R.id.nameEdit);
+        final EditText emailEdit = view.findViewById(R.id.emailEdit);
+        final EditText passwordEdit = view.findViewById(R.id.passwordEdit);
+
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                HashMap<String, String> map = new HashMap<>();
+
+                map.put("name", nameEdit.getText().toString());
+                map.put("email", emailEdit.getText().toString());
+                map.put("password", passwordEdit.getText().toString());
+
+                Call<Void> call = retrofitInterface.executeSignup(map); //리턴하는게 없으니 void
+
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+
+                        if (response.code() == 200) {
+                            Toast.makeText(LoginActivity.this,
+                                    "Signed up successfully", Toast.LENGTH_LONG).show();
+                            ad.dismiss();
+
+                        } else if (response.code() == 400) {
+                            Toast.makeText(LoginActivity.this,
+                                    "Already registered", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(LoginActivity.this, t.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+        });
+
     }
+
 
     private void checklogin() {
         HashMap<String, String> map = new HashMap<>();//key도 스트링, 값도 스트링
