@@ -1,44 +1,37 @@
 package com.example.travel.items;
 
-public class Placeinfo {
-    private String _id, email, region, name;
+import java.io.Serializable;
 
-    public Placeinfo(String _id, String email, String region, String name) {
-        this._id = _id;
-        this.email = email;
-        this.region = region;
-        this.name = name;
+public class Placeinfo implements Serializable {
+    private String address, latitude, longtitude;
+
+    public Placeinfo(String address, String latitude, String longtitude) {
+        this.address = address;
+        this.latitude = latitude;
+        this.longtitude = longtitude;
     }
 
-    public String get_id() {
-        return _id;
+    public String getAddress() {
+        return address;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getEmail() {
-        return email;
+    public String getLatitude() {
+        return latitude;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
-    public String getRegion() {
-        return region;
+    public String getLongtitude() {
+        return longtitude;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getplaceName() {
-        return name;
-    }
-
-    public void setplaecName(String name) {
-        this.name = name;
+    public void setLongtitude(String longtitude) {
+        this.longtitude = longtitude;
     }
 }

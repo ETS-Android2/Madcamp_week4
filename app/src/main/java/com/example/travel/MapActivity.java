@@ -225,6 +225,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     e.printStackTrace();
                 }
 
+
+
                 System.out.println(addressList.get(0).toString());
                 // 콤마를 기준으로 split
                 String []splitStr = addressList.get(0).toString().split(",");
@@ -263,6 +265,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
 //        LatLng Seoul = new LatLng(36.5680281276506, 127.68838295507976);
 //        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(Seoul, 7));
+        List<Address> addressList = null;
+        try {
+            addressList = geocoder.getFromLocationName(
+                    place, // 주소
+                    10); // 최대 검색 결과 개수
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 콤마를 기준으로 split
+        String []splitStr = addressList.get(0).toString().split(",");
+        String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
+        String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1);
+        LatLng startCity = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startCity,13));
+
         List<Address> addressList = null;
         try {
             addressList = geocoder.getFromLocationName(
