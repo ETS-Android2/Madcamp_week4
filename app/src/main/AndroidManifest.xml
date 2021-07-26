@@ -15,9 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SplashActivity">
-
-        </activity>
+        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".PathMapActivity" />
+        <activity android:name=".SplashActivity" />
         <activity android:name=".OtherPathActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".UserPathActivity" />

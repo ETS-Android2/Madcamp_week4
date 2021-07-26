@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private WaveView waveView;
     private CardView mapcard, card;
     private EditText place;
-    private Button placebtn;
+    private Button placebtn ,bt_calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         mapcard = findViewById(R.id.toMap);
         place = findViewById(R.id.editPlace);
         placebtn = findViewById(R.id.placeBtn);
+        bt_calendar = findViewById(R.id.bt_calendar);
 
         card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +85,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+//        bt_calendar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent1 = new Intent(MainActivity.this , CalendarActivity.class);
+//                startActivity(intent1);
+//            }
+//        });
     }
 
 

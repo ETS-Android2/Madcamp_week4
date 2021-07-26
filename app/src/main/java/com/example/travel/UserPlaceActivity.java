@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.travel.Adapter.PathAdapter;
 import com.example.travel.Adapter.PlaceAdapter;
@@ -31,9 +33,11 @@ public class UserPlaceActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private String useremail = MainActivity.useremail;
     private String title, region, latitude, longtitude;
-    private ArrayList<Placeinfo> plist;
+    public static ArrayList<Placeinfo> plist;
     private ArrayList<Placeinfo> ilist;
     private PlaceAdapter placeAdapter;
+
+    private Button topathMap;
 
 
     @Override
@@ -74,9 +78,15 @@ public class UserPlaceActivity extends AppCompatActivity {
             }
         });
 
-
-
-
+        topathMap = (Button)findViewById(R.id.bt_toPathMap);
+        topathMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserPlaceActivity.this, PathMapActivity.class);
+                intent.putExtra("plist" , plist);
+                startActivity(intent);
+            }
+        });
     }
 
 }

@@ -14,6 +14,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,21 +41,32 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PendingResult;
+import com.google.maps.internal.PolylineEncoding;
+import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DirectionsRoute;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,RoutingListener,GoogleApiClient.OnConnectionFailedListener {
 
@@ -70,7 +83,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     List<LatLng> latLngList = new ArrayList<>();
     private ArrayList<UserLocation> clickedPath = new ArrayList<>();
 
-    //
+
     private List<Polyline> polylines = null;
 
     private String place; // 이전 액티비티에서 어느 도시로 여행갈건지 입력 받음
@@ -78,6 +91,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     public static String BASE_URL = "http://192.249.18.176:80";
+
+    private GeoApiContext mGeoApiContext = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,22 +118,31 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+//        if(mGeoApiContext == null){
+//            mGeoApiContext = new GeoApiContext.Builder()
+//                    .apiKey("AIzaSyDCsK1Y92o6guzI4h0jmFHPc6Yz43EUENE")
+//                    .build();
+//        }
+
+        //경로 찾기 버튼
         bt_searchpath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(polyline != null) polyline.remove(); // 경로 그냥 다각형으로 그려주는 코드
-//                PolylineOptions polylineOptions = new PolylineOptions()
-//                        .addAll(latLngList).clickable(true);
-//                polyline = mMap.addPolyline(polylineOptions);
-                if(latLngList.size() >= 3) {
-                    for (int i = 0; i < latLngList.size() - 2; i++) {
-                        Findroutes(latLngList.get(i), latLngList.get(i + 1));
-                    }
-                }else if(latLngList.size() == 2){
-                    Findroutes(latLngList.get(0) , latLngList.get(1));
-                }else if(latLngList.size() == 1){
-                    Toast.makeText(MapActivity.this, "장소를 두개 이상 선택해주세요", Toast.LENGTH_SHORT).show();
-                }
+                if(polyline != null) polyline.remove(); // 경로 그냥 다각형으로 그려주는 코드
+                PolylineOptions polylineOptions = new PolylineOptions()
+                        .addAll(latLngList).clickable(true);
+                polyline = mMap.addPolyline(polylineOptions);
+//                if(latLngList.size() >= 3) {
+//                    for (int i = 0; i < latLngList.size() - 2; i++) {
+//                        calculateDirections(latLngList.get(i) , latLngList.get(i+1));
+//                        //Findroutes(latLngList.get(i), latLngList.get(i + 1));
+//                    }
+//                }else if(latLngList.size() == 2){
+//                    //Findroutes(latLngList.get(0) , latLngList.get(1));
+//                    calculateDirections(latLngList.get(0) , latLngList.get(1));
+//                }else if(latLngList.size() == 1){
+//                    Toast.makeText(MapActivity.this, "장소를 두개 이상 선택해주세요", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 
@@ -130,8 +154,73 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-    private AlertDialog ad;
+//    private void calculateDirections(LatLng start , LatLng end){
+//        Log.d(TAG, "calculateDirections: calculating directions.");
+//
+//        com.google.maps.model.LatLng destination = new com.google.maps.model.LatLng(
+//                end.latitude,
+//                end.longitude
+//        );
+//        DirectionsApiRequest directions = new DirectionsApiRequest(mGeoApiContext);
+//
+//        directions.alternatives(true);
+//        directions.origin(
+//                new com.google.maps.model.LatLng(
+//                        start.latitude,
+//                        start.longitude
+//                )
+//        );
+//        Log.d(TAG, "calculateDirections: destination: " + destination.toString());
+//        directions.destination(destination).setCallback(new PendingResult.Callback<DirectionsResult>() {
+//            @Override
+//            public void onResult(DirectionsResult result) {
+//                Log.d(TAG, "calculate 전");
+//                Log.d(TAG, "onResult: routes: " + result.routes[0].toString());
+//                Log.d(TAG, "onResult: duration :" + result.routes[0].legs[0].duration);
+//                Log.d(TAG,  "onResult: distance :" +result.routes[0].legs[0].distance);
+//                Log.d(TAG, "onResult: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
+//
+//                addPolylinesToMap(result);
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable e) {
+//                Log.e(TAG, "onFailure: " + e.getMessage() );
+//            }
+//        });
+//    }
+//    private void addPolylinesToMap(final DirectionsResult result){
+//        new Handler(Looper.getMainLooper()).post(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.d(TAG, "run: result routes: " + result.routes.length);
+//
+//                for(DirectionsRoute route: result.routes){
+//                    Log.d(TAG, "run: leg: " + route.legs[0].toString());
+//                    List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
+//
+//                    List<LatLng> newDecodedPath = new ArrayList<>();
+//
+//                    // This loops through all the LatLng coordinates of ONE polyline.
+//                    for(com.google.maps.model.LatLng latLng: decodedPath){
+//
+////                        Log.d(TAG, "run: latlng: " + latLng.toString());
+//
+//                        newDecodedPath.add(new LatLng(
+//                                latLng.lat,
+//                                latLng.lng
+//                        ));
+//                    }
+//                    Polyline polyline = mMap.addPolyline(new PolylineOptions().addAll(newDecodedPath));
+//                    polyline.setColor(R.color.colorPrimaryDark);
+//                    polyline.setClickable(true);
+//
+//                }
+//            }
+//        });
+//    }
 
+    private AlertDialog ad;
     private void entertitle() {
         View view = getLayoutInflater().inflate(R.layout.enter_title, null);
 
@@ -168,30 +257,29 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-    public void Findroutes(LatLng Start, LatLng End)
-    {
-        if(Start==null || End==null) {
-            Toast.makeText(MapActivity.this ,"Unable to get location", Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-
-            Routing routing = new Routing.Builder()
-                    .travelMode(AbstractRouting.TravelMode.DRIVING)
-                    .withListener(this)
-                    .alternativeRoutes(true)
-                    .waypoints(Start, End)
-                    .key("AIzaSyDCsK1Y92o6guzI4h0jmFHPc6Yz43EUENE")  //also define your api key here.
-                    .build();
-            routing.execute();
-        }
-    }
+//    public void Findroutes(LatLng Start, LatLng End)
+//    {
+//        if(Start==null || End==null) {
+//            Toast.makeText(MapActivity.this ,"Unable to get location", Toast.LENGTH_LONG).show();
+//        }
+//        else
+//        {
+//
+//            Routing routing = new Routing.Builder()
+//                    .travelMode(AbstractRouting.TravelMode.DRIVING)
+//                    .withListener(this)
+//                    .alternativeRoutes(true)
+//                    .waypoints(Start, End)
+//                    .key("AIzaSyDCsK1Y92o6guzI4h0jmFHPc6Yz43EUENE")  //also define your api key here.
+//                    .build();
+//            routing.execute();
+//        }
+//    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         geocoder = new Geocoder(this);
-
         // 맵 터치 이벤트 구현 //
 //        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
 //            @Override
@@ -209,7 +297,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //                googleMap.addMarker(mOptions);
 //            }
 //        });
-        ////////////////////
         // 장소를 입력하고 버튼을 누르면 그 위치에 마커가 표시됨
         button.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -224,8 +311,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
 
                 System.out.println(addressList.get(0).toString());
                 // 콤마를 기준으로 split
@@ -246,7 +331,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 mOptions2.snippet(address);
                 mOptions2.position(point);
 
+                Random random = new Random();
+                mOptions2.icon(BitmapDescriptorFactory.defaultMarker(random.nextFloat()*360));
                 mMap.addMarker(mOptions2);
+
                 //검색한 장소로 카메라 이동
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point,15));
 
