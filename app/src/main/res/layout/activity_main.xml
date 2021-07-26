@@ -7,95 +7,116 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <com.john.waveview.WaveView
-        android:id="@+id/wave_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        wave:above_wave_color="@android:color/white"
-        wave:blow_wave_color="@android:color/white"
-        wave:progress="60"
-        wave:wave_height="little"
-        wave:wave_hz="fast"
-        wave:wave_length="middle" >
+    <include
+        layout="@layout/activity_map"/>
 
 
-    </com.john.waveview.WaveView>
+=======
+
+<!--    <com.john.waveview.WaveView-->
+<!--        android:id="@+id/wave_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="@color/colorPrimaryDark"-->
+<!--        wave:above_wave_color="@android:color/white"-->
+<!--        wave:blow_wave_color="@android:color/white"-->
+<!--        wave:progress="60"-->
+<!--        wave:wave_height="little"-->
+<!--        wave:wave_hz="fast"-->
+<!--        wave:wave_length="middle" >-->
 
 
+<!--    </com.john.waveview.WaveView>-->
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/toMap"
-        android:layout_marginTop="70dp"
-        android:layout_marginHorizontal="30dp"
-        app:cardCornerRadius="43dp"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
-
-        <EditText
-            android:id="@+id/editPlace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:hint="어디로 떠나고 싶으신가요?"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal|center"
-            android:gravity="center"/>
-
-        <Button
-            android:id="@+id/placeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="으로 떠나기"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="20dp"
-            />
-
-    </androidx.cardview.widget.CardView>
-
-    <Button
-        android:id="@+id/bt_calendar"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="캘린더"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/toProfile"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_margin="30dp"
-        app:cardCornerRadius="43dp"
-        app:layout_constraintBottom_toTopOf="@+id/seek_bar"
-        tools:ignore="MissingConstraints">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="About Me"
-            android:textSize="20sp" />
-
-    </androidx.cardview.widget.CardView>
-
-    <SeekBar
-        android:id="@+id/seek_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="30dp"
-        android:progress="80"
-        tools:ignore="MissingConstraints" />
+        android:layout_marginBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="30dp"
+        tools:ignore="MissingConstraints"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_baseline_account_circle_24"
+        android:id="@+id/toProfile"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        tools:ignore="MissingConstraints"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_baseline_collections_bookmark_24"
+        android:id="@+id/toSearch"/>
 
 
->>>>>>> d3579afd1b14aebfe654eaf94a2b9d7612d41155
+
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/toMap"-->
+<!--        android:layout_marginTop="70dp"-->
+<!--        android:layout_marginHorizontal="30dp"-->
+<!--        app:cardCornerRadius="43dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="200dp"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/editPlace"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:hint="어디로 떠나고 싶으신가요?"-->
+<!--            android:textSize="20sp"-->
+<!--            android:layout_gravity="center_horizontal|center"-->
+<!--            android:gravity="center"/>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/placeBtn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="으로 떠나기"-->
+<!--            android:layout_gravity="bottom|center_horizontal"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            />-->
+
+<!--    </androidx.cardview.widget.CardView>-->
+
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/toProfile"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:layout_margin="30dp"-->
+<!--        app:cardCornerRadius="43dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/seek_bar"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal|center"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="About Me"-->
+<!--            android:textSize="20sp" />-->
+
+<!--    </androidx.cardview.widget.CardView>-->
+
+<!--    <SeekBar-->
+<!--        android:id="@+id/seek_bar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="bottom|center_horizontal"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        android:layout_marginBottom="30dp"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:progress="80"-->
+<!--        tools:ignore="MissingConstraints" />-->
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

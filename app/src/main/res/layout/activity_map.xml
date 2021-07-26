@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="10">
+    android:weightSum="10"
+    tools:showIn="@layout/activity_main">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -59,6 +60,31 @@
             android:text="경로 저장" />
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="30dp"
+        tools:ignore="MissingConstraints"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_baseline_account_circle_24"
+        android:id="@+id/toProfile"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="30dp"
+        tools:ignore="MissingConstraints"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_baseline_collections_bookmark_24"
+        android:id="@+id/toSearch"/>
 
 
 

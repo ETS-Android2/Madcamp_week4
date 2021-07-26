@@ -4,16 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorSplash"
     tools:context=".LoginActivity">
 
 
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
+
+        android:src="@drawable/tag"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="40dp">
+        android:paddingHorizontal="80dp"
+        android:layout_marginTop="170dp">
 
         <EditText
             android:id="@+id/emailEdit"
@@ -50,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:hint="Log in"
-            android:backgroundTint="@color/colorPrimaryDark"
+            android:backgroundTint="@color/colorPrimary"
             android:layout_centerVertical="true" />
 
 
@@ -62,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_centerVertical="true"
-            android:backgroundTint="@color/colorPrimaryDark"
+            android:backgroundTint="@color/colorPrimary"
             android:hint="signup"
             android:layout_below="@id/login"/>
 

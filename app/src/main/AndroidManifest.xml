@@ -15,20 +15,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CalendarActivity"></activity>
+
         <activity android:name=".PathMapActivity" />
-        <activity android:name=".SplashActivity" />
-        <activity android:name=".OtherPathActivity" />
-        <activity android:name=".MapActivity" />
-        <activity android:name=".UserPathActivity" />
-        <activity android:name=".UserPlaceActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".OtherPathActivity" />
+        <activity android:name=".MapActivity" />
+        <activity android:name=".UserPathActivity"/>
+        <activity android:name=".UserPlaceActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".PlaceDetailActivity" />
+        <activity android:name=".LoginActivity">
+
         </activity>
 
         <meta-data

@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSplash"
     tools:context=".SplashActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:scaleType="fitEnd"
         android:id="@+id/splash"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,6 +47,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
@@ -72,7 +73,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private FragmentManager fragmentManager;
     private MapFragment mapFragment;
-    private String email = MainActivity.useremail;
+    public static String username, useremail;
 
     private GoogleMap mMap;
     private Geocoder geocoder;
@@ -90,14 +91,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    public static String BASE_URL = "http://192.249.18.176:80";
+    public static String BASE_URL = LoginActivity.BASE_URL;
 
     private GeoApiContext mGeoApiContext = null;
+    private FloatingActionButton toProf, toSearch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        Intent intent = getIntent();
+        username = intent.getStringExtra("name");
+        useremail = intent.getStringExtra("email");
+
+
+        toProf = findViewById(R.id.toProfile);
+        toSearch = findViewById(R.id.toSearch);
 
         editText = (EditText) findViewById(R.id.editText);
         button=(Button)findViewById(R.id.button);
@@ -110,8 +121,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
-        Intent intent = getIntent();
-        place = intent.getStringExtra("place");
+
+        place = "대한민국";
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -123,6 +134,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //                    .apiKey("AIzaSyDCsK1Y92o6guzI4h0jmFHPc6Yz43EUENE")
 //                    .build();
 //        }
+
+        toProf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserPathActivity.class);
+                startActivity(intent);
+
+                overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
+            }
+        });
+
+        toSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), OtherPathActivity.class);
+                startActivity(intent);
+
+                overridePendingTransition(R.anim.anim_slide_in_left_fast, 0);
+
+            }
+        });
 
         //경로 찾기 버튼
         bt_searchpath.setOnClickListener(new View.OnClickListener() {
@@ -235,8 +267,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         finalsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //여기서 경로 저장한배열, 지역 , 경로제목을 보냄
-                Log.d("Check" , email);
-                SavePathInput savePathInput = new SavePathInput(String.valueOf(email), pathTitle.getText().toString() ,place , String.valueOf(clickedPath.size()), clickedPath);
+                Log.d("Check" , useremail);
+                SavePathInput savePathInput = new SavePathInput(String.valueOf(useremail), pathTitle.getText().toString() ,place , String.valueOf(clickedPath.size()), clickedPath);
 
                 Call<Void> call = retrofitInterface.executeSavePath(savePathInput);
                 call.enqueue(new Callback<Void>() {
@@ -368,7 +400,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
         String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1);
         LatLng startCity = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startCity,13));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startCity,7));
     }
 
     @Override

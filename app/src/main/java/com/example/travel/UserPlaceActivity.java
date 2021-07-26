@@ -31,7 +31,7 @@ public class UserPlaceActivity extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = LoginActivity.BASE_URL;
     private RecyclerView recyclerView;
-    private String useremail = MainActivity.useremail;
+    private String useremail = MapActivity.useremail;
     private String title, region, latitude, longtitude;
     public static ArrayList<Placeinfo> plist;
     private ArrayList<Placeinfo> ilist;
@@ -71,10 +71,14 @@ public class UserPlaceActivity extends AppCompatActivity {
         placeAdapter.setOnItemClickListener(new PlaceAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                latitude =plist.get(position).getLatitude();
-                longtitude=plist.get(position).getLongtitude();
-                return;
-
+//                latitude =plist.get(position).getLatitude();
+//                longtitude=plist.get(position).getLongtitude();
+                Intent intent = new Intent(getApplicationContext(), PlaceDetailActivity.class);
+                intent.putExtra("title", title);
+                intent.putExtra("region", region);
+                intent.putExtra("place", plist.get(position));
+                startActivity(intent);
+//                return;
             }
         });
 

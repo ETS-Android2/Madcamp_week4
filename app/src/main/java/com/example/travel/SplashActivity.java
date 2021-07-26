@@ -19,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         splash = findViewById(R.id.splash);
-        Glide.with(getApplicationContext()).load(R.drawable.woman_walks).into(splash);
+        Glide.with(getApplicationContext()).load(R.drawable.baggages).into(splash);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -27,9 +27,10 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 finish();
             }
-        },3000);
+        },2500);
     }
     @Override
     protected void onPause() {

@@ -139,13 +139,14 @@ public class LoginActivity extends AppCompatActivity {
 
                     Userinfo result = response.body();//응답의 내용. 이와같은 디비구조인게 UserInfo
 
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                     intent.putExtra("name", result.getName());
                     intent.putExtra("email", result.getEmail());
 
                     startActivity(intent);
 
-                    //finish();
+                    overridePendingTransition(0, R.anim.anim_slide_out_top);
+                    finish();
 
                 } else if (response.code() == 404) {
                     Log.d("look", "400");

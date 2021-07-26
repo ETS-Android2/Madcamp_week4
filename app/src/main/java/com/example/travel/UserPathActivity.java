@@ -33,7 +33,7 @@ public class UserPathActivity extends AppCompatActivity {
     private String BASE_URL = LoginActivity.BASE_URL;
     private RecyclerView recyclerView;
     private PathAdapter pathAdapter;
-    private String useremail = MainActivity.useremail;
+    private String useremail = MapActivity.useremail;
 
     private ArrayList<PathItem> pathlist=new ArrayList<>();
     private ArrayList<Placeinfo> plist=new ArrayList<>();
@@ -71,7 +71,7 @@ public class UserPathActivity extends AppCompatActivity {
             public void onResponse(Call<List<Pathinfo>> call, Response<List<Pathinfo>> response) {
                 if(response.code() == 200) {
                     List<Pathinfo> resultList = response.body();
-                    Log.d("check", resultList.get(0).getLocations().get(0).getAddress());
+//                    Log.d("check", resultList.get(0).getLocations().get(0).getAddress());
                     PathItem item = new PathItem();
 
                     for (Pathinfo result : resultList) {
@@ -94,6 +94,7 @@ public class UserPathActivity extends AppCompatActivity {
                             intent.putExtra("region", placeregion);
                             intent.putExtra("list", plist);
                             startActivity(intent);
+                            overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
 
                         }
                     });
