@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.john.waveview.WaveView;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private SeekBar seekBar;
     private WaveView waveView;
     private CardView mapcard, card;
+    private FloatingActionButton toProf, toSearch;
     private EditText place;
     private Button placebtn;
 
@@ -43,47 +45,72 @@ public class MainActivity extends AppCompatActivity {
         username = intent.getStringExtra("name");
         useremail = intent.getStringExtra("email");
 
-        seekBar = (SeekBar) findViewById(R.id.seek_bar);
-        waveView = (WaveView) findViewById(R.id.wave_view);
+        toProf = findViewById(R.id.toProfile);
+        toSearch = findViewById(R.id.toSearch);
 
-        card = findViewById(R.id.toProfile);
-        mapcard = findViewById(R.id.toMap);
-        place = findViewById(R.id.editPlace);
-        placebtn = findViewById(R.id.placeBtn);
 
-        card.setOnClickListener(new View.OnClickListener() {
+//        seekBar = (SeekBar) findViewById(R.id.seek_bar);
+//        waveView = (WaveView) findViewById(R.id.wave_view);
+//
+//        mapcard = findViewById(R.id.toMap);
+//        place = findViewById(R.id.editPlace);
+//        placebtn = findViewById(R.id.placeBtn);
+
+//        card.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), UserPathActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
+        toProf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), UserPathActivity.class);
                 startActivity(intent);
+
+                overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
             }
         });
 
-        placebtn.setOnClickListener(new View.OnClickListener() {
+        toSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                intent.putExtra("place", place.getText().toString());
+                Intent intent = new Intent(getApplicationContext(), OtherPathActivity.class);
                 startActivity(intent);
-            }
-        });
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                waveView.setProgress(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+                overridePendingTransition(R.anim.anim_slide_in_left_fast, 0);
 
             }
         });
+
+
+//        placebtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+//                intent.putExtra("place", place.getText().toString());
+//                startActivity(intent);
+//            }
+//        });
+//
+//        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                waveView.setProgress(progress);
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//        });
     }
 
 

@@ -4,14 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context=".UserPathActivity">
 
+
+
     <androidx.recyclerview.widget.RecyclerView
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/userPathRecycler"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="5dp">
+        android:background="@drawable/rounded"
+        android:layout_marginTop="30dp"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="10dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 

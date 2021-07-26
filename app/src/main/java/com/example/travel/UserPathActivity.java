@@ -94,6 +94,7 @@ public class UserPathActivity extends AppCompatActivity {
                             intent.putExtra("region", placeregion);
                             intent.putExtra("list", plist);
                             startActivity(intent);
+                            overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
 
                         }
                     });
