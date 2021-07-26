@@ -2,6 +2,7 @@ package com.example.travel;
 
 import com.example.travel.items.Pathinfo;
 
+import com.example.travel.items.SaveImageResponse;
 import com.example.travel.items.SavePathInput;
 
 import com.example.travel.items.Placeinfo;
@@ -11,9 +12,12 @@ import com.example.travel.items.Userinfo;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface RetrofitInterface {
 
@@ -26,8 +30,13 @@ public interface RetrofitInterface {
     @POST("/course/courseList")
     Call<List<Pathinfo>> executeUserPath(@Body HashMap<String, String> map );
 
-
     @POST("/course/saveCourse")
     Call <Void> executeSavePath (@Body SavePathInput savePathInput);
 
+    @POST("/course/singleSpot")
+    Call <Placeinfo> executeSingleSpot (@Body HashMap<String, String> map );
+
+    @Multipart
+    @POST("/image/upload")
+    Call<Void> uploadImage(@Part MultipartBody.Part[] image);
 }

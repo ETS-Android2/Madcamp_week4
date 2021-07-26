@@ -67,10 +67,14 @@ public class UserPlaceActivity extends AppCompatActivity {
         placeAdapter.setOnItemClickListener(new PlaceAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                latitude =plist.get(position).getLatitude();
-                longtitude=plist.get(position).getLongtitude();
-                return;
-
+//                latitude =plist.get(position).getLatitude();
+//                longtitude=plist.get(position).getLongtitude();
+                Intent intent = new Intent(getApplicationContext(), PlaceDetailActivity.class);
+                intent.putExtra("title", title);
+                intent.putExtra("region", region);
+                intent.putExtra("place", plist.get(position));
+                startActivity(intent);
+//                return;
             }
         });
 

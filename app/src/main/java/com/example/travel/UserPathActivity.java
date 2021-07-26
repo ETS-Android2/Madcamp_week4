@@ -71,7 +71,7 @@ public class UserPathActivity extends AppCompatActivity {
             public void onResponse(Call<List<Pathinfo>> call, Response<List<Pathinfo>> response) {
                 if(response.code() == 200) {
                     List<Pathinfo> resultList = response.body();
-                    Log.d("check", resultList.get(0).getLocations().get(0).getAddress());
+//                    Log.d("check", resultList.get(0).getLocations().get(0).getAddress());
                     PathItem item = new PathItem();
 
                     for (Pathinfo result : resultList) {
