@@ -14,6 +14,7 @@ import com.example.travel.Adapter.PathAdapter;
 import com.example.travel.Adapter.PlaceAdapter;
 import com.example.travel.items.Pathinfo;
 import com.example.travel.items.Placeinfo;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,13 +32,13 @@ public class UserPlaceActivity extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = LoginActivity.BASE_URL;
     private RecyclerView recyclerView;
-    private String useremail = MapActivity.useremail;
+    private String useremail = MainActivity.useremail;
     private String title, region, latitude, longtitude;
     public static ArrayList<Placeinfo> plist;
     private ArrayList<Placeinfo> ilist;
     private PlaceAdapter placeAdapter;
 
-    private Button topathMap;
+    private FloatingActionButton topathMap;
 
 
     @Override
@@ -82,7 +83,7 @@ public class UserPlaceActivity extends AppCompatActivity {
             }
         });
 
-        topathMap = (Button)findViewById(R.id.bt_toPathMap);
+        topathMap = (FloatingActionButton)findViewById(R.id.bt_toPathMap);
         topathMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

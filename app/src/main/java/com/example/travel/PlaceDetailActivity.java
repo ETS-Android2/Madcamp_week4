@@ -109,7 +109,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
         HashMap<String, String> map = new HashMap<>();
-        map.put("email", MapActivity.useremail);
+        map.put("email", MainActivity.useremail);
         map.put("region", region);
         map.put("title", title);
         map.put("address", place.getAddress());

@@ -33,7 +33,7 @@ public class UserPathActivity extends AppCompatActivity {
     private String BASE_URL = LoginActivity.BASE_URL;
     private RecyclerView recyclerView;
     private PathAdapter pathAdapter;
-    private String useremail = MapActivity.useremail;
+    private String useremail = MainActivity.useremail;
 
     private ArrayList<PathItem> pathlist=new ArrayList<>();
     private ArrayList<Placeinfo> plist=new ArrayList<>();

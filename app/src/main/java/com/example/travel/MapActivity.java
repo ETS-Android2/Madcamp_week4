@@ -10,6 +10,7 @@ import android.Manifest;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.content.Intent;
@@ -22,9 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
-
-
-
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.directions.route.AbstractRouting;
@@ -73,11 +72,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private FragmentManager fragmentManager;
     private MapFragment mapFragment;
-    public static String username, useremail;
+
 
     private GoogleMap mMap;
     private Geocoder geocoder;
-    private Button button , bt_searchpath , bt_savepath;
+    private Button bt_searchpath , bt_savepath;
+    private Button button;
     private EditText editText;
 
     Polyline polyline = null;
@@ -92,9 +92,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     public static String BASE_URL = LoginActivity.BASE_URL;
+    private String useremail = MainActivity.useremail;
 
     private GeoApiContext mGeoApiContext = null;
-    private FloatingActionButton toProf, toSearch;
+    private FloatingActionButton toProf, toSearch , calendar;
 
 
     @Override
@@ -102,13 +103,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        Intent intent = getIntent();
-        username = intent.getStringExtra("name");
-        useremail = intent.getStringExtra("email");
+
 
 
         toProf = findViewById(R.id.toProfile);
         toSearch = findViewById(R.id.toSearch);
+        calendar = findViewById(R.id.calendar);
 
         editText = (EditText) findViewById(R.id.editText);
         button=(Button)findViewById(R.id.button);
@@ -122,7 +122,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
 
-        place = "대한민국";
+        Intent intent = getIntent();
+        place = intent.getStringExtra("place");
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -156,13 +157,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+        calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CalendarActivity.class);
+                startActivity(intent);
+
+                overridePendingTransition(R.anim.anim_slide_in_bottom, 0);
+            }
+        });
+
         //경로 찾기 버튼
         bt_searchpath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(polyline != null) polyline.remove(); // 경로 그냥 다각형으로 그려주는 코드
                 PolylineOptions polylineOptions = new PolylineOptions()
-                        .addAll(latLngList).clickable(true);
+                        .addAll(latLngList).clickable(true)
+                        .color(Color.parseColor("#767676"));
                 polyline = mMap.addPolyline(polylineOptions);
 //                if(latLngList.size() >= 3) {
 //                    for (int i = 0; i < latLngList.size() - 2; i++) {
@@ -344,40 +356,44 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     e.printStackTrace();
                 }
 
-                System.out.println(addressList.get(0).toString());
-                // 콤마를 기준으로 split
-                String []splitStr = addressList.get(0).toString().split(",");
-                String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
-                System.out.println(address);
+                if(addressList.size() != 0) {
+                    System.out.println(addressList.get(0).toString());
+                    // 콤마를 기준으로 split
+                    String[] splitStr = addressList.get(0).toString().split(",");
+                    String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1, splitStr[0].length() - 2); // 주소
+                    System.out.println(address);
 
-                String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
-                String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도
-                System.out.println(latitude);
-                System.out.println(longitude);
+                    String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
+                    String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도
+                    System.out.println(latitude);
+                    System.out.println(longitude);
 
-                // 좌표(위도, 경도) 생성
-                LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+                    // 좌표(위도, 경도) 생성
+                    LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
 
-                MarkerOptions mOptions2 = new MarkerOptions();
-                mOptions2.title(str);
-                mOptions2.snippet(address);
-                mOptions2.position(point);
+                    MarkerOptions mOptions2 = new MarkerOptions();
+                    mOptions2.title(str);
+                    mOptions2.snippet(address);
+                    mOptions2.position(point);
 
-                Random random = new Random();
-                mOptions2.icon(BitmapDescriptorFactory.defaultMarker(random.nextFloat()*360));
-                mMap.addMarker(mOptions2);
+                    Random random = new Random();
+                    mOptions2.icon(BitmapDescriptorFactory.defaultMarker(random.nextFloat() * 360));
+                    mMap.addMarker(mOptions2);
 
-                //검색한 장소로 카메라 이동
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point,15));
+                    //검색한 장소로 카메라 이동
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
 
-                //검색한 장소 clickedPath에 추가.(장소명, 위도, 경도) 아마 db에 보낼 리스트
-                //Location 은 임의로 만든 클래스임
-                UserLocation location = new UserLocation(str , latitude , longitude);
-                clickedPath.add(location);
+                    //검색한 장소 clickedPath에 추가.(장소명, 위도, 경도) 아마 db에 보낼 리스트
+                    //Location 은 임의로 만든 클래스임
+                    UserLocation location = new UserLocation(str, latitude, longitude);
+                    clickedPath.add(location);
 
-                //폴리곤(못생긴경로) 그리기 위해 (위도,경도) 저장하는 리스트. LatLng은 원래 정의된 클래스임
-                LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-                latLngList.add(latLng);
+                    //폴리곤(못생긴경로) 그리기 위해 (위도,경도) 저장하는 리스트. LatLng은 원래 정의된 클래스임
+                    LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+                    latLngList.add(latLng);
+                }else{
+                    Toast.makeText(MapActivity.this, "구체적인 장소를 입력해주세요. ( ex : 성수역 , 둔산동 우츠 )", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -390,17 +406,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             addressList = geocoder.getFromLocationName(
                     place, // 주소
                     10); // 최대 검색 결과 개수
+            //Log.d("tag", "검색 결과 개수 : " + addressList.size());
         }
         catch (IOException e) {
             e.printStackTrace();
         }
 
-        // 콤마를 기준으로 split
-        String []splitStr = addressList.get(0).toString().split(",");
-        String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
-        String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1);
-        LatLng startCity = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startCity,7));
+        if(addressList.size() != 0) {
+            // 콤마를 기준으로 split
+            String[] splitStr = addressList.get(0).toString().split(",");
+            String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
+            String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1);
+            LatLng startCity = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startCity, 13));
+        }else{
+            Toast.makeText(this, "올바른 도시명이 아닙니다", Toast.LENGTH_SHORT).show();
+            onBackPressed();
+        }
     }
 
     @Override

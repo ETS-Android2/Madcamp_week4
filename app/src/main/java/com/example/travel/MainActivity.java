@@ -20,8 +20,6 @@ import com.john.waveview.WaveView;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
     public static String username, useremail;
     private SeekBar seekBar;
     private WaveView waveView;
@@ -29,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton toProf, toSearch;
     private EditText place;
     private Button placebtn ,bt_calendar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +44,16 @@ public class MainActivity extends AppCompatActivity {
         username = intent.getStringExtra("name");
         useremail = intent.getStringExtra("email");
 
-        toProf = findViewById(R.id.toProfile);
-        toSearch = findViewById(R.id.toSearch);
-
-        Intent mapintent = new Intent(getApplicationContext(), MapActivity.class);
-        mapintent.putExtra("place", "대한민국");
-        startActivity(mapintent);
+//        toProf = findViewById(R.id.toProfile);
+//        toSearch = findViewById(R.id.toSearch);
+        place = findViewById(R.id.editPlace);
+        placebtn = findViewById(R.id.placeBtn);
 
 
 //        seekBar = (SeekBar) findViewById(R.id.seek_bar);
 //        waveView = (WaveView) findViewById(R.id.wave_view);
 //
 //        mapcard = findViewById(R.id.toMap);
-//        place = findViewById(R.id.editPlace);
-//        placebtn = findViewById(R.id.placeBtn);
-
 //        card.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -68,35 +62,36 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-        toProf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), UserPathActivity.class);
-                startActivity(intent);
-
-                overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
-            }
-        });
-
-        toSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), OtherPathActivity.class);
-                startActivity(intent);
-
-                overridePendingTransition(R.anim.anim_slide_in_left_fast, 0);
-
-            }
-        });
-
-//        placebtn.setOnClickListener(new View.OnClickListener() {
+//        toProf.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-//                intent.putExtra("place", place.getText().toString());
+//                Intent intent = new Intent(getApplicationContext(), UserPathActivity.class);
 //                startActivity(intent);
+//
+//                overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
 //            }
 //        });
+//
+//        toSearch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), OtherPathActivity.class);
+//                startActivity(intent);
+//
+//                overridePendingTransition(R.anim.anim_slide_in_left_fast, 0);
+//
+//            }
+//        });
+
+        placebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mapintent = new Intent(getApplicationContext(), MapActivity.class);
+                mapintent.putExtra("place", place.getText().toString());
+                startActivity(mapintent);
+                overridePendingTransition(0,0);
+            }
+        });
 //
 //        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 //            @Override

@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     Userinfo result = response.body();//응답의 내용. 이와같은 디비구조인게 UserInfo
 
-                    Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("name", result.getName());
                     intent.putExtra("email", result.getEmail());
 
