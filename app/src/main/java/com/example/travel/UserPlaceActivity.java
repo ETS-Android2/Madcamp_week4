@@ -31,7 +31,7 @@ public class UserPlaceActivity extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = LoginActivity.BASE_URL;
     private RecyclerView recyclerView;
-    private String useremail = MapActivity.useremail;
+    private String useremail = MainActivity.useremail;
     private String title, region, latitude, longtitude;
     public static ArrayList<Placeinfo> plist;
     private ArrayList<Placeinfo> ilist;

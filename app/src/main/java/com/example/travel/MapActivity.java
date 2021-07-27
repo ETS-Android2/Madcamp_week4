@@ -48,12 +48,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.maps.DirectionsApiRequest;
-import com.google.maps.GeoApiContext;
-import com.google.maps.PendingResult;
-import com.google.maps.internal.PolylineEncoding;
-import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.DirectionsRoute;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,7 +68,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private FragmentManager fragmentManager;
     private MapFragment mapFragment;
-    public static String username, useremail;
+    private String useremail;
 
     private GoogleMap mMap;
     private Geocoder geocoder;
@@ -93,7 +88,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private RetrofitInterface retrofitInterface;
     public static String BASE_URL = LoginActivity.BASE_URL;
 
-    private GeoApiContext mGeoApiContext = null;
     private FloatingActionButton toProf, toSearch;
 
 
@@ -103,8 +97,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
 
         Intent intent = getIntent();
-        username = intent.getStringExtra("name");
-        useremail = intent.getStringExtra("email");
+        place = intent.getStringExtra("place");
 
 
         toProf = findViewById(R.id.toProfile);
@@ -122,7 +115,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
 
-        place = "대한민국";
+
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -469,5 +462,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, "onConnectionFailed", Toast.LENGTH_SHORT).show();
+    }
+
+    private long time= 0;
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - time >= 2000) {
+            time = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(), "한번더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        } else if (System.currentTimeMillis() - time < 2000) {
+            finish();
+        }
     }
 }

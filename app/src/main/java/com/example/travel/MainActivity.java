@@ -44,21 +44,21 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         username = intent.getStringExtra("name");
         useremail = intent.getStringExtra("email");
+//
+//        toProf = findViewById(R.id.toProfile);
+//        toSearch = findViewById(R.id.toSearch);
 
-        toProf = findViewById(R.id.toProfile);
-        toSearch = findViewById(R.id.toSearch);
-
-        Intent mapintent = new Intent(getApplicationContext(), MapActivity.class);
-        mapintent.putExtra("place", "대한민국");
-        startActivity(mapintent);
+//        Intent mapintent = new Intent(getApplicationContext(), MapActivity.class);
+//        mapintent.putExtra("place", "대한민국");
+//        startActivity(mapintent);
 
 
 //        seekBar = (SeekBar) findViewById(R.id.seek_bar);
 //        waveView = (WaveView) findViewById(R.id.wave_view);
 //
 //        mapcard = findViewById(R.id.toMap);
-//        place = findViewById(R.id.editPlace);
-//        placebtn = findViewById(R.id.placeBtn);
+        place = findViewById(R.id.editPlace);
+        placebtn = findViewById(R.id.placeBtn);
 
 //        card.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -68,35 +68,36 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-        toProf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), UserPathActivity.class);
-                startActivity(intent);
-
-                overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
-            }
-        });
-
-        toSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), OtherPathActivity.class);
-                startActivity(intent);
-
-                overridePendingTransition(R.anim.anim_slide_in_left_fast, 0);
-
-            }
-        });
-
-//        placebtn.setOnClickListener(new View.OnClickListener() {
+//        toProf.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-//                intent.putExtra("place", place.getText().toString());
+//                Intent intent = new Intent(getApplicationContext(), UserPathActivity.class);
 //                startActivity(intent);
+//
+//                overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
 //            }
 //        });
+//
+//        toSearch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), OtherPathActivity.class);
+//                startActivity(intent);
+//
+//                overridePendingTransition(R.anim.anim_slide_in_left_fast, 0);
+//
+//            }
+//        });
+
+        placebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                intent.putExtra("place", place.getText().toString());
+                startActivity(intent);
+                overridePendingTransition(0,0);
+            }
+        });
 //
 //        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 //            @Override

@@ -5,27 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSplash"
+    xmlns:wave="http://schemas.android.com/apk/res-auto"
+
     tools:context=".LoginActivity">
 
 
-
-    <ImageView
+    <com.john.waveview.WaveView
+        android:id="@+id/wave_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerInside"
+        android:background="@color/colorPrimaryDark"
+        wave:above_wave_color="@android:color/white"
+        wave:blow_wave_color="@android:color/white"
+        wave:progress="60"
+        wave:wave_height="little"
+        wave:wave_hz="fast"
+        wave:wave_length="middle" >
+    </com.john.waveview.WaveView>
 
-        android:src="@drawable/tag"/>
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="220dp"
+        android:scaleType="centerInside"
+        android:layout_centerHorizontal="true"
+        android:scaleX="-1"
+        android:id="@+id/splash"
+        android:src="@drawable/whale2"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="80dp"
-        android:layout_marginTop="170dp">
+        android:layout_marginTop="240dp">
 
         <EditText
             android:id="@+id/emailEdit"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_margin="8dp"
             android:hint="Enter email"
             android:ems="20"
@@ -39,7 +57,7 @@
         <EditText
             android:id="@+id/passwordEdit"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_margin="8dp"
             android:hint="Enter password"
             android:ems="20"
@@ -54,7 +72,7 @@
         <Button
             android:id="@+id/login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_margin="4dp"
             android:hint="Log in"
             android:backgroundTint="@color/colorPrimary"
@@ -66,7 +84,7 @@
         <Button
             android:id="@+id/bt_finalsavepath"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_margin="4dp"
             android:layout_centerVertical="true"
             android:backgroundTint="@color/colorPrimary"
@@ -74,5 +92,6 @@
             android:layout_below="@id/login"/>
 
     </RelativeLayout>
+
 
 </RelativeLayout>
