@@ -17,10 +17,14 @@ package com.example.travel;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -33,10 +37,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.example.travel.Adapter.ImageFullAdapter;
 import com.example.travel.items.Placeinfo;
 import com.example.travel.items.SaveImageResponse;
 import com.example.travel.items.SaveUriInput;
@@ -78,7 +85,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
     private String BASE_URL = LoginActivity.BASE_URL;
     private String title, region;
     private Placeinfo place;
-    private TextView tvTitle, tvRegion, tvAddress;
+    private TextView tvTitle, tvRegion, tvAddress, emptyView;
     private Placeinfo result;
     private ArrayList<String> mImages;
 
@@ -100,8 +107,11 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
         tvAddress = (TextView)findViewById(R.id.address);
         tvAddress.setText(place.getAddress());
 
+//        emptyView = (TextView)findViewById(R.id.empty_view);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+//        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_expected_sizes);
+//        recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         recyclerView.setAdapter(mAdapter = new UriAdapter());
 
         // db에서 해당 장소와 관련된 데이터들 불러오기
@@ -128,18 +138,23 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
 
                 mAdapter.setData(mImages);
 
+//                if(mImages.isEmpty()){
+//                    recyclerView.setVisibility(View.GONE);
+//                    emptyView.setVisibility(View.VISIBLE);
+//                }
+//                else{
+//                    recyclerView.setVisibility(View.VISIBLE);
+//                    emptyView.setVisibility(View.GONE);
+//                }
+
 //                Log.d("kyung", result.getEmail());
 //                Log.d("kyung", result.getAddress());
 //                Log.d("kyung", result.getImage().toString());
-                if(result.getImage().size() > 0){
-                    //이미지 불러서 glide 설정
-
-                }
             }
 
             @Override
             public void onFailure(Call<Placeinfo> call, Throwable t) {
-                
+
             }
         });
     }
@@ -165,29 +180,28 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
 
     private void startAction(View v) {
         Matisse.from(PlaceDetailActivity.this)
-            .choose(MimeType.ofImage(), false)
-            .countable(true)
-            .capture(true)
-            .captureStrategy(
-                    new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
-            .maxSelectable(10)
-            .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-            .gridExpectedSize(
-                    getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-            .thumbnailScale(0.85f)
-            .imageEngine(new GlideEngine())
-            .setOnSelectedListener((uriList, pathList) -> {
-                Log.e("onSelected", "onSelected: pathList=" + pathList);
-            })
-            .showSingleMediaType(true)
-            .originalEnable(true)
-            .maxOriginalSize(10)
-            .autoHideToolbarOnSingleTap(true)
-            .setOnCheckedListener(isChecked -> {
-                Log.e("isChecked", "onCheck: isChecked=" + isChecked);
-            })
-            .forResult(REQUEST_CODE_CHOOSE);
+                .choose(MimeType.ofImage(), false)
+                .countable(true)
+                .capture(true)
+                .captureStrategy(
+                        new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
+                .maxSelectable(10)
+                .gridExpectedSize(
+                        getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .setOnSelectedListener((uriList, pathList) -> {
+                    Log.e("onSelected", "onSelected: pathList=" + pathList);
+                })
+                .showSingleMediaType(true)
+                .originalEnable(true)
+                .maxOriginalSize(10)
+                .autoHideToolbarOnSingleTap(true)
+                .setOnCheckedListener(isChecked -> {
+                    Log.e("isChecked", "onCheck: isChecked=" + isChecked);
+                })
+                .forResult(REQUEST_CODE_CHOOSE);
         mAdapter.setData(null);
     }
 
@@ -227,51 +241,109 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
             InputStream iStream = getContentResolver().openInputStream(uris.get(i));
             byte[] imageBytes = getBytes(iStream);
 
+            //사진 orientation 저장하기
+            ExifInterface exif = null;
+            try {
+                exif = new ExifInterface(paths.get(i));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED);
+
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
-            String filename = MainActivity.useremail+"_"+title+"_"+region+"_"+place.getAddress()+"_"+i+"_"+new Date()+".jpg";
+            String filename = MainActivity.useremail+"_"+title+"_"+region+"_"+place.getAddress()+"_"+orientation+"_"+System.currentTimeMillis()+".jpg";
             surveyImagesParts[i] = MultipartBody.Part.createFormData("image", filename, requestFile);
+
+//            Log.d("kyung", String.valueOf(orientation));
 
             //mImages에 추가
             mImages.add(filename);
         }
 
-            Call<Void> call = retrofitInterface.uploadImage(surveyImagesParts);
+        Call<Void> call = retrofitInterface.uploadImage(surveyImagesParts);
 
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
 //                SaveImageResponse saveImageResponse = response.body();
-                    Log.d("kyung", "success");
-                    mAdapter.setData(mImages);
-                }
+                Log.d("kyung", "success");
+                mAdapter.setData(mImages);
+            }
 
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    Log.d("kyung", "onFailure: "+t.getLocalizedMessage());
-                }
-            });
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d("kyung", "onFailure: "+t.getLocalizedMessage());
+            }
+        });
 
+    }
+
+
+    // 사진 회전 처리 함수
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                return bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return bmRotated;
+        }
+        catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private class UriAdapter extends RecyclerView.Adapter<UriAdapter.UriViewHolder> {
 
         private List<String> mImageTitles;
 
+
         void setData(List<String> imageTitles) {
             mImageTitles = imageTitles;
-//            Log.d("kyung1", uris.toString());
             notifyDataSetChanged();
         }
 
         @Override
         public UriViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new UriViewHolder(
-                    LayoutInflater.from(parent.getContext()).inflate(R.layout.uri_item, parent, false));
+                    LayoutInflater.from(parent.getContext()).inflate(R.layout.row_custom_recycler_item, parent, false));
         }
 
         @Override
         public void onBindViewHolder(UriViewHolder holder, int position) {
-//            Glide.with(holder.iv.getContext()).load(mUris.get(position)).into(holder.iv);
+//            Glide.with(holder.row_image.getContext()).load(R.drawable.whale).into(holder.row_image);
 
             // mImageTitles.get(position) 사진 db에서 불러와서 띄우기
             HashMap<String, String> map = new HashMap<>();
@@ -286,14 +358,28 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
                 public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                     InputStream is = response.body().byteStream();
                     Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+                    // filename에서 orientation 가져오기
+                    String[] tmpName = mImageTitles.get(position).split("_");
+//                    Log.d("kyung", String.valueOf(tmpName));
+//                    Log.d("kyung", tmpName[4]);
+
+                    // 사진 회전 처리
+                    Bitmap bmRotated = rotateBitmap(bitmap, Integer.parseInt(tmpName[4]));
 //                    images.add(position, bitmap);
-                    holder.iv.setImageBitmap(bitmap);
+                    holder.row_image.setImageBitmap(bmRotated);
+
+//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                    bmRotated.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//                    byte[] byteArray = stream.toByteArray();
+
+//                    imageByteArray.add(position, byteArray);
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t){
                     Log.d("bitmapfail", "String.valueOf(bitmap)");
-                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(PlaceDetailActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -306,11 +392,83 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
         }
 
         class UriViewHolder extends RecyclerView.ViewHolder {
-            private ImageView iv;
+            private ImageView row_image;
 
             UriViewHolder(View contentView) {
                 super(contentView);
-                iv = (ImageView) contentView.findViewById(R.id.iv);
+                row_image = (ImageView) contentView.findViewById(R.id.row_image);
+
+                // 이미지 짧게 누르면 이미지 확대, image slider(ImageFullActivity)
+                contentView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //ImageFullActivity로 intent
+                        Intent intent = new Intent(PlaceDetailActivity.this, ImageFullActivity.class);
+                        intent.putStringArrayListExtra("image", new ArrayList<>(mImageTitles));
+                        intent.putExtra("position", getAdapterPosition());
+                        startActivity(intent);
+
+//                        setContentView(R.layout.activity_image_full);
+//
+//                        ViewPager viewPager = findViewById(R.id.viewPager);
+//                        ImageFullAdapter imageFullAdapter = new ImageFullAdapter(PlaceDetailActivity.this, imageByteArray);
+//                        viewPager.setAdapter(imageFullAdapter);
+//                        viewPager.setCurrentItem(getAdapterPosition());
+                    }
+                });
+
+                // 이미지 길게 누르면 삭제
+                contentView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        //삭제 alert
+                        AlertDialog.Builder builder = new AlertDialog.Builder(PlaceDetailActivity.this)
+                                .setMessage("Do you want to delete the picture?")
+                                .setTitle("Delete")
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(PlaceDetailActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                                        HashMap<String, String> map = new HashMap<>();
+
+                                        int position = getAdapterPosition();
+                                        map.put("email", MainActivity.useremail);
+                                        map.put("region", region);
+                                        map.put("title", title);
+                                        map.put("address", place.getAddress());
+                                        map.put("name", mImageTitles.get(position));
+
+                                        Call<Placeinfo> call = retrofitInterface.deleteImage(map);
+                                        call.enqueue(new Callback<Placeinfo>(){
+                                            @Override
+                                            public void onResponse(Call<Placeinfo> call, retrofit2.Response<Placeinfo> response) {
+                                                if(response.code()==200){
+                                                    result = response.body();
+                                                    mImages = result.getImage();
+
+                                                    mAdapter.setData(mImages);
+                                                }else if(response.code()==404){
+                                                }
+                                            }
+                                            @Override
+                                            public void onFailure(Call<Placeinfo> call, Throwable t){
+                                                Log.d("failed", "connection "+call);
+                                                Toast.makeText(PlaceDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {}
+                                });
+
+                        builder.create();
+                        builder.show();
+
+                        return true;
+                    }
+                });
             }
         }
     }

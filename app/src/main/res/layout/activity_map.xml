@@ -104,35 +104,35 @@
         app:arc_radius="@dimen/layout_radius_small"
         >
 
-        <Button
-            style="@style/Item.Large"
-            android:text="A"
-            android:arc_angle="-45"
-            />
+<!--        <Button-->
+<!--            style="@style/Item.Large"-->
+<!--            android:text="A"-->
+<!--            android:arc_angle="-45"-->
+<!--            />-->
 
-        <Button
-            style="@style/Item.Large"
-            android:text="B"
-            android:arc_angle="-15"
-            />
+<!--        <Button-->
+<!--            style="@style/Item.Large"-->
+<!--            android:text="B"-->
+<!--            android:arc_angle="-15"-->
+<!--            />-->
 
-        <Button
-            style="@style/Item.Large"
-            android:text="C"
-            android:arc_angle="15"
-            />
+<!--        <Button-->
+<!--            style="@style/Item.Large"-->
+<!--            android:text="C"-->
+<!--            android:arc_angle="15"-->
+<!--            />-->
 
-        <Button
-            style="@style/Item.Large"
-            android:text="D"
-            android:arc_angle="45"
-            />
+<!--        <Button-->
+<!--            style="@style/Item.Large"-->
+<!--            android:text="D"-->
+<!--            android:arc_angle="45"-->
+<!--            />-->
 
-        <Button
-            style="@style/Item.Large"
-            android:text="E"
-            android:arc_angle="180"
-            />
+<!--        <Button-->
+<!--            style="@style/Item.Large"-->
+<!--            android:text="E"-->
+<!--            android:arc_angle="180"-->
+<!--            />-->
 
     </com.ogaclejapan.arclayout.ArcLayout>
 
