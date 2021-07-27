@@ -114,7 +114,4 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
     }
-
-    public static String getUser() {return useremail;}
-
 }

@@ -127,8 +127,6 @@
         android:visibility="invisible"
         app:maxImageSize="@dimen/item_circle_size_small"
         android:scaleType="center"
-
-
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -242,6 +240,7 @@
 
 
 <!--    </com.getbase.floatingactionbutton.FloatingActionsMenu>-->
+
 
 
 

@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel"
         android:usesCleartextTraffic="true">
-
         <activity android:name=".PathMapActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
@@ -26,13 +25,12 @@
         </activity>
         <activity android:name=".OtherPathActivity" />
         <activity android:name=".MapActivity" />
-        <activity android:name=".UserPathActivity"/>
+        <activity android:name=".UserPathActivity" />
         <activity android:name=".UserPlaceActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".PlaceDetailActivity" />
-        <activity android:name=".LoginActivity">
-
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".ImageFullActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
