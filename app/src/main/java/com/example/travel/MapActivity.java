@@ -106,7 +106,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         username = intent.getStringExtra("name");
         useremail = intent.getStringExtra("email");
 
-
         toProf = findViewById(R.id.toProfile);
         toSearch = findViewById(R.id.toSearch);
 
@@ -267,7 +266,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         finalsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //여기서 경로 저장한배열, 지역 , 경로제목을 보냄
-                Log.d("Check" , useremail);
+//                Log.d("Check" , useremail);
                 SavePathInput savePathInput = new SavePathInput(String.valueOf(useremail), pathTitle.getText().toString() ,place , String.valueOf(clickedPath.size()), clickedPath);
 
                 Call<Void> call = retrofitInterface.executeSavePath(savePathInput);
