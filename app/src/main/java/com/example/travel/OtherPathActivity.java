@@ -11,4 +11,11 @@ public class OtherPathActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_path);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, R.anim.anim_slide_out_right_fast);
+
+    }
 }

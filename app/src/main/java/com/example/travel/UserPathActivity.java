@@ -118,4 +118,11 @@ public class UserPathActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, R.anim.anim_slide_out_left_fast);
+
+    }
 }

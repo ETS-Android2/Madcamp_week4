@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CheckDayActivity"></activity>
+        <activity android:name=".CalendarActivity" />
         <activity android:name=".PathMapActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
@@ -30,7 +31,7 @@
         <activity android:name=".UserPlaceActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".PlaceDetailActivity" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

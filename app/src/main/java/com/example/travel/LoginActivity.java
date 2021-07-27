@@ -9,9 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.travel.items.Userinfo;
+import com.john.waveview.WaveView;
 
 import java.util.HashMap;
 
@@ -29,6 +33,10 @@ public class LoginActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     public static String BASE_URL = "http://192.249.18.176:80";
+    private SeekBar seekBar;
+    private WaveView waveView;
+    private Integer pro = SplashActivity.pro;
+    private ImageView splash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,14 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+        waveView = (WaveView) findViewById(R.id.wave_view);
+        waveView.setProgress(pro);
+
+        splash = findViewById(R.id.splash);
+        Glide.with(getApplicationContext()).load(R.drawable.whale2).into(splash);
+
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,5 +178,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private long time= 0;
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - time >= 2000) {
+            time = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(), "한번더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        } else if (System.currentTimeMillis() - time < 2000) {
+            finish();
+        }
     }
 }

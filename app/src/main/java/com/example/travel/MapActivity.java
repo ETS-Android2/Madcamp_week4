@@ -47,12 +47,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.maps.DirectionsApiRequest;
-import com.google.maps.GeoApiContext;
-import com.google.maps.PendingResult;
-import com.google.maps.internal.PolylineEncoding;
-import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.DirectionsRoute;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -68,7 +63,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,RoutingListener,GoogleApiClient.OnConnectionFailedListener {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,RoutingListener,GoogleApiClient.OnConnectionFailedListener{
 
     private FragmentManager fragmentManager;
     private MapFragment mapFragment;
@@ -94,7 +89,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public static String BASE_URL = LoginActivity.BASE_URL;
     private String useremail = MainActivity.useremail;
 
-    private GeoApiContext mGeoApiContext = null;
+
     private FloatingActionButton toProf, toSearch , calendar;
 
 
@@ -103,8 +98,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-
-
+        Intent intent = getIntent();
+        place = intent.getStringExtra("place");
 
         toProf = findViewById(R.id.toProfile);
         toSearch = findViewById(R.id.toSearch);
@@ -120,10 +115,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
-
-
-        Intent intent = getIntent();
-        place = intent.getStringExtra("place");
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -160,7 +151,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CalendarActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CheckDayActivity.class);
                 startActivity(intent);
 
                 overridePendingTransition(R.anim.anim_slide_in_bottom, 0);
@@ -279,7 +270,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         finalsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //여기서 경로 저장한배열, 지역 , 경로제목을 보냄
-                Log.d("Check" , useremail);
+//                Log.d("Check" , useremail);
                 SavePathInput savePathInput = new SavePathInput(String.valueOf(useremail), pathTitle.getText().toString() ,place , String.valueOf(clickedPath.size()), clickedPath);
 
                 Call<Void> call = retrofitInterface.executeSavePath(savePathInput);
@@ -421,7 +412,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startCity, 13));
         }else{
             Toast.makeText(this, "올바른 도시명이 아닙니다", Toast.LENGTH_SHORT).show();
-            onBackPressed();
+            finish();
         }
     }
 
@@ -491,5 +482,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, "onConnectionFailed", Toast.LENGTH_SHORT).show();
+    }
+
+    private long time= 0;
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - time >= 2000) {
+            time = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(), "한번더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        } else if (System.currentTimeMillis() - time < 2000) {
+            finish();
+        }
     }
 }

@@ -1,17 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSplash"
+    xmlns:wave="http://schemas.android.com/apk/res-auto"
+
     tools:context=".SplashActivity">
 
-    <ImageView
+    <com.john.waveview.WaveView
+        android:id="@+id/wave_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:scaleType="fitEnd"
-        android:id="@+id/splash"/>
+        android:background="@color/colorPrimaryDark"
+        wave:above_wave_color="@android:color/white"
+        wave:blow_wave_color="@android:color/white"
+        wave:progress="60"
+        wave:wave_height="little"
+        wave:wave_hz="fast"
+        wave:wave_length="middle" >
+    </com.john.waveview.WaveView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="220dp"
+        android:scaleType="centerInside"
+        android:layout_centerHorizontal="true"
+        android:scaleX="-1"
+        android:id="@+id/splash"
+        android:src="@drawable/whale2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TRAVEI"
+        android:layout_centerInParent="true"
+        android:textSize="20sp"/>
+
+    <SeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+        android:progress="80"
+        tools:ignore="MissingConstraints" />
+
+</RelativeLayout>

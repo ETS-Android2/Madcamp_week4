@@ -3,6 +3,7 @@ package com.example.travel;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,12 +17,14 @@ import org.naishadhparmar.zcustomcalendar.CustomCalendar;
 import org.naishadhparmar.zcustomcalendar.OnDateSelectedListener;
 import org.naishadhparmar.zcustomcalendar.Property;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
 public class CalendarActivity extends AppCompatActivity {
 
     CustomCalendar customCalendar;
+    ArrayList<String> days = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,20 +58,30 @@ public class CalendarActivity extends AppCompatActivity {
         customCalendar.setMapDescToProp(descHashMap);
         HashMap<Integer,Object> dateHashMap = new HashMap<>();
         Calendar calendar = Calendar.getInstance();
-        dateHashMap.put(calendar.get(Calendar.DAY_OF_MONTH), "current");
 
+        Intent intent = getIntent();
+        days = (ArrayList<String>)intent.getSerializableExtra("daylist");
+
+        for(int i=0 ;i <days.size() ; i++){
+            dateHashMap.put(Integer.parseInt(days.get(i)) , "absent");
+        }
 
         customCalendar.setDate(calendar,dateHashMap);
 
         customCalendar.setOnDateSelectedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(View view, Calendar selectedDate, Object desc) {
-//                String sDate = selectedDate.get(Calendar.DAY_OF_MONTH)
-//                        +"/"+(selectedDate.get(Calendar.MONTH) + 1)
-//                        +"/" +selectedDate.get(Calendar.YEAR);
-//                Toast.makeText(getApplicationContext(), sDate, Toast.LENGTH_SHORT).show();
+                String sDate = selectedDate.get(Calendar.DAY_OF_MONTH)
+                        +"/"+(selectedDate.get(Calendar.MONTH) + 1)
+                        +"/" +selectedDate.get(Calendar.YEAR);
+                Toast.makeText(getApplicationContext(), sDate, Toast.LENGTH_SHORT).show();
 
+//                Integer picked = selectedDate.get(Calendar.DAY_OF_MONTH);
+//                days.add(picked);
             }
         });
+    }
+    private void ColorChange(int picked){
+
     }
 }

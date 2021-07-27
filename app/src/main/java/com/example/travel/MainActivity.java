@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -43,17 +44,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         username = intent.getStringExtra("name");
         useremail = intent.getStringExtra("email");
-
+//
 //        toProf = findViewById(R.id.toProfile);
 //        toSearch = findViewById(R.id.toSearch);
+
         place = findViewById(R.id.editPlace);
         placebtn = findViewById(R.id.placeBtn);
 
-
-//        seekBar = (SeekBar) findViewById(R.id.seek_bar);
-//        waveView = (WaveView) findViewById(R.id.wave_view);
-//
-//        mapcard = findViewById(R.id.toMap);
 //        card.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -86,9 +83,10 @@ public class MainActivity extends AppCompatActivity {
         placebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mapintent = new Intent(getApplicationContext(), MapActivity.class);
-                mapintent.putExtra("place", place.getText().toString());
-                startActivity(mapintent);
+
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                intent.putExtra("place", place.getText().toString());
+                startActivity(intent);
                 overridePendingTransition(0,0);
             }
         });
@@ -111,5 +109,6 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
+    public static String getUser() {return useremail;}
 
 }
