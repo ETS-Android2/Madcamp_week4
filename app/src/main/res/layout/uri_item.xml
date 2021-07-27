@@ -24,8 +24,7 @@
     <ImageView
         android:id="@+id/iv"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        app:srcCompat="@drawable/santo"/>
+        android:layout_height="400dp" />
 
 
 </LinearLayout>

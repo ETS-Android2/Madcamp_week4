@@ -19,6 +19,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -63,6 +65,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,RoutingListener,GoogleApiClient.OnConnectionFailedListener{
 
     private FragmentManager fragmentManager;
@@ -71,8 +74,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private Geocoder geocoder;
-    private Button bt_searchpath , bt_savepath;
-    private Button button;
+
+    private Button button ;
+
     private EditText editText;
 
     Polyline polyline = null;
@@ -90,7 +94,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private String useremail = MainActivity.useremail;
 
 
-    private FloatingActionButton toProf, toSearch , calendar;
+
+    private FloatingActionButton mainbtn, toProf, toSearch , bt_searchpath , bt_savepath, tocal;
+    private Animation fabOpen, fabClose, rotateForward, rotateBackward;
+    private boolean isOpen = false;
 
 
     @Override
@@ -101,14 +108,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Intent intent = getIntent();
         place = intent.getStringExtra("place");
 
+        mainbtn = findViewById(R.id.mainbtn);
         toProf = findViewById(R.id.toProfile);
         toSearch = findViewById(R.id.toSearch);
-        calendar = findViewById(R.id.calendar);
+
+
+        tocal = findViewById(R.id.toCalendar);
 
         editText = (EditText) findViewById(R.id.editText);
         button=(Button)findViewById(R.id.button);
-        bt_searchpath = (Button)findViewById(R.id.bt_pathsearch);
-        bt_savepath = (Button)findViewById(R.id.bt_pathsave);
+        bt_searchpath = findViewById(R.id.bt_pathsearch);
+        bt_savepath = findViewById(R.id.bt_pathsave);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -116,6 +126,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
+        fabOpen = AnimationUtils.loadAnimation(this, R.anim.fab_open);
+        fabClose = AnimationUtils.loadAnimation(this, R.anim.fab_close);
+        rotateForward = AnimationUtils.loadAnimation(this, R.anim.rotate_forward);
+        rotateBackward = AnimationUtils.loadAnimation(this, R.anim.rotate_backward);
+
+        mainbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animateFab();
+            }
+        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -127,9 +148,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //                    .build();
 //        }
 
+        mainbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animateFab();
+            }
+        });
+
         toProf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animateFab();
+
                 Intent intent = new Intent(getApplicationContext(), UserPathActivity.class);
                 startActivity(intent);
 
@@ -140,6 +170,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         toSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animateFab();
+
                 Intent intent = new Intent(getApplicationContext(), OtherPathActivity.class);
                 startActivity(intent);
 
@@ -148,20 +180,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        calendar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CheckDayActivity.class);
-                startActivity(intent);
 
-                overridePendingTransition(R.anim.anim_slide_in_bottom, 0);
-            }
-        });
 
         //경로 찾기 버튼
         bt_searchpath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animateFab();
+
                 if(polyline != null) polyline.remove(); // 경로 그냥 다각형으로 그려주는 코드
                 PolylineOptions polylineOptions = new PolylineOptions()
                         .addAll(latLngList).clickable(true)
@@ -184,9 +210,58 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         bt_savepath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animateFab();
+
                 entertitle();
             }
         });
+
+        tocal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animateFab();
+                Intent intent = new Intent(getApplicationContext(), CheckDayActivity.class);
+                startActivity(intent);
+
+                overridePendingTransition(R.anim.anim_slide_in_bottom, 0);
+            }
+        });
+    }
+
+    private void animateFab() {
+        if(isOpen){
+            mainbtn.startAnimation(rotateForward);
+            toProf.startAnimation(fabClose);
+            toSearch.startAnimation(fabClose);
+            bt_savepath.startAnimation(fabClose);
+            bt_searchpath.startAnimation(fabClose);
+            tocal.startAnimation(fabClose);
+
+            toProf.setVisibility(View.GONE);
+            toSearch.setVisibility(View.GONE);
+            bt_searchpath.setVisibility(View.GONE);
+            bt_savepath.setVisibility(View.GONE);
+            tocal.setVisibility(View.GONE);
+
+            isOpen=false;
+        }
+        else{
+            mainbtn.startAnimation(rotateBackward);
+            toProf.startAnimation(fabOpen);
+            toSearch.startAnimation(fabOpen);
+            bt_savepath.startAnimation(fabOpen);
+            bt_searchpath.startAnimation(fabOpen);
+            tocal.startAnimation(fabOpen);
+
+            toProf.setVisibility(View.VISIBLE);
+            toSearch.setVisibility(View.VISIBLE);
+            bt_searchpath.setVisibility(View.VISIBLE);
+            bt_savepath.setVisibility(View.VISIBLE);
+            tocal.setVisibility(View.VISIBLE);
+
+            isOpen=true;
+        }
+
     }
 
 //    private void calculateDirections(LatLng start , LatLng end){
@@ -490,9 +565,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onBackPressed() {
         if (System.currentTimeMillis() - time >= 2000) {
             time = System.currentTimeMillis();
-            Toast.makeText(getApplicationContext(), "한번더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "새로운 지역을 검색하시겠어요?", Toast.LENGTH_SHORT).show();
         } else if (System.currentTimeMillis() - time < 2000) {
             finish();
         }
     }
+
 }

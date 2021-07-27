@@ -9,14 +9,16 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher_travei"
+        android:icon="@mipmap/ic_launcher_whale"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_travei_round"
+        android:roundIcon="@mipmap/ic_launcher_whale_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel"
         android:usesCleartextTraffic="true">
+
         <activity android:name=".CheckDayActivity"></activity>
         <activity android:name=".CalendarActivity" />
+
         <activity android:name=".PathMapActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
@@ -31,7 +33,9 @@
         <activity android:name=".UserPlaceActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".PlaceDetailActivity" />
-        <activity android:name=".LoginActivity" />
+
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".ImageFullActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

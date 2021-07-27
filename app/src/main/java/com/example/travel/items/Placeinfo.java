@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Placeinfo implements Serializable {
     private String _id, email, region, title, address, latitude, longtitude, memo;
     private ArrayList<String> image;
+    private ArrayList<Integer> orientation;
 
     public Placeinfo(String _id, String email, String region, String title, String address, String latitude, String longtitude, String memo, ArrayList<String> image) {
         this._id = _id;
@@ -89,5 +90,13 @@ public class Placeinfo implements Serializable {
 
     public void setImage(ArrayList<String> image) {
         this.image = image;
+    }
+
+    public ArrayList<Integer> getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(ArrayList<Integer> image) {
+        this.orientation = orientation;
     }
 }

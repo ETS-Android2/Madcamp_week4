@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="10"
-   >
+    android:weightSum="10">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -48,66 +47,199 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/bt_pathsearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="경로 보기" />
-        <Button
-            android:id="@+id/bt_pathsave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="경로 저장" />
+        <!--        <Button-->
+        <!--            android:id="@+id/bt_pathsearch"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="경로 보기" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/bt_pathsave"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="경로 저장" />-->
 
     </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:layout_marginEnd="30dp"
+        tools:ignore="MissingConstraints"
+        android:backgroundTint="@color/colorSplash"
+        app:rippleColor="@android:color/white"
+        app:borderWidth="0dp"
+        app:elevation="0dp"
+        app:pressedTranslationZ="5dp"
+        android:foreground="@drawable/whalehome"
+        android:foregroundGravity="center"
+
+        android:id="@+id/mainbtn"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/toProfile"
+        style="@style/Item.Middle"
+
+        android:layout_toRightOf="@+id/mainbtn"
+        android:layout_marginLeft="36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="35dp"
         tools:ignore="MissingConstraints"
         android:backgroundTint="@color/white"
         app:rippleColor="@android:color/white"
         app:borderWidth="0dp"
         app:elevation="0dp"
-        app:pressedTranslationZ="0dp"
+        app:pressedTranslationZ="5dp"
         app:tint="@null"
-        android:src="@drawable/ic_baseline_account_circle_24"
-        android:id="@+id/toProfile"/>
+        android:foreground="@drawable/followers"
+        android:foregroundGravity="center"
+
+        app:maxImageSize="@dimen/item_circle_size_small"
+        android:scaleType="center"
+        android:visibility="invisible"
+
+
+
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/calendar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/ic_baseline_date_range_24"
-        app:borderWidth="0dp"
-        app:elevation="0dp"
-        app:pressedTranslationZ="0dp"
-        app:rippleColor="@android:color/white"/>
+        android:id="@+id/toSearch"
+        style="@style/Item.Middle"
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginBottom="35dp"
+        android:layout_toLeftOf="@+id/mainbtn"
+        android:layout_marginRight="36dp"
         tools:ignore="MissingConstraints"
         android:backgroundTint="@color/white"
+        app:rippleColor="@android:color/white"
+
         app:borderWidth="0dp"
         app:elevation="0dp"
-        app:pressedTranslationZ="0dp"
+        app:pressedTranslationZ="5dp"
         app:tint="@null"
-        android:src="@drawable/ic_baseline_collections_bookmark_24"
-        android:id="@+id/toSearch"/>
+        android:foreground="@drawable/glass"
+        android:foregroundGravity="center"
 
+        android:visibility="invisible"
+        app:maxImageSize="@dimen/item_circle_size_small"
+        android:scaleType="center"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bt_pathsearch"
+        style="@style/Item.Middle"
+
+        android:layout_above="@+id/toSearch"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="26dp"
+
+        android:layout_alignLeft="@+id/toSearch"
+        android:backgroundTint="@color/white"
+        app:rippleColor="@android:color/white"
+
+        android:foreground="@drawable/routes"
+        android:foregroundGravity="center"
+
+        app:borderWidth="0dp"
+        app:elevation="0dp"
+        app:pressedTranslationZ="5dp"
+        app:tint="@null"
+        tools:ignore="MissingConstraints"
+        android:visibility="invisible"
+        app:maxImageSize="@dimen/item_circle_size_small"
+        android:scaleType="center"
+
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bt_pathsave"
+
+        style="@style/Item.Middle"
+        android:layout_marginBottom="15dp"
+        android:layout_above="@+id/toProfile"
+        android:layout_marginRight="26dp"
+        android:layout_alignRight="@+id/toProfile"
+        tools:ignore="MissingConstraints"
+        android:backgroundTint="@color/white"
+        app:rippleColor="@android:color/white"
+
+        app:borderWidth="0dp"
+        app:elevation="1dp"
+        app:pressedTranslationZ="5dp"
+        app:tint="@null"
+        android:foreground="@drawable/bookmarks"
+        android:foregroundGravity="center"
+        app:maxImageSize="@dimen/item_circle_size_small"
+        android:scaleType="center"
+        android:visibility="invisible"
+
+
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/toCalendar"
+        style="@style/Item.Middle"
+
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/mainbtn"
+        android:layout_marginBottom="40dp"
+        tools:ignore="MissingConstraints"
+        android:backgroundTint="@color/white"
+        app:rippleColor="@android:color/white"
+        app:borderWidth="0dp"
+        app:elevation="0dp"
+        app:pressedTranslationZ="5dp"
+        app:tint="@null"
+        android:foreground="@drawable/followers"
+        android:foregroundGravity="center"
+
+        app:maxImageSize="@dimen/item_circle_size_small"
+        android:scaleType="center"
+        android:visibility="invisible"
+
+
+
+        />
+
+
+    <!--    <com.getbase.floatingactionbutton.FloatingActionsMenu-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="200dp"-->
+    <!--        app:fab_expandDirection="up"-->
+    <!--        app:fab_labelsPosition="right"-->
+    <!--        app:fab_labelStyle="@style/LabelStyle"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_alignParentStart="true"-->
+    <!--        android:backgroundTint="@color/white"-->
+    <!--        app:tint="@null"-->
+    <!--        app:fab_icon="@drawable/ic_baseline_collections_bookmark_24">-->
+
+    <!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            app:fab_colorNormal="#FFF"-->
+    <!--            app:fab_size="mini"-->
+    <!--            app:fab_title="경로 구경하기"-->
+    <!--            android:id="@+id/toSearch"-->
+    <!--            app:fab_icon="@drawable/ic_baseline_collections_bookmark_24"-->
+    <!--            />-->
+    <!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            app:fab_colorNormal="#FFF"-->
+    <!--            app:fab_size="mini"-->
+    <!--            app:fab_title="마이 페이지"-->
+    <!--            android:id="@+id/toProfile"-->
+    <!--            app:fab_icon="@drawable/ic_baseline_account_circle_24"-->
+    <!--            />-->
+
+
+    <!--    </com.getbase.floatingactionbutton.FloatingActionsMenu>-->
 
 
 

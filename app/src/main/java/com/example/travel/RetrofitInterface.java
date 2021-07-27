@@ -45,4 +45,7 @@ public interface RetrofitInterface {
     @POST("/image/getImage")
     @Streaming
     Call<ResponseBody> getImage(@Body HashMap<String, String> map);
+
+    @POST("/image/deleteImage")
+    Call<Placeinfo> deleteImage(@Body HashMap<String, String> map);
 }
