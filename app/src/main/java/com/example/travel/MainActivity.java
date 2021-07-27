@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -48,9 +49,6 @@ public class MainActivity extends AppCompatActivity {
 //        toProf = findViewById(R.id.toProfile);
 //        toSearch = findViewById(R.id.toSearch);
 
-//        Intent mapintent = new Intent(getApplicationContext(), MapActivity.class);
-//        mapintent.putExtra("place", "대한민국");
-//        startActivity(mapintent);
 
 
 //        seekBar = (SeekBar) findViewById(R.id.seek_bar);
@@ -117,5 +115,6 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
+    public static String getUser() {return useremail;}
 
 }

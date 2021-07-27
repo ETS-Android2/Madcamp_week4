@@ -48,6 +48,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.ogaclejapan.arclayout.ArcLayout;
 
 
 import java.io.IOException;
@@ -64,7 +65,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,RoutingListener,GoogleApiClient.OnConnectionFailedListener {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,RoutingListener,GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
     private FragmentManager fragmentManager;
     private MapFragment mapFragment;
@@ -89,6 +90,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public static String BASE_URL = LoginActivity.BASE_URL;
 
     private FloatingActionButton toProf, toSearch;
+    Toast toast = null;
+    ArcLayout arcLayout;
 
 
     @Override
@@ -98,7 +101,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         Intent intent = getIntent();
         place = intent.getStringExtra("place");
-
 
         toProf = findViewById(R.id.toProfile);
         toSearch = findViewById(R.id.toSearch);
@@ -260,7 +262,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         finalsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //여기서 경로 저장한배열, 지역 , 경로제목을 보냄
-                Log.d("Check" , useremail);
+//                Log.d("Check" , useremail);
                 SavePathInput savePathInput = new SavePathInput(String.valueOf(useremail), pathTitle.getText().toString() ,place , String.valueOf(clickedPath.size()), clickedPath);
 
                 Call<Void> call = retrofitInterface.executeSavePath(savePathInput);
@@ -474,5 +476,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } else if (System.currentTimeMillis() - time < 2000) {
             finish();
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

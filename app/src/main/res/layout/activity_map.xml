@@ -94,42 +94,47 @@
         android:src="@drawable/ic_baseline_collections_bookmark_24"
         android:id="@+id/toSearch"/>
 
-<!--    <com.ogaclejapan.arclayout.ArcLayout-->
-<!--        android:id="@id/arc"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:arc_color="@color/colorSplash"-->
-<!--        app:arc_freeAngle="true"-->
-<!--        app:arc_origin="center"-->
-<!--        >-->
+    <com.ogaclejapan.arclayout.ArcLayout
+        android:id="@+id/arc_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:arc_axisRadius="@dimen/layout_child_offset_small"
+        app:arc_freeAngle="true"
+        app:arc_origin="center"
+        app:arc_radius="@dimen/layout_radius_small"
+        >
 
-<!--        <Button-->
-<!--            android:text="A"-->
-<!--            android:arc_angle="-45"-->
-<!--            />-->
+        <Button
+            style="@style/Item.Large"
+            android:text="A"
+            android:arc_angle="-45"
+            />
 
-<!--        <Button-->
-<!--            android:text="B"-->
-<!--            android:arc_angle="-15"-->
-<!--            />-->
+        <Button
+            style="@style/Item.Large"
+            android:text="B"
+            android:arc_angle="-15"
+            />
 
-<!--        <Button-->
-<!--            android:text="C"-->
-<!--            android:arc_angle="15"-->
-<!--            />-->
+        <Button
+            style="@style/Item.Large"
+            android:text="C"
+            android:arc_angle="15"
+            />
 
-<!--        <Button-->
-<!--            android:text="D"-->
-<!--            android:arc_angle="45"-->
-<!--            />-->
+        <Button
+            style="@style/Item.Large"
+            android:text="D"
+            android:arc_angle="45"
+            />
 
-<!--        <Button-->
-<!--            style="@style/Item.Large"-->
-<!--            android:text="E"-->
-<!--            android:arc_angle="180"-->
-<!--            />-->
+        <Button
+            style="@style/Item.Large"
+            android:text="E"
+            android:arc_angle="180"
+            />
 
-<!--    </com.ogaclejapan.arclayout.ArcLayout>-->
+    </com.ogaclejapan.arclayout.ArcLayout>
 
 
 

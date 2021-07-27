@@ -20,8 +20,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,6 +79,8 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
     private String title, region;
     private Placeinfo place;
     private TextView tvTitle, tvRegion, tvAddress;
+    private Placeinfo result;
+    private ArrayList<String> mImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +123,14 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
         call.enqueue(new Callback<Placeinfo>() {
             @Override
             public void onResponse(Call<Placeinfo> call, retrofit2.Response<Placeinfo> response) {
-                Placeinfo result = response.body();
+                result = response.body();
+                mImages = result.getImage();
+
+                mAdapter.setData(mImages);
+
+//                Log.d("kyung", result.getEmail());
+//                Log.d("kyung", result.getAddress());
+//                Log.d("kyung", result.getImage().toString());
                 if(result.getImage().size() > 0){
                     //이미지 불러서 glide 설정
 
@@ -177,7 +188,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
                 Log.e("isChecked", "onCheck: isChecked=" + isChecked);
             })
             .forResult(REQUEST_CODE_CHOOSE);
-        mAdapter.setData(null, null);
+        mAdapter.setData(null);
     }
 
     @Override
@@ -189,7 +200,6 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            mAdapter.setData(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
             Log.e("OnActivityResult ", String.valueOf(Matisse.obtainOriginalState(data)));
         }
     }
@@ -221,18 +231,18 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
             String filename = MainActivity.useremail+"_"+title+"_"+region+"_"+place.getAddress()+"_"+i+"_"+new Date()+".jpg";
             surveyImagesParts[i] = MultipartBody.Part.createFormData("image", filename, requestFile);
 
-            Log.d("kyung", place.getAddress());
+            //mImages에 추가
+            mImages.add(filename);
         }
 
             Call<Void> call = retrofitInterface.uploadImage(surveyImagesParts);
-
-//            Log.d("kyung", "check1");
 
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
 //                SaveImageResponse saveImageResponse = response.body();
                     Log.d("kyung", "success");
+                    mAdapter.setData(mImages);
                 }
 
                 @Override
@@ -243,14 +253,13 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-    private static class UriAdapter extends RecyclerView.Adapter<UriAdapter.UriViewHolder> {
+    private class UriAdapter extends RecyclerView.Adapter<UriAdapter.UriViewHolder> {
 
-        private List<Uri> mUris;
-        private List<String> mPaths;
+        private List<String> mImageTitles;
 
-        void setData(List<Uri> uris, List<String> paths) {
-            mUris = uris;
-            mPaths = paths;
+        void setData(List<String> imageTitles) {
+            mImageTitles = imageTitles;
+//            Log.d("kyung1", uris.toString());
             notifyDataSetChanged();
         }
 
@@ -262,15 +271,41 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
 
         @Override
         public void onBindViewHolder(UriViewHolder holder, int position) {
-            Glide.with(holder.iv.getContext()).load(mUris.get(position)).into(holder.iv);
+//            Glide.with(holder.iv.getContext()).load(mUris.get(position)).into(holder.iv);
+
+            // mImageTitles.get(position) 사진 db에서 불러와서 띄우기
+            HashMap<String, String> map = new HashMap<>();
+
+            map.put("name", mImageTitles.get(position));
+            Call<ResponseBody> callImage = retrofitInterface.getImage(map);
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            callImage.enqueue(new Callback<ResponseBody>(){
+                @Override
+                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                    InputStream is = response.body().byteStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+//                    images.add(position, bitmap);
+                    holder.iv.setImageBitmap(bitmap);
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t){
+                    Log.d("bitmapfail", "String.valueOf(bitmap)");
+                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+
         }
 
         @Override
         public int getItemCount() {
-            return mUris == null ? 0 : mUris.size();
+            return mImageTitles == null ? 0 : mImageTitles.size();
         }
 
-        static class UriViewHolder extends RecyclerView.ViewHolder {
+        class UriViewHolder extends RecyclerView.ViewHolder {
             private ImageView iv;
 
             UriViewHolder(View contentView) {
