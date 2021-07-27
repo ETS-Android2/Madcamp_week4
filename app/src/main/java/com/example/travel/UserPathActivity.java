@@ -1,6 +1,7 @@
 package com.example.travel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,7 +53,7 @@ public class UserPathActivity extends AppCompatActivity {
         place = findViewById(R.id.pathPlace);
 
         recyclerView = findViewById(R.id.userPathRecycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -94,7 +95,7 @@ public class UserPathActivity extends AppCompatActivity {
                             intent.putExtra("region", placeregion);
                             intent.putExtra("list", plist);
                             startActivity(intent);
-                            overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
+                            overridePendingTransition( R.anim.anim_slide_in_right_fast, 0);
 
                         }
                     });
@@ -122,7 +123,7 @@ public class UserPathActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        overridePendingTransition(0, R.anim.anim_slide_out_left_fast);
+        overridePendingTransition(0, 0);
 
     }
 }

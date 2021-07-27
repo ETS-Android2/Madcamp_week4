@@ -9,13 +9,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        >
 
         <ImageView
             android:id="@+id/placeImg"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/line"/>
+            android:src="@drawable/route"
+            android:scaleType="centerInside"/>
 
         <TextView
             android:id="@+id/placename"
