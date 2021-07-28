@@ -39,7 +39,7 @@ public class UserPathActivity extends AppCompatActivity {
     private String useremail = MainActivity.useremail;
 
     private ArrayList<PathItem> pathlist=new ArrayList<>();
-    private ArrayList<PlaceItem> plist=new ArrayList<>();
+    private ArrayList<Placeinfo> plist=new ArrayList<>();
     private String placetitle, placeregion;
 
     private GyroscopeObserver gyroscopeObserver;
@@ -107,9 +107,9 @@ public class UserPathActivity extends AppCompatActivity {
                     });
                 }
                 else if (response.code() == 400) {
-                Log.d("look", "400");
-                Toast.makeText(UserPathActivity.this, "Wrong Credentials", Toast.LENGTH_LONG).show();
-            }
+                    Log.d("look", "400");
+                    Toast.makeText(UserPathActivity.this, "Wrong Credentials", Toast.LENGTH_LONG).show();
+                }
 
             }
 
@@ -121,7 +121,7 @@ public class UserPathActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
 
-            });
+        });
 
 
     }
