@@ -3,7 +3,9 @@ package com.example.travel;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.example.travel.items.Userinfo;
 import com.john.waveview.WaveView;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +40,12 @@ public class LoginActivity extends AppCompatActivity {
     private WaveView waveView;
     private Integer pro = SplashActivity.pro;
     private ImageView splash;
+    private String loginemail="";
+
+
+    static private String SHARE_NAME = "ID";
+    static SharedPreferences sharePref = null;
+    static SharedPreferences.Editor editor = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +55,13 @@ public class LoginActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().hide();
         }
+        sharePref = this.getSharedPreferences(SHARE_NAME, Context.MODE_PRIVATE);
+        editor = sharePref.edit();
+
+        Map<String, ?> totalValue = sharePref.getAll();
+        loginemail = sharePref.getString("loginemail", "");
+        Log.d("login", ""+loginemail);
+
 
 
         email = findViewById(R.id.emailEdit);
@@ -65,6 +81,43 @@ public class LoginActivity extends AppCompatActivity {
 
         splash = findViewById(R.id.splash);
         Glide.with(getApplicationContext()).load(R.drawable.whale2).into(splash);
+
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("email", loginemail);
+
+        Call<Userinfo> call = retrofitInterface.executeSearch(map);
+
+        call.enqueue(new Callback<Userinfo>() {
+            @Override
+            public void onResponse(Call<Userinfo> call, Response<Userinfo> response) {
+                if (response.code()==200){
+                    Userinfo result = response.body();
+
+                    if(result.getLogin()){
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("name", result.getName());
+                        intent.putExtra("email", result.getEmail());
+
+                        updateData(result.getEmail());
+
+                        startActivity(intent);
+
+                        overridePendingTransition(0, R.anim.anim_slide_out_top);
+                        finish();
+                        return;
+                    }
+                }else if(response.code()==400){
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Userinfo> call, Throwable t) {
+
+            }
+        });
 
 
 
@@ -160,6 +213,8 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("name", result.getName());
                     intent.putExtra("email", result.getEmail());
 
+                    updateData(result.getEmail());
+
                     startActivity(intent);
 
                     overridePendingTransition(0, R.anim.anim_slide_out_top);
@@ -191,5 +246,10 @@ public class LoginActivity extends AppCompatActivity {
         } else if (System.currentTimeMillis() - time < 2000) {
             finish();
         }
+    }
+
+    public void updateData(String email){
+        editor.putString("loginemail", email);
+        editor.apply();
     }
 }
