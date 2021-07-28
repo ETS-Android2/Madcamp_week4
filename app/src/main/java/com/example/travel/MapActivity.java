@@ -220,7 +220,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 animateFab();
-                Intent intent = new Intent(getApplicationContext(), CheckDayActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CalendarActivity.class);
                 startActivity(intent);
 
                 overridePendingTransition(R.anim.anim_slide_in_bottom, 0);
@@ -346,14 +346,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) { //여기서 경로 저장한배열, 지역 , 경로제목을 보냄
 //                Log.d("Check" , useremail);
-                SavePathInput savePathInput = new SavePathInput(String.valueOf(useremail), pathTitle.getText().toString() ,place , String.valueOf(clickedPath.size()), clickedPath);
+                ArrayList<String> tmpParti = new ArrayList<>();
+                tmpParti.add(String.valueOf(useremail));
+                SavePathInput savePathInput = new SavePathInput(tmpParti, pathTitle.getText().toString() ,place , String.valueOf(clickedPath.size()), clickedPath);
 
                 Call<Void> call = retrofitInterface.executeSavePath(savePathInput);
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.code() == 200) {
-
+                            ad.cancel();
                         } else if (response.code() == 400) {
 
                         }
@@ -363,6 +365,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                     }
                 });
+                ad.dismiss();
             }
         });
     }

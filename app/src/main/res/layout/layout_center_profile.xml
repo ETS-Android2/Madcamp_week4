@@ -80,6 +80,44 @@
                     android:layout_marginTop="5dp"
                     />
 
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text4">
+
+                    <Button
+                        android:id="@+id/zhihu"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="5dp"
+                        android:minHeight="56dp"
+                        android:text="프로필 사진 설정"
+                        android:layout_weight="1"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:theme="@style/ZhihuOverlay"
+                        android:layout_below="@id/address"/>
+
+                    <Button
+                        android:id="@+id/deletePic"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:minHeight="56dp"
+                        android:text="사진 삭제"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:theme="@style/ZhihuOverlay"
+                        android:layout_below="@id/address"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

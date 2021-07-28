@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel"
         android:usesCleartextTraffic="true">
+
+        <activity android:name=".JoinCalendarActivity"></activity>
+
         <activity android:name=".JoinActivity"></activity>
         <activity android:name=".MyPageActivity"></activity>
         <activity android:name=".CheckDayActivity" />

@@ -1,5 +1,6 @@
 package com.example.travel;
 
+import com.example.travel.items.Dateinfo;
 import com.example.travel.items.Pathinfo;
 
 import com.example.travel.items.SaveImageResponse;
@@ -27,6 +28,9 @@ public interface RetrofitInterface {
     @POST("/user/login")
     Call<Userinfo> executeLogin(@Body HashMap<String, String> map);
 
+    @POST("/user/userInfo")
+    Call<Userinfo> getUserInfo(@Body HashMap<String, String> map);
+
     @POST("/user/signup")
     Call<Void> executeSignup(@Body HashMap<String, String> map);
 
@@ -43,6 +47,20 @@ public interface RetrofitInterface {
     @POST("/image/upload")
     Call<Void> uploadImage(@Part MultipartBody.Part[] image);
 
+    @Multipart
+    @POST("/image/uploadUserPic")
+    Call<Void> uploadUserPic(@Part MultipartBody.Part[] image);
+
+    @POST("/image/deleteUserPic")
+    Call<Void> deleteUserPic(@Body HashMap<String, String> map);
+
+    @Multipart
+    @POST("/image/uploadThumbnail")
+    Call<Void> uploadThumbnail(@Part MultipartBody.Part[] image);
+
+    @POST("/image/deleteThumbnail")
+    Call<Void> deleteThumbnail(@Body HashMap<String, String> map);
+
     @POST("/image/getImage")
     @Streaming
     Call<ResponseBody> getImage(@Body HashMap<String, String> map);
@@ -53,6 +71,14 @@ public interface RetrofitInterface {
     @GET("/search/getAll")
     Call<List<Pathinfo>> getAllPath();
 
+
     @POST("/user/userInfo")
     Call<Userinfo> executeSearch(@Body HashMap<String, String> map);
+
+    @POST("/user/sendDays")
+    Call <Void> sendDays(@Body Dateinfo dateinfo);
+
+    @POST("/user/getFriendDays")
+    Call <Dateinfo> getFriendDays(@Body HashMap<String,String> map);
+
 }

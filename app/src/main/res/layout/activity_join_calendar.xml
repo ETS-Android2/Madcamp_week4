@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@color/colorPrimaryDark"
     android:gravity="center"
-    tools:context=".CalendarActivity">
+    tools:context=".JoinCalendarActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -23,24 +23,11 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <org.naishadhparmar.zcustomcalendar.CustomCalendar
-        android:id="@+id/custom_calendar"
+        android:id="@+id/join_calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/sendCalendar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:backgroundTint="@color/colorSplash"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="?attr/actionModeShareDrawable" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
