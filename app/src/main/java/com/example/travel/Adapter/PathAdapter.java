@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class PathAdapter extends RecyclerView.Adapter<PathAdapter.ViewHolder> {
     static Context context;
-    private ArrayList<PathItem> mList=null;
+    private ArrayList<PathItem> mList = null;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
