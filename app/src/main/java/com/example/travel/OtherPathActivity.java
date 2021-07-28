@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.travel.Adapter.ExpandableAdapter;
@@ -27,7 +30,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OtherPathActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    public ArrayList<ExpandableItem> data;
+    //    public ArrayList<ExpandableItem> data;
+    private EditText editText;
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
@@ -38,9 +42,10 @@ public class OtherPathActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_path);
 
+        editText = findViewById(R.id.editSearch);
         mRecyclerView = findViewById(R.id.expandableRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        data = new ArrayList<>();
+//        data = new ArrayList<>();
 
         // db에서 데이터들 가져오기
         retrofit = new Retrofit.Builder()
@@ -57,6 +62,8 @@ public class OtherPathActivity extends AppCompatActivity {
                 if(response.code()==200){
                     List<Pathinfo> result = response.body();
 
+                    ArrayList<ExpandableItem> data = new ArrayList<>();
+
                     for(int i=0;i<result.size();i++){
                         Pathinfo tmpResult = result.get(i);
                         ExpandableItem tmpItem = new ExpandableItem(ExpandableAdapter.HEADER, tmpResult.getRegion(), tmpResult.getTitle());
@@ -66,9 +73,76 @@ public class OtherPathActivity extends AppCompatActivity {
                             Placeinfo tmpPlace = tmpResult.getLocations().get(j);
                             tmpItem.invisibleChildren.add(new ExpandableItem(ExpandableAdapter.CHILD, tmpPlace.getAddress()));
                         }
+                        data.add(tmpItem);
                     }
 
+                    mRecyclerView.setAdapter(new ExpandableAdapter(data));
 
+                    editText.addTextChangedListener(new TextWatcher() {
+                        // 입력하기 전
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            ArrayList<ExpandableItem> data = new ArrayList<>();
+
+                            for(int i=0;i<result.size();i++){
+                                Pathinfo tmpResult = result.get(i);
+                                ExpandableItem tmpItem = new ExpandableItem(ExpandableAdapter.HEADER, tmpResult.getRegion(), tmpResult.getTitle());
+
+                                tmpItem.invisibleChildren = new ArrayList<>();
+                                for(int j=0;j<tmpResult.getTotalSize();j++){
+                                    Placeinfo tmpPlace = tmpResult.getLocations().get(j);
+                                    tmpItem.invisibleChildren.add(new ExpandableItem(ExpandableAdapter.CHILD, tmpPlace.getAddress()));
+                                }
+                                data.add(tmpItem);
+                            }
+
+                            mRecyclerView.setAdapter(new ExpandableAdapter(data));
+                        }
+
+                        // 입력란에 변화가 있을 때
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            ArrayList<ExpandableItem> data = new ArrayList<>();
+
+                            for(int i=0;i<result.size();i++){
+                                Pathinfo tmpResult = result.get(i);
+                                if(tmpResult.getRegion().contains(s)){
+
+                                    ExpandableItem tmpItem = new ExpandableItem(ExpandableAdapter.HEADER, tmpResult.getRegion(), tmpResult.getTitle());
+
+                                    tmpItem.invisibleChildren = new ArrayList<>();
+                                    for(int j=0;j<tmpResult.getTotalSize();j++){
+                                        Placeinfo tmpPlace = tmpResult.getLocations().get(j);
+                                        tmpItem.invisibleChildren.add(new ExpandableItem(ExpandableAdapter.CHILD, tmpPlace.getAddress()));
+                                    }
+                                    data.add(tmpItem);
+                                }
+                            }
+                            mRecyclerView.setAdapter(new ExpandableAdapter(data));
+                        }
+
+                        // 입력이 끝났을 때
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            ArrayList<ExpandableItem> data = new ArrayList<>();
+
+                            for(int i=0;i<result.size();i++){
+                                Pathinfo tmpResult = result.get(i);
+                                if(tmpResult.getRegion().contains(s)){
+
+                                    ExpandableItem tmpItem = new ExpandableItem(ExpandableAdapter.HEADER, tmpResult.getRegion(), tmpResult.getTitle());
+
+                                    tmpItem.invisibleChildren = new ArrayList<>();
+                                    for(int j=0;j<tmpResult.getTotalSize();j++){
+                                        Placeinfo tmpPlace = tmpResult.getLocations().get(j);
+                                        tmpItem.invisibleChildren.add(new ExpandableItem(ExpandableAdapter.CHILD, tmpPlace.getAddress()));
+                                    }
+                                    data.add(tmpItem);
+                                }
+                            }
+                            mRecyclerView.setAdapter(new ExpandableAdapter(data));
+                        }
+                    });
                 }else if(response.code()==404){
                     Toast.makeText(OtherPathActivity.this,"No Courses", Toast.LENGTH_SHORT).show();
                 }

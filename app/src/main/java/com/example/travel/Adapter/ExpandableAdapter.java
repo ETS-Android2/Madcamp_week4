@@ -82,6 +82,7 @@ public class ExpandableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 final ListHeaderViewHolder itemController = (ListHeaderViewHolder) holder;
                 itemController.refferalItem = item;
                 itemController.tv_title.setText(item.title);
+                itemController.tv_region.setText(item.region);
                 if (item.invisibleChildren == null) {
                     itemController.expand_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                 } else {

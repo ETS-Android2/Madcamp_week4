@@ -104,9 +104,9 @@ public class UserPathActivity extends AppCompatActivity {
                     });
                 }
                 else if (response.code() == 400) {
-                Log.d("look", "400");
-                Toast.makeText(UserPathActivity.this, "Wrong Credentials", Toast.LENGTH_LONG).show();
-            }
+                    Log.d("look", "400");
+                    Toast.makeText(UserPathActivity.this, "Wrong Credentials", Toast.LENGTH_LONG).show();
+                }
 
             }
 
@@ -118,7 +118,7 @@ public class UserPathActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
 
-            });
+        });
 
 
     }
