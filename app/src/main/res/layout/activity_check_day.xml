@@ -1,53 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
 <!--    xmlns:tools="http://schemas.android.com/tools"-->
 <!--    android:layout_width="match_parent"-->
 <!--    android:layout_height="match_parent"-->
 <!--    android:orientation="vertical"-->
-<!--    android:gravity="center"-->
-<!--    tools:context=".CalendarActivity">-->
+<!--    android:gravity="bottom"-->
+<!--    tools:context=".CheckDayActivity">-->
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/et_date"-->
-<!--        android:hint="안되는 날짜를 고르세요"-->
-<!--        android:textSize="30sp"-->
+<!--    <ListView-->
+<!--        android:id="@+id/listView_data"-->
+<!--        android:layout_width="match_parent"-->
 <!--        android:textAlignment="center"-->
-<!--        />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/bt_showcalendar"-->
-<!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
-<!--        android:text="캘린더 보기" />-->
+<!--        android:choiceMode="multipleChoice" />-->
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/floatingActionButton2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:clickable="true"-->
+<!--        app:srcCompat="@drawable/ic_baseline_date_range_24" />-->
+
 
 <!--</LinearLayout>-->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="bottom"
     tools:context=".CheckDayActivity">
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dayCheck"
-        android:layout_gravity="center"
-        android:text="캘린더 보기"
-        />
 
     <ListView
         android:id="@+id/listView_data"
         android:layout_width="match_parent"
         android:textAlignment="center"
+        android:layout_height="match_parent"
+        android:choiceMode="multipleChoice"
+        tools:ignore="MissingConstraints" >
+
+    </ListView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/dayCheck"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:choiceMode="multipleChoice" />
+        android:clickable="true"
+        app:backgroundTint="@color/colorSplash"
+        app:srcCompat="@drawable/ic_baseline_date_range_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="5dp"/>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
