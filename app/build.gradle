@@ -63,4 +63,7 @@ dependencies {
 
     implementation 'com.gjiazhe:PanoramaImageView:1.0'
 
+    //circle imageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
 }

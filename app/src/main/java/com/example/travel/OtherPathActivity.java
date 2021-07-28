@@ -30,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OtherPathActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-//    public ArrayList<ExpandableItem> data;
+    //    public ArrayList<ExpandableItem> data;
     private EditText editText;
 
     private Retrofit retrofit;

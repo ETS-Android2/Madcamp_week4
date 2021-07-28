@@ -160,7 +160,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onClick(View v) {
                 animateFab();
 
-                Intent intent = new Intent(getApplicationContext(), UserPathActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
                 startActivity(intent);
 
                 overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
