@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+
         email = findViewById(R.id.emailEdit);
         password = findViewById(R.id.passwordEdit);
         login = findViewById(R.id.login);
