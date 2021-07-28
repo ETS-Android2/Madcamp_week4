@@ -81,7 +81,4 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
     }
-    private void ColorChange(int picked){
-
-    }
 }
