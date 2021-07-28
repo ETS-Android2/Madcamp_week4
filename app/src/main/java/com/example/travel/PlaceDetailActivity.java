@@ -38,31 +38,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
-import com.example.travel.Adapter.ImageFullAdapter;
 import com.example.travel.items.Placeinfo;
-import com.example.travel.items.SaveImageResponse;
-import com.example.travel.items.SaveUriInput;
-import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -85,7 +73,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
     private String BASE_URL = LoginActivity.BASE_URL;
     private String title, region;
     private Placeinfo place;
-    private TextView tvTitle, tvRegion, tvAddress, emptyView;
+    private TextView tvTitle, tvRegion, tvAddress;
     private Placeinfo result;
     private ArrayList<String> mImages;
 
@@ -107,11 +95,8 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
         tvAddress = (TextView)findViewById(R.id.address);
         tvAddress.setText(place.getAddress());
 
-//        emptyView = (TextView)findViewById(R.id.empty_view);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-//        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_expected_sizes);
-//        recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         recyclerView.setAdapter(mAdapter = new UriAdapter());
 
         // db에서 해당 장소와 관련된 데이터들 불러오기
@@ -137,19 +122,6 @@ public class PlaceDetailActivity extends AppCompatActivity implements View.OnCli
                 mImages = result.getImage();
 
                 mAdapter.setData(mImages);
-
-//                if(mImages.isEmpty()){
-//                    recyclerView.setVisibility(View.GONE);
-//                    emptyView.setVisibility(View.VISIBLE);
-//                }
-//                else{
-//                    recyclerView.setVisibility(View.VISIBLE);
-//                    emptyView.setVisibility(View.GONE);
-//                }
-
-//                Log.d("kyung", result.getEmail());
-//                Log.d("kyung", result.getAddress());
-//                Log.d("kyung", result.getImage().toString());
             }
 
             @Override

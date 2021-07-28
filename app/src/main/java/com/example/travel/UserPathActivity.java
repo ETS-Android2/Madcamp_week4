@@ -79,7 +79,7 @@ public class UserPathActivity extends AppCompatActivity {
 
                     for (Pathinfo result : resultList) {
                         Log.d("path", "" + result.getTitle());
-                        item = new PathItem(result.getTitle() , result.getRegion(),result.getTotalSize().toString());
+                        item = new PathItem(result.getTitle() , result.getRegion(),result.getTotalSize().toString(), result.getImage());
                         pathlist.add(item);
 
                     }

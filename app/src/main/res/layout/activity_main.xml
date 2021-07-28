@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <include
-        layout="@layout/activity_map"/>
-
 
 
 
@@ -38,57 +35,70 @@
 
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/toMap"
-        android:layout_marginTop="70dp"
-        android:layout_marginHorizontal="30dp"
-        app:cardCornerRadius="43dp"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/toMap"-->
+<!--        android:layout_marginTop="70dp"-->
+<!--        android:layout_marginHorizontal="30dp"-->
+<!--        app:cardCornerRadius="43dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/editPlace"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:hint="어디로 떠나고 싶으신가요?"-->
+<!--            android:textSize="20sp"-->
+<!--            android:layout_gravity="center_horizontal|center"-->
+<!--            android:gravity="center"/>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/placeBtn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="으로 떠나기"-->
+<!--            android:layout_gravity="bottom|center_horizontal"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            />-->
+
+<!--    </androidx.cardview.widget.CardView>-->
+
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/toProfile"-->
+<!--            android:layout_width="200dp"-->
+<!--            android:layout_height="200dp"-->
+<!--            android:layout_margin="30dp"-->
+<!--            app:cardCornerRadius="43dp"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            tools:ignore="MissingConstraints">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal|center"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:gravity="center"-->
+<!--                android:text="About Me"-->
+<!--                android:textSize="20sp" />-->
+
+<!--        </androidx.cardview.widget.CardView>-->
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/whalehome"
         android:layout_centerInParent="true"
-        tools:ignore="MissingConstraints">
+        android:id="@+id/mainpic"/>
 
-        <EditText
-            android:id="@+id/editPlace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:hint="어디로 떠나고 싶으신가요?"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal|center"
-            android:gravity="center"/>
+    <!-- this view reveals when swipe right -->
 
-        <Button
-            android:id="@+id/placeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="으로 떠나기"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="20dp"
-            />
-
-    </androidx.cardview.widget.CardView>
-
-    <!--    <androidx.cardview.widget.CardView-->
-    <!--        android:id="@+id/toProfile"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="200dp"-->
-    <!--        android:layout_margin="30dp"-->
-    <!--        app:cardCornerRadius="43dp"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/seek_bar"-->
-    <!--        tools:ignore="MissingConstraints">-->
-
-    <!--        <TextView-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_gravity="center_horizontal|center"-->
-    <!--            android:layout_margin="10dp"-->
-    <!--            android:gravity="center"-->
-    <!--            android:text="About Me"-->
-    <!--            android:textSize="20sp" />-->
-
-    <!--    </androidx.cardview.widget.CardView>-->
-
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/main_recycler"/>-->
 
 
 
