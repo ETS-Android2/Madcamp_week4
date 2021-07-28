@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Placeinfo implements Serializable {
-    private String _id, email, region, title, address, latitude, longtitude, memo;
-    private ArrayList<String> image;
+    private String _id, region, title, address, latitude, longtitude, memo;
+    private ArrayList<String> image, participants;
     private ArrayList<Integer> orientation;
 
-    public Placeinfo(String _id, String email, String region, String title, String address, String latitude, String longtitude, String memo, ArrayList<String> image) {
+    public Placeinfo(String _id, ArrayList<String> participants, String region, String title, String address, String latitude, String longtitude, String memo, ArrayList<String> image) {
         this._id = _id;
-        this.email = email;
+        this.participants = participants;
         this.region = region;
         this.title = title;
         this.address = address;
@@ -28,12 +28,12 @@ public class Placeinfo implements Serializable {
         this._id = _id;
     }
 
-    public String getEmail() {
-        return email;
+    public ArrayList<String> getParticipants() {
+        return participants;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setParticipants(ArrayList<String> participants) {
+        this.participants = participants;
     }
 
     public String getRegion() {
