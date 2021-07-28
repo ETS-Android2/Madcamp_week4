@@ -13,9 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,7 +35,7 @@ public class CheckDayActivity extends AppCompatActivity {
     String[] arrayPeliculas = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"
     ,"18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
 
-    Button dayCheck ;
+    FloatingActionButton dayCheck ;
     ArrayList<String> days = new ArrayList<>();
 
     @Override

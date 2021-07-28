@@ -75,7 +75,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private Geocoder geocoder;
 
-    private Button button ;
+    private FloatingActionButton button ;
 
     private EditText editText;
 
@@ -116,7 +116,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         tocal = findViewById(R.id.toCalendar);
 
         editText = (EditText) findViewById(R.id.editText);
-        button=(Button)findViewById(R.id.button);
+        button=(FloatingActionButton) findViewById(R.id.button);
         bt_searchpath = findViewById(R.id.bt_pathsearch);
         bt_savepath = findViewById(R.id.bt_pathsave);
 

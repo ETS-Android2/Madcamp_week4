@@ -37,13 +37,21 @@
                 android:layout_weight="5"
                 android:hint="어디로 떠나실래요?" />
 
-            <Button
+<!--            <Button-->
+<!--                android:id="@+id/button"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:text="검색" />-->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="검색" />
+                android:layout_margin="5dp"
+                android:clickable="true"
+                app:backgroundTint="@color/colorSplash"
+                app:srcCompat="@drawable/ic_baseline_search_24" />
 
         </LinearLayout>
 
