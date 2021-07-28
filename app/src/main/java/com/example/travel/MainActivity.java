@@ -2,20 +2,27 @@ package com.example.travel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import android.view.View;
@@ -25,18 +32,26 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.travel.Adapter.DrawerAdapter;
+import com.example.travel.items.DrawerItem;
 import com.example.travel.items.OnSwipeTouchListener;
+import com.example.travel.items.SimpleItem;
+import com.example.travel.items.SpaceItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.john.waveview.WaveView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
-import com.special.ResideMenu.ResideMenu;
-import com.special.ResideMenu.ResideMenuItem;
+import com.yarolegovich.slidingrootnav.SlidingRootNav;
+import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
+import com.yarolegovich.slidingrootnav.SlidingRootNavLayout;
 
 import co.dift.ui.SwipeToAction;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
 
     public static String username, useremail;
 //    private SeekBar seekBar;
@@ -47,17 +62,25 @@ public class MainActivity extends AppCompatActivity {
 //    private Button placebtn ,bt_calendar;
 //    private RecyclerView recyclerView;
 //    private MainAdapter mainAdapter;
-    private ImageView pic;
-    private SwipeToAction swipeToAction;
-    private  FlowingDrawer mDrawer;
-    private FrameLayout containermenu;
 
     private Intent classs = new Intent();
     private Intent links = new Intent();
 
-    private ResideMenu resideMenu;
+    private static final int POS_CLOSE=0;
+    private static final int POS_MAP=1;
+    private static final int POS_SEARCH=2;
+    private static final int POS_MY_PROFILE=3;
 
-//    ArrayList<Main> mains = new ArrayList<>();
+    private static final int POS_LOGOUT=5;
+
+    private String[] screenTitles;
+    private Drawable[] screenIcons;
+
+    private SlidingRootNav slidingRootNav;
+    private Toolbar toolbar;
+
+    ViewFlipper vf;
+
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -75,46 +98,53 @@ public class MainActivity extends AppCompatActivity {
 //        initialize(savedInstanceState);
 //        initializeLogic();
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        vf = findViewById(R.id.vf);
+
+
+        slidingRootNav = new SlidingRootNavBuilder(this)
+                .withDragDistance(180)
+                .withRootViewScale(0.75f)
+                .withRootViewElevation(25)
+                .withToolbarMenuToggle(toolbar)
+                .withMenuOpened(false)
+                .withContentClickableWhenMenuOpened(false)
+                .withSavedState(savedInstanceState)
+                .withMenuLayout(R.layout.drawer)
+                .inject();
+
+
+        screenIcons = loadScreenIcons();
+        screenTitles = loadScreenTitles();
+
+        DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
+                createItemFor(POS_CLOSE),
+                createItemFor(POS_MAP).setChecked(true),
+                createItemFor(POS_SEARCH),
+                createItemFor(POS_MY_PROFILE),
+                new SpaceItem(260),
+                createItemFor(POS_LOGOUT)
+
+                ));
+
+        adapter.setListener(this);
+
+        RecyclerView list = findViewById(R.id.drawer_list);
+        list.setNestedScrollingEnabled(false);
+        list.setLayoutManager(new LinearLayoutManager(this));
+        list.setAdapter(adapter);
+
+        adapter.setSelected(POS_MAP);
+
+
 
         Intent intent = getIntent();
         username = intent.getStringExtra("name");
         useremail = intent.getStringExtra("email");
 
-        // attach to current activity;
-        resideMenu = new ResideMenu(this);
-//        resideMenu.setBackground(R.drawable.menu_background);
-        resideMenu.attachToActivity(this);
 
-        // create menu items;
-        String titles[] = { "Home", "Gallery", "Calendar", "Settings" };
-        int icon[] = { R.drawable.whalehome, R.drawable.whalehome, R.drawable.whalehome, R.drawable.whalehome };
-
-        for (int i = 0; i < titles.length; i++){
-            ResideMenuItem item = new ResideMenuItem(this, icon[i], titles[i]);
-            item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-            resideMenu.addMenuItem(item,  ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
-        }
-
-        resideMenu.openMenu(ResideMenu.DIRECTION_LEFT); // or ResideMenu.DIRECTION_RIGHT
-        resideMenu.closeMenu();
-
-        resideMenu.setMenuListener(menuListener);
-        private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
-            @Override
-            public void openMenu() {
-                Toast.makeText(mContext, "Menu is opened!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void closeMenu() {
-                Toast.makeText(mContext, "Menu is closed!", Toast.LENGTH_SHORT).show();
-            }
-        };
 
 //        pic = findViewById(R.id.mainpic);
 //
@@ -246,33 +276,32 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
-    private void initialize(Bundle savedInstanceState) {
-        containermenu =(FrameLayout) findViewById(R.id.containermenu);
-        mDrawer =(FlowingDrawer) findViewById(R.id.drawerlayout);
-        mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
+    private String[] loadScreenTitles() {
+        return getResources().getStringArray(R.array.id_activityScreenTitles);
+    }
 
-        mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
-            @Override
-            public void onDrawerStateChange(int oldState, int newState) {
-                if (newState == ElasticDrawer.STATE_CLOSED) {
-                    Log.i("MainActivity", "Drawer STATE_CLOSED");
-                }
+    private Drawable[] loadScreenIcons() {
+        TypedArray ta =  getResources().obtainTypedArray(R.array.id_activityScreenIcons);
+        Drawable[] icons = new Drawable[ta.length()];
+        for (int i=0;i<ta.length();i++){
+            int id = ta.getResourceId(i, 0);
+            if(id!=0){
+                icons[i] = ContextCompat.getDrawable(this, id);
             }
-
-            @Override
-            public void onDrawerSlide(float openRatio, int offsetPixels) {
-                Log.i("MainActivity", "openRatio=" + openRatio + " ,offsetPixels=" + offsetPixels);
-
-
-
-            }
-        });
-
+        }
+        ta.recycle();
+        return icons;
 
     }
 
-    private void initializeLogic() {
-        containermenu.setBackgroundColor(0xFFFFFFFF);
+
+    private DrawerItem createItemFor(int position){
+        return new SimpleItem(screenIcons[position], screenTitles[position])
+                .withIconTint(R.color.colorPrimary)
+                .withTextTint(R.color.black)
+                .withSelectedIconTint(R.color.colorPrimary)
+                .withSelectedTextTint(R.color.colorPrimary);
+
     }
 
     private long time= 0;
@@ -288,5 +317,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemSelected(int position) {
 
+        if(position==POS_MAP){
+            vf.setDisplayedChild(0);
+
+        }
+        else if(position==POS_SEARCH){
+            vf.setDisplayedChild(1);
+        }
+        else if(position==POS_MY_PROFILE){
+            vf.setDisplayedChild(2);
+        }
+        else if(position==POS_LOGOUT){
+
+        }
+
+        slidingRootNav.closeMenu();
+
+    }
 }

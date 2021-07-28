@@ -86,7 +86,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private List<Polyline> polylines = null;
 
-    private String place; // 이전 액티비티에서 어느 도시로 여행갈건지 입력 받음
+    private String place, title; // 이전 액티비티에서 어느 도시로 여행갈건지 입력 받음
+    private ArrayList<String> flist;
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
@@ -95,7 +96,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
 
-    private FloatingActionButton mainbtn, toProf, toSearch , bt_searchpath , bt_savepath, tocal;
+    private FloatingActionButton mainbtn, bt_searchpath , bt_savepath, tocal;
     private Animation fabOpen, fabClose, rotateForward, rotateBackward;
     private boolean isOpen = false;
 
@@ -107,12 +108,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         Intent intent = getIntent();
         place = intent.getStringExtra("place");
+        title = intent.getStringExtra("title");
+        flist = (ArrayList<String>)intent.getSerializableExtra("friendlist");
 
         mainbtn = findViewById(R.id.mainbtn);
-        toProf = findViewById(R.id.toProfile);
-        toSearch = findViewById(R.id.toSearch);
-
-
         tocal = findViewById(R.id.toCalendar);
 
         editText = (EditText) findViewById(R.id.editText);
@@ -154,33 +153,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 animateFab();
             }
         });
-
-        toProf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                animateFab();
-
-                Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
-                startActivity(intent);
-
-                overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
-            }
-        });
-
-        toSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                animateFab();
-
-                Intent intent = new Intent(getApplicationContext(), OtherPathActivity.class);
-                startActivity(intent);
-
-                overridePendingTransition(R.anim.anim_slide_in_left_fast, 0);
-
-            }
-        });
-
-
 
         //경로 찾기 버튼
         bt_searchpath.setOnClickListener(new View.OnClickListener() {
@@ -231,14 +203,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void animateFab() {
         if(isOpen){
             mainbtn.startAnimation(rotateForward);
-            toProf.startAnimation(fabClose);
-            toSearch.startAnimation(fabClose);
             bt_savepath.startAnimation(fabClose);
             bt_searchpath.startAnimation(fabClose);
             tocal.startAnimation(fabClose);
 
-            toProf.setVisibility(View.GONE);
-            toSearch.setVisibility(View.GONE);
             bt_searchpath.setVisibility(View.GONE);
             bt_savepath.setVisibility(View.GONE);
             tocal.setVisibility(View.GONE);
@@ -247,14 +215,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
         else{
             mainbtn.startAnimation(rotateBackward);
-            toProf.startAnimation(fabOpen);
-            toSearch.startAnimation(fabOpen);
+
             bt_savepath.startAnimation(fabOpen);
             bt_searchpath.startAnimation(fabOpen);
             tocal.startAnimation(fabOpen);
 
-            toProf.setVisibility(View.VISIBLE);
-            toSearch.setVisibility(View.VISIBLE);
             bt_searchpath.setVisibility(View.VISIBLE);
             bt_savepath.setVisibility(View.VISIBLE);
             tocal.setVisibility(View.VISIBLE);
@@ -356,6 +321,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.code() == 200) {
                             ad.cancel();
+                            finish();
                         } else if (response.code() == 400) {
 
                         }
