@@ -71,7 +71,7 @@ public class MyPageActivity extends AppCompatActivity {
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         HashMap<String, String> map = new HashMap<>();
         map.put("email", useremail);
 
@@ -91,6 +91,8 @@ public class MyPageActivity extends AppCompatActivity {
                         pathlist.add(item);
 
                     }
+
+                    tvPosts.setText(String.valueOf(pathlist.size()));
 
                     pathAdapter = new PathAdapter(getApplicationContext(), pathlist);
                     recyclerView.setAdapter(pathAdapter);

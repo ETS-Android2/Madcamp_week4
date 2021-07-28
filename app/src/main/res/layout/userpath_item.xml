@@ -23,7 +23,8 @@
             android:id="@+id/pathImg"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:src="@drawable/whale2"
+            android:src="@drawable/whale"
+            android:scaleType="centerInside"
             app:piv_enablePanoramaMode="true"
             app:piv_show_scrollbar="true"
             app:piv_invertScrollDirection="false" />

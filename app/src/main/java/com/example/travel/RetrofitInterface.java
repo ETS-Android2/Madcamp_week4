@@ -1,5 +1,6 @@
 package com.example.travel;
 
+import com.example.travel.items.Dateinfo;
 import com.example.travel.items.Pathinfo;
 
 import com.example.travel.items.SaveImageResponse;
@@ -52,4 +53,10 @@ public interface RetrofitInterface {
 
     @GET("/search/getAll")
     Call<List<Pathinfo>> getAllPath();
+
+    @POST("/user/sendDays")
+    Call <Void> sendDays(@Body Dateinfo dateinfo);
+
+    @POST("/user/getFriendDays")
+    Call <Dateinfo> getFriendDays(@Body HashMap<String,String> map);
 }
