@@ -62,6 +62,22 @@ public class OtherPathActivity extends AppCompatActivity {
                 if(response.code()==200){
                     List<Pathinfo> result = response.body();
 
+                    ArrayList<ExpandableItem> data = new ArrayList<>();
+
+                    for(int i=0;i<result.size();i++){
+                        Pathinfo tmpResult = result.get(i);
+                        ExpandableItem tmpItem = new ExpandableItem(ExpandableAdapter.HEADER, tmpResult.getRegion(), tmpResult.getTitle());
+
+                        tmpItem.invisibleChildren = new ArrayList<>();
+                        for(int j=0;j<tmpResult.getTotalSize();j++){
+                            Placeinfo tmpPlace = tmpResult.getLocations().get(j);
+                            tmpItem.invisibleChildren.add(new ExpandableItem(ExpandableAdapter.CHILD, tmpPlace.getAddress()));
+                        }
+                        data.add(tmpItem);
+                    }
+
+                    mRecyclerView.setAdapter(new ExpandableAdapter(data));
+
                     editText.addTextChangedListener(new TextWatcher() {
                         // 입력하기 전
                         @Override
