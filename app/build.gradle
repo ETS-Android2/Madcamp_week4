@@ -61,4 +61,6 @@ dependencies {
     //calendar
     implementation 'org.naishadhparmar.zcustomcalendar:zcustomcalendar:1.0.1'
 
+    implementation 'com.gjiazhe:PanoramaImageView:1.0'
+
 }
