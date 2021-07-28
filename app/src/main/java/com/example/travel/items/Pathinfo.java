@@ -6,9 +6,9 @@ import java.util.List;
 public class Pathinfo {
     private String _id, email, title, region;
     private Integer totalSize;
-    private ArrayList<Placeinfo> locations;
+    private ArrayList<PlaceItem> locations;
 
-    public Pathinfo(String _id, String email, String title, String region, Integer totalSize, ArrayList<Placeinfo> locations) {
+    public Pathinfo(String _id, String email, String title, String region, Integer totalSize, ArrayList<PlaceItem> locations) {
         this._id = _id;
         this.email = email;
         this.title = title;
@@ -57,11 +57,11 @@ public class Pathinfo {
         this.totalSize = totalSize;
     }
 
-    public ArrayList<Placeinfo> getLocations() {
+    public ArrayList<PlaceItem> getLocations() {
         return locations;
     }
 
-    public void setLocations(ArrayList<Placeinfo> locations) {
+    public void setLocations(ArrayList<PlaceItem> locations) {
         this.locations = locations;
     }
 }

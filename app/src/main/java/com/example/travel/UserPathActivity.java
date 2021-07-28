@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.travel.Adapter.PathAdapter;
 import com.example.travel.items.PathItem;
 import com.example.travel.items.Pathinfo;
+import com.example.travel.items.PlaceItem;
 import com.example.travel.items.Placeinfo;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class UserPathActivity extends AppCompatActivity {
     private String useremail = MainActivity.useremail;
 
     private ArrayList<PathItem> pathlist=new ArrayList<>();
-    private ArrayList<Placeinfo> plist=new ArrayList<>();
+    private ArrayList<PlaceItem> plist=new ArrayList<>();
     private String placetitle, placeregion;
 
     @Override

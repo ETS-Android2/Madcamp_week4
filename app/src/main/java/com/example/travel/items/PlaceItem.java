@@ -9,5 +9,5 @@ public class PlaceItem {
         this.longtitude = longtitude;
     }
 
-
+    public String getAddress(){ return address; }
 }
