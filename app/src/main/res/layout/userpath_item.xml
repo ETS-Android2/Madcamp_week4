@@ -13,12 +13,20 @@
         android:layout_marginVertical="5dp"
         android:layout_marginHorizontal="5dp">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="200dp"-->
+<!--            android:id="@+id/pathImg"-->
+<!--            android:src="@drawable/whale2"-->
+<!--            />-->
+        <com.gjiazhe.panoramaimageview.PanoramaImageView
             android:id="@+id/pathImg"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
             android:src="@drawable/whale2"
-            />
+            app:piv_enablePanoramaMode="true"
+            app:piv_show_scrollbar="true"
+            app:piv_invertScrollDirection="false" />
 
 
         <LinearLayout
@@ -43,27 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/pathPlace"
-                android:text="place"
-                android:textSize="18sp"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:layout_gravity="center_horizontal|center"
-                android:layout_width="wrap_content"
-                android:textColor="@color/black"
 
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/pathCount"
-                android:text="장소"
-                android:textSize="16sp"
-                android:layout_weight="2"
-                android:gravity="end"
-                android:layout_gravity="center_horizontal|center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

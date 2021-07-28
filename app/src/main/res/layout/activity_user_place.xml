@@ -7,15 +7,28 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".UserPlaceActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/userPlaceRecycler"
-        android:background="@drawable/rounded"
         android:layout_marginTop="30dp"
         android:paddingHorizontal="20dp"
         android:paddingTop="10dp">
+
+
 
     </androidx.recyclerview.widget.RecyclerView>
 

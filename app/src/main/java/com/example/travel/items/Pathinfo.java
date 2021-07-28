@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pathinfo {
-    private String _id, email, title, region;
+    private String _id, title, region, image;
     private Integer totalSize;
     private ArrayList<Placeinfo> locations;
+    private ArrayList<String> date, participants;
 
-    public Pathinfo(String _id, String email, String title, String region, Integer totalSize, ArrayList<Placeinfo> locations) {
+    public Pathinfo(String _id, ArrayList<String>  participants, String title, String region, Integer totalSize, ArrayList<Placeinfo> locations, String image, ArrayList<String> date) {
         this._id = _id;
-        this.email = email;
+        this.participants = participants;
         this.title = title;
         this.region = region;
         this.totalSize = totalSize;
         this.locations = locations;
+        this.image = image;
+        this.date = date;
     }
 
     public String get_id() {
@@ -25,12 +28,12 @@ public class Pathinfo {
         this._id = _id;
     }
 
-    public String getEmail() {
-        return email;
+    public ArrayList<String> getParticipants() {
+        return participants;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setParticipants(ArrayList<String> participants) {
+        this.participants = participants;
     }
 
     public String getTitle() {
@@ -63,5 +66,21 @@ public class Pathinfo {
 
     public void setLocations(ArrayList<Placeinfo> locations) {
         this.locations = locations;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public ArrayList<String> getDate() {
+        return date;
+    }
+
+    public void setDate(ArrayList<String> date) {
+        this.date = date;
     }
 }

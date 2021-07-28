@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.example.travel.Adapter.PathAdapter;
 import com.example.travel.items.PathItem;
 import com.example.travel.items.Pathinfo;
+import com.example.travel.items.PlaceItem;
 import com.example.travel.items.Placeinfo;
+import com.gjiazhe.panoramaimageview.GyroscopeObserver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +30,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserPathActivity extends AppCompatActivity {
 
-    private TextView title, place;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = LoginActivity.BASE_URL;
@@ -40,6 +41,9 @@ public class UserPathActivity extends AppCompatActivity {
     private ArrayList<Placeinfo> plist=new ArrayList<>();
     private String placetitle, placeregion;
 
+    private GyroscopeObserver gyroscopeObserver;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +53,9 @@ public class UserPathActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        title = findViewById(R.id.pathTitle);
-        place = findViewById(R.id.pathPlace);
 
         recyclerView = findViewById(R.id.userPathRecycler);
-        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -77,8 +79,9 @@ public class UserPathActivity extends AppCompatActivity {
 
                     for (Pathinfo result : resultList) {
                         Log.d("path", "" + result.getTitle());
-                        item = new PathItem(result.getTitle(), result.getRegion(), result.getTotalSize().toString());
+                        item = new PathItem(result.getTitle() , result.getRegion(),result.getTotalSize().toString());
                         pathlist.add(item);
+
                     }
 
                     pathAdapter = new PathAdapter(getApplicationContext(), pathlist);
@@ -88,7 +91,7 @@ public class UserPathActivity extends AppCompatActivity {
                         @Override
                         public void onItemClick(int position) {
                             placetitle =pathlist.get(position).getPathtitle();
-                            placeregion=pathlist.get(position).getPathregion();
+                            placeregion = pathlist.get(position).getPathregion();
                             plist = resultList.get(position).getLocations();
                             Intent intent = new Intent(getApplicationContext(), UserPlaceActivity.class);
                             intent.putExtra("title", placetitle);
@@ -126,4 +129,5 @@ public class UserPathActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
 
     }
+
 }
