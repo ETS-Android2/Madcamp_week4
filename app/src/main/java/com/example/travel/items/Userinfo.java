@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class Userinfo {
     private String name;
     private String email;
-    private String photo;
+    private String image;
     private ArrayList<String> calendar;
     private Boolean login;
 
-    public Userinfo(String name, String email, String photo, ArrayList<String> calendar, Boolean login) {
+    public Userinfo(String name, String email, String image, ArrayList<String> calendar, Boolean login) {
         this.name = name;
         this.email = email;
-        this.photo = photo;
+        this.image = image;
         this.calendar = calendar;
         this.login = login;
     }
@@ -31,11 +31,11 @@ public class Userinfo {
         this.email = email;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getImage() {
+        return image;
     }
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public ArrayList<String> getCalendar() {

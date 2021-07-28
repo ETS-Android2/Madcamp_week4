@@ -27,6 +27,9 @@ public interface RetrofitInterface {
     @POST("/user/login")
     Call<Userinfo> executeLogin(@Body HashMap<String, String> map);
 
+    @POST("/user/userInfo")
+    Call<Userinfo> getUserInfo(@Body HashMap<String, String> map);
+
     @POST("/user/signup")
     Call<Void> executeSignup(@Body HashMap<String, String> map);
 
@@ -42,6 +45,20 @@ public interface RetrofitInterface {
     @Multipart
     @POST("/image/upload")
     Call<Void> uploadImage(@Part MultipartBody.Part[] image);
+
+    @Multipart
+    @POST("/image/uploadUserPic")
+    Call<Void> uploadUserPic(@Part MultipartBody.Part[] image);
+
+    @POST("/image/deleteUserPic")
+    Call<Void> deleteUserPic(@Body HashMap<String, String> map);
+
+    @Multipart
+    @POST("/image/uploadThumbnail")
+    Call<Void> uploadThumbnail(@Part MultipartBody.Part[] image);
+
+    @POST("/image/deleteThumbnail")
+    Call<Void> deleteThumbnail(@Body HashMap<String, String> map);
 
     @POST("/image/getImage")
     @Streaming
