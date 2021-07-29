@@ -32,7 +32,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,7 +49,7 @@ public class JoinActivity extends AppCompatActivity {
     CardView friend;
     RecyclerView selected;
     TextView name, email;
-    ImageView prof;
+    CircleImageView prof;
     JoinAdapter adapter;
     Bitmap bmRotated;
 
@@ -75,6 +77,7 @@ public class JoinActivity extends AppCompatActivity {
         editText = findViewById(R.id.editText);
         name = findViewById(R.id.friendname);
         email = findViewById(R.id.friendemail);
+        emails.add(useremail);
         prof= findViewById(R.id.profimg);
 
         Intent intent = getIntent();
@@ -175,6 +178,10 @@ public class JoinActivity extends AppCompatActivity {
 
 //                ImageView item = null;
 //                item.setImageBitmap(prof.getDrawingCache());
+                if(emails.contains(email.getText().toString())){
+                    Toast.makeText(getApplicationContext(),"이미 추가된 친구입니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 imgs.add(bmRotated);
                 emails.add(email.getText().toString());
                 adapter = new JoinAdapter(getApplicationContext(), imgs);

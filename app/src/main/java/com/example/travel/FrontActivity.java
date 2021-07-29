@@ -37,7 +37,7 @@ public class FrontActivity extends Fragment {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getnumber.getText().toString()=="1"){
+                if(getnumber.getText().toString().equals("1")){
                     ArrayList<String> blank = new ArrayList<>();
                     blank.add(email);
                     Intent intent = new Intent(getActivity(), MapActivity.class);

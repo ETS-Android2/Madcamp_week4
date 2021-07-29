@@ -2,12 +2,14 @@ package com.example.travel.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +18,8 @@ import com.example.travel.R;
 import com.example.travel.items.Placeinfo;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ViewHolder> {
     static Context context;
@@ -43,6 +47,10 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull JoinAdapter.ViewHolder holder, int position) {
+        if(mList.get(position).equals("")){
+            Glide.with(context).load(R.drawable.whale).into(holder.pic);
+
+        }
         Glide.with(context).load(mList.get(position)).into(holder.pic);
 
     }
@@ -54,7 +62,7 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView pic;
+        CircleImageView pic;
 
         public ViewHolder(View itemView, OnItemClickListener listener){
             super(itemView);
