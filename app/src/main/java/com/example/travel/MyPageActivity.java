@@ -177,6 +177,8 @@ public class MyPageActivity extends Fragment {
                 if (response.code() == 200) {
                     Userinfo result = response.body();
 
+//                    tvFriends.setText(result.getFriends().size());
+
                     if(!result.getImage().equals("")){
                         // 프로필 사진 불러오기
                         HashMap<String, String> mapPic = new HashMap<>();
@@ -299,6 +301,7 @@ public class MyPageActivity extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+//        Log.d("kyung", String.valueOf(resultCode));
         if (requestCode == REQUEST_CODE_CHOOSE) {
             try {
                 if(Matisse.obtainResult(data) != null){
@@ -334,15 +337,18 @@ public class MyPageActivity extends Fragment {
 
             //사진 orientation 저장하기
             ExifInterface exif = null;
+//            Log.d("kyung0", String.valueOf(uris.size()));
+//            Log.d("kyung1", paths.get(i));
             try {
                 exif = new ExifInterface(paths.get(i));
+//                Log.d("kyung", paths.get(i));
             } catch (IOException e) {
                 e.printStackTrace();
             }
             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                     ExifInterface.ORIENTATION_UNDEFINED);
 
-            Log.d("kyung0", String.valueOf(orientation));
+//            Log.d("kyung0", String.valueOf(orientation));
 
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
             String filename = MainActivity.useremail+"_"+orientation+"_.jpg";
