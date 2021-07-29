@@ -13,17 +13,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-
-    <ViewFlipper
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/vf">
+        android:id="@+id/container"/>
 
-        <include android:id="@+id/dashboard" layout="@layout/activity_front" />
-        <include android:id="@+id/lookaround" layout="@layout/activity_other_path"/>
-        <include android:id="@+id/my" layout="@layout/activity_my_page" />
+<!--    <ViewFlipper-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/vf">-->
 
-    </ViewFlipper>
+<!--        <include android:id="@+id/dashboard" layout="@layout/activity_front" />-->
+<!--        <include android:id="@+id/lookaround" layout="@layout/activity_other_path"/>-->
+<!--        <include android:id="@+id/my" layout="@layout/activity_my_page" />-->
+
+<!--    </ViewFlipper>-->
 
 </RelativeLayout>
 

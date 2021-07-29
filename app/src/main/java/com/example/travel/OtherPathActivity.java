@@ -1,6 +1,9 @@
 package com.example.travel;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,7 +12,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.travel.Adapter.ExpandableAdapter;
@@ -17,6 +24,8 @@ import com.example.travel.items.ExpandableItem;
 import com.example.travel.items.Pathinfo;
 import com.example.travel.items.PlaceItem;
 import com.example.travel.items.Placeinfo;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +37,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class OtherPathActivity extends AppCompatActivity {
+public class OtherPathActivity extends Fragment {
     private RecyclerView mRecyclerView;
     //    public ArrayList<ExpandableItem> data;
     private EditText editText;
@@ -37,14 +46,15 @@ public class OtherPathActivity extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = "http:192.249.18.176";
 
+    @Nullable
+    @org.jetbrains.annotations.Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_other_path);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_other_path, container, false);
 
-        editText = findViewById(R.id.editSearch);
-        mRecyclerView = findViewById(R.id.expandableRecyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        editText = view.findViewById(R.id.editSearch);
+        mRecyclerView = view.findViewById(R.id.expandableRecyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 //        data = new ArrayList<>();
 
         // db에서 데이터들 가져오기
@@ -144,22 +154,29 @@ public class OtherPathActivity extends AppCompatActivity {
                         }
                     });
                 }else if(response.code()==404){
-                    Toast.makeText(OtherPathActivity.this,"No Courses", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"No Courses", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Pathinfo>> call, Throwable t){
                 Log.d("failed", "connection "+call);
-                Toast.makeText(OtherPathActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
-        overridePendingTransition(0, R.anim.anim_slide_out_right_fast);
+//        overridePendingTransition(0, R.anim.anim_slide_out_right_fast);
     }
 }
