@@ -9,8 +9,6 @@
     android:orientation="vertical"
     tools:context=".FrontActivity">
 
-
-
     <EditText
         android:id="@+id/editTitle"
         android:layout_width="match_parent"
@@ -31,7 +29,7 @@
         android:layout_gravity="center_vertical|center"
         android:gravity="center_vertical"/>
 
-    <EditText
+    <TextView
         android:id="@+id/editNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,6 +38,38 @@
         android:textSize="20sp"
         android:layout_gravity="center_vertical|center"
         android:gravity="center_vertical"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/button_minus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="30dp"
+            android:text="ㅡ"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/textView_num"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/button_minus"
+            android:gravity="center"
+            android:text="1"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/button_plus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_toRightOf="@id/textView_num"
+            android:text="+" />
+
+    </RelativeLayout>
+
 
     <Button
         android:id="@+id/placeBtn"

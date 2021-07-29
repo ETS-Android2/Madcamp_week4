@@ -71,7 +71,6 @@ public interface RetrofitInterface {
     @GET("/search/getAll")
     Call<List<Pathinfo>> getAllPath();
 
-
     @POST("/user/userInfo")
     Call<Userinfo> executeSearch(@Body HashMap<String, String> map);
 
