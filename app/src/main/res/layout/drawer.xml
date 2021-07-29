@@ -12,10 +12,6 @@
         />
 
 
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="240dp"

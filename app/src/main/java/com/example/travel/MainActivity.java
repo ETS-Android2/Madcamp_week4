@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
                 createItemFor(POS_MAP).setChecked(true),
                 createItemFor(POS_SEARCH),
                 createItemFor(POS_MY_PROFILE),
-                new SpaceItem(400),
+                new SpaceItem(300),
                 createItemFor(POS_LOGOUT)
 
         ));

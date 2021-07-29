@@ -119,7 +119,7 @@ public class MainActivity_ImageChange extends AppCompatActivity implements Drawe
                 createItemFor(POS_MAP),
                 createItemFor(POS_SEARCH),
                 createItemFor(POS_MY_PROFILE).setChecked(true),
-                new SpaceItem(260),
+                new SpaceItem(300),
                 createItemFor(POS_LOGOUT)
 
                 ));
