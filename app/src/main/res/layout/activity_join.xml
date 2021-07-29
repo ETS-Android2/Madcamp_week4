@@ -7,13 +7,7 @@
     android:layout_margin="10dp"
     tools:context=".JoinActivity">
 
-    <ImageView
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center_vertical"
-        android:id="@+id/highfive"
-        android:visibility="invisible"/>
+
 
     <TextView
         android:layout_width="match_parent"
@@ -31,6 +25,14 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center_vertical"
         android:id="@+id/circlegif"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/highfive"
         android:visibility="invisible"/>
 
     <de.hdodenhof.circleimageview.CircleImageView

@@ -119,7 +119,7 @@ public class MainActivity_ImageChange extends AppCompatActivity implements Drawe
                 createItemFor(POS_MAP),
                 createItemFor(POS_SEARCH),
                 createItemFor(POS_MY_PROFILE).setChecked(true),
-                new SpaceItem(260),
+                new SpaceItem(300),
                 createItemFor(POS_LOGOUT)
 
                 ));
@@ -345,9 +345,11 @@ public class MainActivity_ImageChange extends AppCompatActivity implements Drawe
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.code()==200){
+
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
                         overridePendingTransition(0,R.anim.anim_slide_out_bottom);
+
                         finish();
                     }
                     else if(response.code()==400){

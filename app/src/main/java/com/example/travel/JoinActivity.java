@@ -68,6 +68,7 @@ public class JoinActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
 
     private String place, Img ;
+    private Integer number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,7 @@ public class JoinActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         place = intent.getStringExtra("place");
+        number = intent.getIntExtra("number", 0);
 
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -102,6 +104,85 @@ public class JoinActivity extends AppCompatActivity {
                 .build();
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("email", useremail);
+
+        Call<Userinfo> call = retrofitInterface.executeSearch(map);
+
+        call.enqueue(new Callback<Userinfo>() {
+                         @Override
+                         public void onResponse(Call<Userinfo> call, Response<Userinfo> response) {
+
+                             if (response.code() == 200) {
+                                 Userinfo user = response.body();
+
+                                 Img = user.getImage();
+
+                                 // mImageTitles.get(position) 사진 db에서 불러와서 띄우기
+                                 HashMap<String, String> map = new HashMap<>();
+
+                                 map.put("name", Img);
+                                 Call<ResponseBody> callImage = retrofitInterface.getImage(map);
+
+                                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                 StrictMode.setThreadPolicy(policy);
+                                 callImage.enqueue(new Callback<ResponseBody>() {
+                                     @Override
+                                     public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                                         if (response.code() == 200) {
+                                             InputStream is = response.body().byteStream();
+                                             Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+                                             // filename에서 orientation 가져오기
+                                             String[] tmpName = user.getImage().split("_");
+                                             //                    Log.d("kyung", String.valueOf(tmpName));
+                                             //                    Log.d("kyung", tmpName[4]);
+
+                                             // 사진 회전 처리
+                                             bmRotated = rotateBitmap(bitmap, Integer.parseInt(tmpName[1]));
+                                             //                    images.add(position, bitmap);
+                                             if(Img.equals("")){
+                                                 Drawable drawable = getResources().getDrawable(R.drawable.followers);
+                                                 bmRotated = ((BitmapDrawable)drawable).getBitmap();
+                                             }
+                                             imgs.add(bmRotated);
+
+                                             adapter = new JoinAdapter(getApplicationContext(), imgs);
+                                             selected.setAdapter(adapter);
+
+                                             //                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                             //                    bmRotated.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                                             //                    byte[] byteArray = stream.toByteArray();
+
+                                             //                    imageByteArray.add(position, byteArray);
+                                         }
+                                     }
+
+
+                                     @Override
+                                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                         Log.d("bitmapfail", "String.valueOf(bitmap)");
+                                         Toast.makeText(JoinActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                                     }
+                                 });
+                                 //                            Glide.with(getApplicationContext()).load(user. getImage()).into(prof);
+
+
+                             } else if (response.code() == 400) {
+                                 Toast.makeText(JoinActivity.this,
+                                         "Already registered", Toast.LENGTH_LONG).show();
+                             }
+
+                         }
+
+                         @Override
+                         public void onFailure(Call<Userinfo> call, Throwable t) {
+                             Toast.makeText(JoinActivity.this, t.getMessage(),
+                                     Toast.LENGTH_LONG).show();
+                         }
+                     });
 
         //editText.getText().toString()으로 친구 찾기
         search.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +200,11 @@ public class JoinActivity extends AppCompatActivity {
 
                         if (response.code() == 200) {
                             Userinfo user = response.body();
+
+                            if(user.getEmail().equals(useremail)){
+                                Toast.makeText(getApplicationContext(), "본인을 추가할 수는 없습니다.", Toast.LENGTH_SHORT);
+                                return;
+                            }
                             name.setText(user.getName());
                             email.setText(user.getEmail());
                             circlegif.setVisibility(View.VISIBLE);
@@ -200,6 +286,11 @@ public class JoinActivity extends AppCompatActivity {
 //                item.setImageBitmap(prof.getDrawingCache());
                 if(emails.contains(email.getText().toString())){
                     Toast.makeText(getApplicationContext(),"이미 추가된 친구입니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(emails.size()==number){
+                    Toast.makeText(getApplicationContext(),"더이상 추가할 수 없습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(Img.equals("")){

@@ -85,6 +85,7 @@ public class FrontActivity extends Fragment {
                 else{
                     Intent intent = new Intent(getActivity(), JoinActivity.class);
                     intent.putExtra("place", getplace.getText().toString());
+                    intent.putExtra("number", tmpNum);
                     startActivity(intent);
                     getActivity().overridePendingTransition(0,0);
 
