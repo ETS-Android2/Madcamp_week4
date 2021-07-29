@@ -35,6 +35,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PathAdapter extends RecyclerView.Adapter<PathAdapter.ViewHolder> {
     static Context context;
@@ -116,39 +117,49 @@ public class PathAdapter extends RecyclerView.Adapter<PathAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull PathAdapter.ViewHolder holder, int position) {
         holder.title.setText(mList.get(position).getPathtitle());
 
-//        if(!mList.get(position).getImage().equals("")){
-//            HashMap<String, String> map = new HashMap<>();
-//
-//            map.put("name", mList.get(position).getImage());
-//            Call<ResponseBody> callImage = retrofitInterface.getImage(map);
-//
-//            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//            StrictMode.setThreadPolicy(policy);
-//            callImage.enqueue(new Callback<ResponseBody>(){
-//                @Override
-//                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-//                    InputStream is = response.body().byteStream();
-//                    Bitmap bitmap = BitmapFactory.decodeStream(is);
-//
-//                    // filename에서 orientation 가져오기
-//                    String[] tmpName = mList.get(position).getImage().split("_");
-//
-//                    // 사진 회전 처리
-//                    Bitmap bmRotated = rotateBitmap(bitmap, Integer.parseInt(tmpName[2]));
-//                    holder.panoramaImageView.setImageBitmap(bmRotated);
-//                    gyroscopeObserver.register(context);
-//                }
-//
-//                @Override
-//                public void onFailure(Call<ResponseBody> call, Throwable t){
-//                    Log.d("bitmapfail", "String.valueOf(bitmap)");
-//                    Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-//                }
-//            });
-//        }
-//        else{
-//            gyroscopeObserver.register(context);
-//        }
+        String imageName = mList.get(position).getImage();
+//        Log.d("kyung", imageName);
+        if(!mList.get(position).getImage().equals("")){
+
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+            HashMap<String, String> map = new HashMap<>();
+
+            map.put("name", imageName);
+            Call<ResponseBody> callImage = retrofitInterface.getImage(map);
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            callImage.enqueue(new Callback<ResponseBody>(){
+                @Override
+                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                    InputStream is = response.body().byteStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+                    // filename에서 orientation 가져오기
+                    String[] tmpName = mList.get(position).getImage().split("_");
+
+                    // 사진 회전 처리
+                    Bitmap bmRotated = rotateBitmap(bitmap, Integer.parseInt(tmpName[2]));
+                    holder.panoramaImageView.setImageBitmap(bmRotated);
+                    gyroscopeObserver.register(context);
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t){
+                    Log.d("bitmapfail", "String.valueOf(bitmap)");
+                    Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        else{
+            gyroscopeObserver.register(context);
+        }
 
         gyroscopeObserver.register(context);
     }

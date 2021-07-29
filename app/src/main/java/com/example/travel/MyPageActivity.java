@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
@@ -50,6 +49,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
@@ -65,14 +65,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyPageActivity extends Fragment {
 
     private static final int RESULT_OK = 1;
+    private static final int REQUEST_CODE_CHOOSE = 23;
+
     private String username = MainActivity.username;
     private String useremail = MainActivity.useremail;
 
     private ArrayList<PathItem> pathlist=new ArrayList<>();
     private ArrayList<Placeinfo> plist=new ArrayList<>();
     private PathAdapter pathAdapter;
-
-    private static final int REQUEST_CODE_CHOOSE = 23;
 
     TextView tvPosts, tvFriends , displayName;
     EditText description;
@@ -179,8 +179,6 @@ public class MyPageActivity extends Fragment {
             public void onResponse(Call<Userinfo> call, Response<Userinfo> response) {
                 if (response.code() == 200) {
                     Userinfo result = response.body();
-//                    Log.d("kyung0", result.getEmail());
-//                    Log.d("kyung1", result.getImage());
 
                     if(!result.getImage().equals("")){
                         // 프로필 사진 불러오기
@@ -281,19 +279,11 @@ public class MyPageActivity extends Fragment {
             }
         });
 
-
         return view;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
-
     private void startAction(View v) {
-        Matisse.from(MyPageActivity.this)
+        Matisse.from(this)
                 .choose(MimeType.ofImage(), false)
                 .countable(true)
                 .capture(true)
@@ -321,9 +311,12 @@ public class MyPageActivity extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_CHOOSE) {
             try {
-                saveImage(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
+                if(Matisse.obtainResult(data) != null){
+                    saveImage(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
+                }
+//                saveImage(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -345,44 +338,45 @@ public class MyPageActivity extends Fragment {
     }
 
     // 사용자의 프로필 사진을 db에 저장하기
-    private void saveImage(List <Uri> uris, List<String> paths) throws IOException {
+    public void saveImage(List<Uri> uris, List<String> paths) throws IOException {
         MultipartBody.Part[] surveyImagesParts = new MultipartBody.Part[uris.size()];
+        for(int i=0;i<uris.size(); i++){
+            InputStream iStream = requireActivity().getContentResolver().openInputStream(uris.get(i));
+            byte[] imageBytes = getBytes(iStream);
 
-//        for(int i=0;i<uris.size(); i++){
-//            InputStream iStream = getContextResolver().openInputStream(uris.get(i));
-//            byte[] imageBytes = getBytes(iStream);
-//
-//            //사진 orientation 저장하기
-//            ExifInterface exif = null;
-//            try {
-//                exif = new ExifInterface(paths.get(i));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-//                    ExifInterface.ORIENTATION_UNDEFINED);
-//
-//            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
-//            String filename = MainActivity.useremail+"_"+orientation+"_.jpg";
-//            surveyImagesParts[i] = MultipartBody.Part.createFormData("image", filename, requestFile);
-//
-//            Glide.with(MyPageActivity.this).load(uris.get(i)).into(profileImg);
-//        }
-//
-//        Call<Void> call = retrofitInterface.uploadUserPic(surveyImagesParts);
-//
-//        call.enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-//                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT)
-//                        .show();
-//            }
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT)
-//                        .show();
-//            }
-//        });
+            //사진 orientation 저장하기
+            ExifInterface exif = null;
+            try {
+                exif = new ExifInterface(paths.get(i));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED);
+
+            Log.d("kyung0", String.valueOf(orientation));
+
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
+            String filename = MainActivity.useremail+"_"+orientation+"_.jpg";
+            surveyImagesParts[i] = MultipartBody.Part.createFormData("image", filename, requestFile);
+
+            Glide.with(MyPageActivity.this).load(uris.get(i)).into(profileImg);
+        }
+
+        Call<Void> call = retrofitInterface.uploadUserPic(surveyImagesParts);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT)
+                        .show();
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
     }
 
     // 사진 회전 처리 함수
