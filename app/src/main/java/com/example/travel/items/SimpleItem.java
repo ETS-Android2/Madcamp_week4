@@ -67,7 +67,7 @@ public class SimpleItem extends DrawerItem<SimpleItem.ViewHolder>{
     }
 
     public SimpleItem withSelectedTextTint(int SelectedItemTextTint){
-        this.selectedItemTextTint = selectedItemTextTint;
+        this.selectedItemTextTint = SelectedItemTextTint;
         return this;
     }
     public SimpleItem withIconTint(int normalItemIconTint){

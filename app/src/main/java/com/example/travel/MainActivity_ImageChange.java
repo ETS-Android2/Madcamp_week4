@@ -1,82 +1,33 @@
 package com.example.travel;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.widget.Toast;
+import android.widget.ViewFlipper;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.res.TypedArray;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.media.ExifInterface;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.View;
-import android.widget.Button;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.Toast;
-import android.widget.ViewFlipper;
-
-import androidx.appcompat.widget.Toolbar;
-
-import com.bumptech.glide.Glide;
 import com.example.travel.Adapter.DrawerAdapter;
 import com.example.travel.items.DrawerItem;
-import com.example.travel.items.OnSwipeTouchListener;
 import com.example.travel.items.SimpleItem;
 import com.example.travel.items.SpaceItem;
-import com.example.travel.items.Userinfo;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.john.waveview.WaveView;
-import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
-import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
-import com.yarolegovich.slidingrootnav.SlidingRootNavLayout;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
-import co.dift.ui.SwipeToAction;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
+import java.util.Arrays;
+
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
+public class MainActivity_ImageChange extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
 
     public static String username, useremail;
 //    private SeekBar seekBar;
@@ -106,19 +57,16 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
     ViewFlipper vf;
     private FragmentManager fragmentManager;
+
     private Retrofit retrofit;
-
     private RetrofitInterface retrofitInterface;
-    public static String BASE_URL = "http://192.249.18.176:80";
-
-    public static MainActivity mainActivity;
+    private String BASE_URL = LoginActivity.BASE_URL;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mainActivity = MainActivity.this;
 
         setContentView(R.layout.activity_main);
 
@@ -126,17 +74,13 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             getSupportActionBar().hide();
         }
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        retrofitInterface = retrofit.create(RetrofitInterface.class);
-
-
+//        initialize(savedInstanceState);
+//        initializeLogic();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+//        vf = findViewById(R.id.vf);
 
 
         slidingRootNav = new SlidingRootNavBuilder(this)
@@ -156,13 +100,13 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(POS_CLOSE),
-                createItemFor(POS_MAP).setChecked(true),
+                createItemFor(POS_MAP),
                 createItemFor(POS_SEARCH),
-                createItemFor(POS_MY_PROFILE),
+                createItemFor(POS_MY_PROFILE).setChecked(true),
                 new SpaceItem(260),
                 createItemFor(POS_LOGOUT)
 
-        ));
+                ));
 
         adapter.setListener(this);
 
@@ -171,13 +115,12 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         list.setLayoutManager(new LinearLayoutManager(this));
         list.setAdapter(adapter);
 
-        adapter.setSelected(POS_MAP);
+        adapter.setSelected(POS_MY_PROFILE);
 
 
 
         Intent intent = getIntent();
         username = intent.getStringExtra("name");
-        Log.d("main" , username);
         useremail = intent.getStringExtra("email");
 
 
@@ -376,32 +319,10 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             transaction.replace(R.id.container, new MyPageActivity());
         }
         else if(position==POS_LOGOUT){
-            HashMap<String, String> map = new HashMap<>();
 
-            map.put("email", useremail);
-
-            Call<Void> call = retrofitInterface.executeLogout(map);
-
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.code()==200){
-                        finish();
-                    }
-                    else if(response.code()==400){
-                        Toast.makeText(getApplicationContext(), "계정에 이상이 있습니다.", Toast.LENGTH_SHORT);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT);
-                }
-            });
         }
 
         slidingRootNav.closeMenu();
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 }

@@ -33,12 +33,16 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
 
     CustomCalendar customCalendar;
     Calendar calendar;
-    HashMap<Integer,Object> dateHashMap;
+    HashMap<Integer,Object> dateHashMap =new HashMap<>();
     ArrayList<String> friends = new ArrayList<>();
 
     ArrayList<Integer> July = new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)); //31
     ArrayList<Integer> August = new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)); //31
     ArrayList<Integer> September = new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)); //30
+
+    int [] july =      {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    int [] august =    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    int [] september = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
@@ -58,50 +62,10 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
-        //for문 돌면서 친구들 date list 하나씩 받아옴
-        for(int i=0;i<friends.size();i++) {
-
-            HashMap<String, String> map = new HashMap<>();
-            map.put("email", friends.get(i));
-            Call<Dateinfo> call = retrofitInterface.getFriendDays(map);
-
-            call.enqueue(new Callback<Dateinfo>() {
-                @Override
-                public void onResponse(Call<Dateinfo> call, Response<Dateinfo> response) {
-
-                    if (response.code() == 200) {
-                        Dateinfo result = response.body();
-//                        for(int j=0;j<result.getDays().size();j++) {
-//                            Log.d("chk", result.getDays().get(j));
-//                        }
-                        ArrayList<String> days = new ArrayList<String>();
-                        days = result.getDays();
-
-                        for(int j=0;j<days.size();j++){
-                            String [] parsed = days.get(j).split("/");
-                            if(parsed[0] == "7"){
-                                July.add(Integer.parseInt(parsed[1]), 1);
-                            }else if(parsed[0] =="8"){
-                                August.add(Integer.parseInt(parsed[1]), 1);
-                            }else if(parsed[0] == "9"){
-                                September.add(Integer.parseInt(parsed[1]), 1);
-                            }
-                        }
-
-                    } else if (response.code() == 404) {
-
-                    }
-
-                }
-
-                @Override
-                public void onFailure(Call<Dateinfo> call, Throwable t) {
-
-                }
-            });
-        }
-
         customCalendar = findViewById(R.id.join_calendar);
+
+        customCalendar.setOnNavigationButtonClickedListener(CustomCalendar.PREVIOUS, this);
+        customCalendar.setOnNavigationButtonClickedListener(CustomCalendar.NEXT, this);
 
         HashMap<Object, Property> descHashMap = new HashMap<>();
 
@@ -126,10 +90,92 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
         descHashMap.put("absent" , absentProperty); //핑크색
 
         customCalendar.setMapDescToProp(descHashMap);
-        dateHashMap = new HashMap<>();
+        //calendar = Calendar.getInstance(); //현재 날짜가 속한 달
 
-        calendar = Calendar.getInstance(); //현재 날짜가 속한 달
-        customCalendar.setDate(calendar,dateHashMap);
+
+        //for문 돌면서 친구들 date list 하나씩 받아옴
+        for(int i=0;i<friends.size();i++) {
+            int j = i;
+            HashMap<String, String> map = new HashMap<>();
+            map.put("email", friends.get(i));
+            Call<Dateinfo> call = retrofitInterface.getFriendDays(map);
+
+            call.enqueue(new Callback<Dateinfo>() {
+                @Override
+                public void onResponse(Call<Dateinfo> call, Response<Dateinfo> response) {
+
+                    if (response.code() == 200) {
+                        Dateinfo result = response.body();
+//                        for(int j=0;j<result.getDays().size();j++) {
+//                            Log.d("days", result.getDays().get(j));
+//                        }
+                        ArrayList<String> days = new ArrayList<String>();
+                        days = result.getDays();
+
+                        for(int j=0;j<result.getDays().size();j++) {
+//                            Log.d("days", days.get(j));
+                        }
+
+                        for(int j=0;j<days.size();j++){
+                            String [] parsed = days.get(j).split("/");
+                            for(int i =0;i<2;i++){
+//                                Log.d("parse" , parsed[i]);
+                            }
+                            if(parsed[0].equals("7")){
+                                July.add(Integer.parseInt(parsed[1]), 1);
+                                july[Integer.parseInt(parsed[1])-1] = 1;
+                            }else if(parsed[0].equals("8")){
+                                August.add(Integer.parseInt(parsed[1]), 1);
+                                august[Integer.parseInt(parsed[1])-1] = 1;
+                            }else if(parsed[0].equals("9")){
+                                September.add(Integer.parseInt(parsed[1]), 1);
+                                september[Integer.parseInt(parsed[1])-1] = 1;
+                            }
+                        }
+//                        for(int i=1;i<=31;i++){
+//                            Log.d("july" , String.valueOf(july[i-1]));
+//                        }
+
+                        calendar = Calendar.getInstance(); //현재 날짜가 속한 달
+
+                        if(j==friends.size()-1){
+
+                            for(int i=0 ; i<31 ; i++){
+                                if(july[i] != 1){
+                                    dateHashMap.put(i+1 , "current");
+//                                    Log.d("check", String.valueOf(i+1));
+                                }
+                            }
+
+                            customCalendar.setDate(calendar,dateHashMap);
+                        }
+
+
+                    } else if (response.code() == 404) {
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<Dateinfo> call, Throwable t) {
+
+                }
+            });
+        }
+
+
+
+
+        //dateHashMap = new HashMap<>();
+
+//        for(int i=0 ; i<31 ; i++){
+//            if(july[i] != 1){
+//                dateHashMap.put(i+1 , "current");
+//            }
+//        }
+
+
 
 //        customCalendar.setOnDateSelectedListener(new OnDateSelectedListener() {
 //            @Override
@@ -141,9 +187,6 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
 //
 //            }
 //        });
-
-        customCalendar.setOnNavigationButtonClickedListener(CustomCalendar.PREVIOUS, this);
-        customCalendar.setOnNavigationButtonClickedListener(CustomCalendar.NEXT, this);
     }
     @Override
     public Map<Integer, Object>[] onNavigationButtonClicked(int whichButton, Calendar newMonth) {
@@ -151,25 +194,40 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
         switch(newMonth.get(Calendar.MONTH)) {
             case Calendar.AUGUST:
                 arr[0] = new HashMap<>();
-                for(int i=0;i<August.size();i++){ // i = 0~30
-                    if(August.get(i+1) == 0){
-                        arr[0].put( i+1 , "current");
+//                for(int i=0;i<August.size();i++){ // i = 0~30
+//                    if(August.get(i) == 0){
+//                        arr[0].put( i+1 , "current");
+//                    }
+//                }
+                for (int i= 0; i<=30 ;i++){
+                    if(august[i] != 1){
+                        arr[0].put(i+1 , "current");
                     }
                 }
                 break;
             case Calendar.SEPTEMBER:
                 arr[0] = new HashMap<>();
-                for(int i=0;i<September.size();i++){ // i = 0~30
-                    if(September.get(i+1) == 0){
-                        arr[0].put( i+1 , "current");
+//                for(int i=0;i<September.size();i++){ // i = 0~30
+//                    if(September.get(i) == 0){
+//                        arr[0].put( i+1 , "current");
+//                    }
+//                }
+                for (int i= 0; i<=29 ;i++){
+                    if(september[i] != 1){
+                        arr[0].put(i+1 , "current");
                     }
                 }
                 break;
             case Calendar.JULY:
                 arr[0] = new HashMap<>();
-                for(int i=0;i<July.size();i++){ // i = 0~30
-                    if(July.get(i+1) == 0){
-                        arr[0].put( i+1 , "current");
+//                for(int i=0;i<July.size();i++){ // i = 0~30
+//                    if(July.get(i) == 0){
+//                        arr[0].put( i+1 , "current");
+//                    }
+//                }
+                for (int i= 0; i<=30 ;i++){
+                    if(july[i] != 1){
+                        arr[0].put(i+1, "current");
                     }
                 }
                 break;

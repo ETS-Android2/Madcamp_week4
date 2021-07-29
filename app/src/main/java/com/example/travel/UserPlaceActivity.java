@@ -16,10 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.travel.Adapter.PathAdapter;
 import com.example.travel.Adapter.PlaceAdapter;
-import com.example.travel.items.Pathinfo;
 import com.example.travel.items.Placeinfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -40,7 +37,6 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -243,6 +239,14 @@ public class UserPlaceActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
                 Toast.makeText(UserPlaceActivity.this, "Success", Toast.LENGTH_SHORT)
                         .show();
+
+                // 원래의 MainActivity를 끝내고 새로운 MainActivity_ImageChange 실행
+                Intent intent = new Intent(UserPlaceActivity.this, MainActivity_ImageChange.class);
+                startActivity(intent);
+                MainActivity mainActivity = MainActivity.mainActivity;
+                mainActivity.finish();
+                finish();
+
             }
             @Override
             public void onFailure(Call<Void> call, Throwable t) {

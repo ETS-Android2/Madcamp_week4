@@ -57,7 +57,6 @@
             app:layout_constraintTop_toBottomOf="@+id/tvFriends" />
 
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>
