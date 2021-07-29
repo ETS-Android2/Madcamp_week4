@@ -36,7 +36,8 @@
         <activity android:name=".UserPlaceActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".PlaceDetailActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".ImageFullActivity" />
 
         <meta-data

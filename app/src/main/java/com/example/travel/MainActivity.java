@@ -14,12 +14,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -40,6 +44,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -52,6 +57,7 @@ import com.example.travel.items.OnSwipeTouchListener;
 import com.example.travel.items.SimpleItem;
 import com.example.travel.items.SpaceItem;
 import com.example.travel.items.Userinfo;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.john.waveview.WaveView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
@@ -65,6 +71,8 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import co.dift.ui.SwipeToAction;
+import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -88,15 +96,19 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 //    private RecyclerView recyclerView;
 //    private MainAdapter mainAdapter;
 
+    private CircleImageView userpic;
+    private TextView name;
     private Intent classs = new Intent();
     private Intent links = new Intent();
+    Bitmap bmRotated;
+
 
     private static final int POS_CLOSE=0;
-    private static final int POS_MAP=1;
-    private static final int POS_SEARCH=2;
-    private static final int POS_MY_PROFILE=3;
+    private static final int POS_MAP=0;
+    private static final int POS_SEARCH=1;
+    private static final int POS_MY_PROFILE=2;
 
-    private static final int POS_LOGOUT=5;
+    private static final int POS_LOGOUT=4;
 
     private String[] screenTitles;
     private Drawable[] screenIcons;
@@ -155,11 +167,10 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         screenTitles = loadScreenTitles();
 
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
-                createItemFor(POS_CLOSE),
                 createItemFor(POS_MAP).setChecked(true),
                 createItemFor(POS_SEARCH),
                 createItemFor(POS_MY_PROFILE),
-                new SpaceItem(260),
+                new SpaceItem(400),
                 createItemFor(POS_LOGOUT)
 
         ));
@@ -333,8 +344,8 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
     private DrawerItem createItemFor(int position){
         return new SimpleItem(screenIcons[position], screenTitles[position])
-                .withIconTint(R.color.colorPrimary)
-                .withTextTint(R.color.black)
+                .withIconTint(R.color.white)
+                .withTextTint(R.color.white)
                 .withSelectedIconTint(R.color.colorPrimary)
                 .withSelectedTextTint(R.color.colorPrimary);
 
@@ -386,6 +397,9 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.code()==200){
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(0,R.anim.anim_slide_out_bottom);
                         finish();
                     }
                     else if(response.code()==400){
@@ -403,5 +417,50 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         slidingRootNav.closeMenu();
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    // 사진 회전 처리 함수
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                return bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return bmRotated;
+        }
+        catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
