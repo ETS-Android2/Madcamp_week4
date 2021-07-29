@@ -1,6 +1,9 @@
 package com.example.travel;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,12 +40,15 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
@@ -55,7 +61,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MyPageActivity extends AppCompatActivity {
+public class MyPageActivity extends Fragment {
+
+    private static final int RESULT_OK = 1;
+    private static final int REQUEST_CODE_CHOOSE = 23;
 
     private String username = MainActivity.username;
     private String useremail = MainActivity.useremail;
@@ -63,8 +72,6 @@ public class MyPageActivity extends AppCompatActivity {
     private ArrayList<PathItem> pathlist=new ArrayList<>();
     private ArrayList<Placeinfo> plist=new ArrayList<>();
     private PathAdapter pathAdapter;
-
-    private static final int REQUEST_CODE_CHOOSE = 23;
 
     TextView tvPosts, tvFriends , displayName;
     EditText description;
@@ -78,20 +85,20 @@ public class MyPageActivity extends AppCompatActivity {
     private String placetitle, placeregion;
     private Button imagePickBtn, imageDeleteBtn;
 
+    @Nullable
+    @org.jetbrains.annotations.Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_page);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_my_page, container, false);
+        tvPosts = view.findViewById(R.id.tvPosts);
+        tvFriends = view.findViewById(R.id.tvFriends);
+        displayName = view.findViewById(R.id.display_name);
+        description = view.findViewById(R.id.description);
+        profileImg = view.findViewById(R.id.profile_image);
+        recyclerView = view.findViewById(R.id.MyPageRecycler);
 
-        tvPosts = findViewById(R.id.tvPosts);
-        tvFriends = findViewById(R.id.tvFriends);
-        displayName = findViewById(R.id.display_name);
-        description = findViewById(R.id.description);
-        profileImg = findViewById(R.id.profile_image);
-        recyclerView = findViewById(R.id.MyPageRecycler);
-
-        imagePickBtn = findViewById(R.id.zhihu);
-        imageDeleteBtn = findViewById(R.id.deletePic);
+        imagePickBtn = view.findViewById(R.id.zhihu);
+        imageDeleteBtn = view.findViewById(R.id.deletePic);
 
         displayName.setText(username);
 
@@ -102,7 +109,7 @@ public class MyPageActivity extends AppCompatActivity {
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         // pathList recyclerView 설정
         HashMap<String, String> map = new HashMap<>();
@@ -126,7 +133,7 @@ public class MyPageActivity extends AppCompatActivity {
 
                     tvPosts.setText(String.valueOf(pathlist.size()));
 
-                    pathAdapter = new PathAdapter(getApplicationContext(), pathlist);
+                    pathAdapter = new PathAdapter(getContext(), pathlist);
                     recyclerView.setAdapter(pathAdapter);
 
                     pathAdapter.setOnItemClickListener(new PathAdapter.OnItemClickListener() {
@@ -135,25 +142,25 @@ public class MyPageActivity extends AppCompatActivity {
                             placetitle =pathlist.get(position).getPathtitle();
                             placeregion = resultList.get(position).getRegion();
                             plist = resultList.get(position).getLocations();
-                            Intent intent = new Intent(getApplicationContext(), UserPlaceActivity.class);
+                            Intent intent = new Intent(getContext(), UserPlaceActivity.class);
                             intent.putExtra("title", placetitle);
                             intent.putExtra("region", placeregion);
                             intent.putExtra("list", plist);
                             startActivity(intent);
-                            overridePendingTransition( R.anim.anim_slide_in_right_fast, 0);
+//                            overridePendingTransition( R.anim.anim_slide_in_right_fast, 0);
 
                         }
                     });
                 }
                 else if (response.code() == 400) {
                     Log.d("look", "400");
-                    Toast.makeText(MyPageActivity.this, "Wrong Credentials", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Wrong Credentials", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Pathinfo>> call, Throwable t) {
-                Toast.makeText(MyPageActivity.this, t.getMessage(),
+                Toast.makeText(getContext(), t.getMessage(),
                         Toast.LENGTH_LONG).show();
             }
 
@@ -169,8 +176,6 @@ public class MyPageActivity extends AppCompatActivity {
             public void onResponse(Call<Userinfo> call, Response<Userinfo> response) {
                 if (response.code() == 200) {
                     Userinfo result = response.body();
-//                    Log.d("kyung0", result.getEmail());
-//                    Log.d("kyung1", result.getImage());
 
                     if(!result.getImage().equals("")){
                         // 프로필 사진 불러오기
@@ -202,7 +207,7 @@ public class MyPageActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t){
                                 Log.d("bitmapfail", "String.valueOf(bitmap)");
-                                Toast.makeText(MyPageActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -214,7 +219,7 @@ public class MyPageActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Userinfo> call, Throwable t) {
-                Toast.makeText(MyPageActivity.this, t.getMessage(),
+                Toast.makeText(getContext(), t.getMessage(),
                         Toast.LENGTH_LONG).show();
             }
         });
@@ -238,7 +243,7 @@ public class MyPageActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t){
-                        Toast.makeText(MyPageActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -249,22 +254,24 @@ public class MyPageActivity extends AppCompatActivity {
             @SuppressLint("CheckResult")
             @Override
             public void onClick(View v){
-                RxPermissions rxPermissions = new RxPermissions(MyPageActivity.this);
+                RxPermissions rxPermissions = new RxPermissions(getActivity());
                 rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .subscribe(aBoolean -> {
                             if (aBoolean) {
                                 startAction(v);
                             } else {
-                                Toast.makeText(MyPageActivity.this, R.string.permission_request_denied, Toast.LENGTH_LONG)
+                                Toast.makeText(getContext(), R.string.permission_request_denied, Toast.LENGTH_LONG)
                                         .show();
                             }
                         }, Throwable::printStackTrace);
             }
         });
+
+        return view;
     }
 
     private void startAction(View v) {
-        Matisse.from(MyPageActivity.this)
+        Matisse.from(this)
                 .choose(MimeType.ofImage(), false)
                 .countable(true)
                 .capture(true)
@@ -290,11 +297,14 @@ public class MyPageActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_CHOOSE) {
             try {
-                saveImage(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
+                if(Matisse.obtainResult(data) != null){
+                    saveImage(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
+                }
+//                saveImage(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -316,11 +326,10 @@ public class MyPageActivity extends AppCompatActivity {
     }
 
     // 사용자의 프로필 사진을 db에 저장하기
-    private void saveImage(List <Uri> uris, List<String> paths) throws IOException {
+    public void saveImage(List<Uri> uris, List<String> paths) throws IOException {
         MultipartBody.Part[] surveyImagesParts = new MultipartBody.Part[uris.size()];
-
         for(int i=0;i<uris.size(); i++){
-            InputStream iStream = getContentResolver().openInputStream(uris.get(i));
+            InputStream iStream = requireActivity().getContentResolver().openInputStream(uris.get(i));
             byte[] imageBytes = getBytes(iStream);
 
             //사진 orientation 저장하기
@@ -332,6 +341,8 @@ public class MyPageActivity extends AppCompatActivity {
             }
             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                     ExifInterface.ORIENTATION_UNDEFINED);
+
+            Log.d("kyung0", String.valueOf(orientation));
 
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
             String filename = MainActivity.useremail+"_"+orientation+"_.jpg";
@@ -345,12 +356,12 @@ public class MyPageActivity extends AppCompatActivity {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                Toast.makeText(MyPageActivity.this, "Success", Toast.LENGTH_SHORT)
+                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT)
                         .show();
             }
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(MyPageActivity.this, "Failed", Toast.LENGTH_SHORT)
+                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT)
                         .show();
             }
         });

@@ -15,10 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel"
         android:usesCleartextTraffic="true">
-        <activity android:name=".FrontActivity"></activity>
+<!--        <activity android:name=".FrontActivity"></activity>-->
         <activity android:name=".JoinCalendarActivity" />
         <activity android:name=".JoinActivity" />
-        <activity android:name=".MyPageActivity" />
+<!--        <activity android:name=".MyPageActivity" />-->
+        <activity android:name=".MainActivity_ImageChange"/>
         <activity android:name=".CheckDayActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".PathMapActivity" />
@@ -29,7 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".OtherPathActivity" />
+<!--        <activity android:name=".OtherPathActivity" />-->
         <activity android:name=".MapActivity" />
         <activity android:name=".UserPathActivity" />
         <activity android:name=".UserPlaceActivity" />

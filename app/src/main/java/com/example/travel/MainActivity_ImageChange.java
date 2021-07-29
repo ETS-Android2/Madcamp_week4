@@ -1,77 +1,33 @@
 package com.example.travel;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.widget.Toast;
+import android.widget.ViewFlipper;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.res.TypedArray;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.media.ExifInterface;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.View;
-import android.widget.Button;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.Toast;
-import android.widget.ViewFlipper;
-
-import androidx.appcompat.widget.Toolbar;
-
-import com.bumptech.glide.Glide;
 import com.example.travel.Adapter.DrawerAdapter;
 import com.example.travel.items.DrawerItem;
-import com.example.travel.items.OnSwipeTouchListener;
 import com.example.travel.items.SimpleItem;
 import com.example.travel.items.SpaceItem;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.john.waveview.WaveView;
-import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
-import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
-import com.yarolegovich.slidingrootnav.SlidingRootNavLayout;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
-import co.dift.ui.SwipeToAction;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
+import java.util.Arrays;
+
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
+public class MainActivity_ImageChange extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
 
     public static String username, useremail;
 //    private SeekBar seekBar;
@@ -102,14 +58,15 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     ViewFlipper vf;
     private FragmentManager fragmentManager;
 
-    public static MainActivity mainActivity;
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
+    private String BASE_URL = LoginActivity.BASE_URL;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mainActivity = MainActivity.this;
 
         setContentView(R.layout.activity_main);
 
@@ -117,9 +74,13 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             getSupportActionBar().hide();
         }
 
+//        initialize(savedInstanceState);
+//        initializeLogic();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+//        vf = findViewById(R.id.vf);
 
 
         slidingRootNav = new SlidingRootNavBuilder(this)
@@ -139,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(POS_CLOSE),
-                createItemFor(POS_MAP).setChecked(true),
+                createItemFor(POS_MAP),
                 createItemFor(POS_SEARCH),
-                createItemFor(POS_MY_PROFILE),
+                createItemFor(POS_MY_PROFILE).setChecked(true),
                 new SpaceItem(260),
                 createItemFor(POS_LOGOUT)
 
@@ -154,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         list.setLayoutManager(new LinearLayoutManager(this));
         list.setAdapter(adapter);
 
-        adapter.setSelected(POS_MAP);
+        adapter.setSelected(POS_MY_PROFILE);
 
 
 
