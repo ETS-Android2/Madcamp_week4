@@ -345,9 +345,11 @@ public class MainActivity_ImageChange extends AppCompatActivity implements Drawe
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.code()==200){
+
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
                         overridePendingTransition(0,R.anim.anim_slide_out_bottom);
+
                         finish();
                     }
                     else if(response.code()==400){
