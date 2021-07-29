@@ -24,7 +24,11 @@ import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity_ImageChange extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
@@ -319,10 +323,32 @@ public class MainActivity_ImageChange extends AppCompatActivity implements Drawe
             transaction.replace(R.id.container, new MyPageActivity());
         }
         else if(position==POS_LOGOUT){
+            HashMap<String, String> map = new HashMap<>();
 
+            map.put("email", useremail);
+
+            Call<Void> call = retrofitInterface.executeLogout(map);
+
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.code()==200){
+                        finish();
+                    }
+                    else if(response.code()==400){
+                        Toast.makeText(getApplicationContext(), "계정에 이상이 있습니다.", Toast.LENGTH_SHORT);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT);
+                }
+            });
         }
 
         slidingRootNav.closeMenu();
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 }

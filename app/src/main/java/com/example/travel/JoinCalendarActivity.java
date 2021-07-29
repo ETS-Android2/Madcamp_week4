@@ -139,17 +139,9 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
 
                         calendar = Calendar.getInstance(); //현재 날짜가 속한 달
 
-                        if(j==friends.size()-1){
 
-                            for(int i=0 ; i<31 ; i++){
-                                if(july[i] != 1){
-                                    dateHashMap.put(i+1 , "current");
-//                                    Log.d("check", String.valueOf(i+1));
-                                }
-                            }
 
-                            customCalendar.setDate(calendar,dateHashMap);
-                        }
+
 
 
                     } else if (response.code() == 404) {
