@@ -10,6 +10,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -32,7 +34,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,7 +51,7 @@ public class JoinActivity extends AppCompatActivity {
     CardView friend;
     RecyclerView selected;
     TextView name, email;
-    ImageView prof;
+    CircleImageView prof;
     JoinAdapter adapter;
     Bitmap bmRotated;
 
@@ -61,7 +65,7 @@ public class JoinActivity extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private LinearLayoutManager linearLayoutManager;
 
-    private String title, place;
+    private String title, place, Img ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,11 +116,17 @@ public class JoinActivity extends AppCompatActivity {
                             Userinfo user = response.body();
                             name.setText(user.getName());
                             email.setText(user.getEmail());
+                            Img = user.getImage();
+
+                            if(Img.equals("")){
+                                prof.setImageDrawable(getResources().getDrawable(R.drawable.followers));
+                                return;
+                            }
 
                             // mImageTitles.get(position) 사진 db에서 불러와서 띄우기
                             HashMap<String, String> map = new HashMap<>();
 
-                            map.put("name", user.getImage());
+                            map.put("name", Img);
                             Call<ResponseBody> callImage = retrofitInterface.getImage(map);
 
                             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -124,25 +134,28 @@ public class JoinActivity extends AppCompatActivity {
                             callImage.enqueue(new Callback<ResponseBody>(){
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                                    InputStream is = response.body().byteStream();
-                                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                                    if(response.code()==200){
+                                        InputStream is = response.body().byteStream();
+                                        Bitmap bitmap = BitmapFactory.decodeStream(is);
 
-                                    // filename에서 orientation 가져오기
-                                    String[] tmpName = user.getImage().split("_");
+                                        // filename에서 orientation 가져오기
+                                        String[] tmpName = user.getImage().split("_");
 //                    Log.d("kyung", String.valueOf(tmpName));
 //                    Log.d("kyung", tmpName[4]);
 
-                                    // 사진 회전 처리
-                                    bmRotated = rotateBitmap(bitmap, Integer.parseInt(tmpName[1]));
+                                        // 사진 회전 처리
+                                        bmRotated = rotateBitmap(bitmap, Integer.parseInt(tmpName[1]));
 //                    images.add(position, bitmap);
-                                    prof.setImageBitmap(bmRotated);
+                                        prof.setImageBitmap(bmRotated);
 
 //                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
 //                    bmRotated.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 //                    byte[] byteArray = stream.toByteArray();
 
 //                    imageByteArray.add(position, byteArray);
-                                }
+                                    }
+                                    }
+
 
                                 @Override
                                 public void onFailure(Call<ResponseBody> call, Throwable t){
@@ -176,7 +189,16 @@ public class JoinActivity extends AppCompatActivity {
 
 //                ImageView item = null;
 //                item.setImageBitmap(prof.getDrawingCache());
+                if(emails.contains(email.getText().toString())){
+                    Toast.makeText(getApplicationContext(),"이미 추가된 친구입니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(Img.equals("")){
+                    Drawable drawable = getResources().getDrawable(R.drawable.followers);
+                    bmRotated = ((BitmapDrawable)drawable).getBitmap();
+                }
                 imgs.add(bmRotated);
+
                 emails.add(email.getText().toString());
                 adapter = new JoinAdapter(getApplicationContext(), imgs);
                 selected.setAdapter(adapter);

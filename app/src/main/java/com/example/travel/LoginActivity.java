@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
 
                         overridePendingTransition(0, R.anim.anim_slide_out_top);
-                        finish();
+
                         return;
                     }
                 }else if(response.code()==400){
@@ -218,7 +218,6 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
 
                     overridePendingTransition(0, R.anim.anim_slide_out_top);
-                    finish();
 
                 } else if (response.code() == 404) {
                     Log.d("look", "400");

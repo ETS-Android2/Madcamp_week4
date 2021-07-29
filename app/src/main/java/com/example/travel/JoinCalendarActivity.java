@@ -1,6 +1,7 @@
 package com.example.travel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,8 +37,8 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
     HashMap<Integer,Object> dateHashMap =new HashMap<>();
     ArrayList<String> friends = new ArrayList<>();
 
-    ArrayList<Integer> July = new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)); //31
-    ArrayList<Integer> August = new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)); //31
+    ArrayList<Integer> July =      new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)); //31
+    ArrayList<Integer> August =    new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)); //31
     ArrayList<Integer> September = new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)); //30
 
     int [] july =      {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -163,9 +164,6 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
                 }
             });
         }
-
-
-
 
         //dateHashMap = new HashMap<>();
 

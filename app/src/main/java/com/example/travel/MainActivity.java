@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +51,7 @@ import com.example.travel.items.DrawerItem;
 import com.example.travel.items.OnSwipeTouchListener;
 import com.example.travel.items.SimpleItem;
 import com.example.travel.items.SpaceItem;
+import com.example.travel.items.Userinfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.john.waveview.WaveView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
@@ -63,6 +65,9 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import co.dift.ui.SwipeToAction;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -101,6 +106,10 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
     ViewFlipper vf;
     private FragmentManager fragmentManager;
+    private Retrofit retrofit;
+
+    private RetrofitInterface retrofitInterface;
+    public static String BASE_URL = "http://192.249.18.176:80";
 
     public static MainActivity mainActivity;
 
@@ -116,6 +125,14 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         if (getSupportActionBar() != null){
             getSupportActionBar().hide();
         }
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
+
 
 
         toolbar = findViewById(R.id.toolbar);
@@ -359,10 +376,32 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             transaction.replace(R.id.container, new MyPageActivity());
         }
         else if(position==POS_LOGOUT){
+            HashMap<String, String> map = new HashMap<>();
 
+            map.put("email", useremail);
+
+            Call<Void> call = retrofitInterface.executeLogout(map);
+
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.code()==200){
+                        finish();
+                    }
+                    else if(response.code()==400){
+                        Toast.makeText(getApplicationContext(), "계정에 이상이 있습니다.", Toast.LENGTH_SHORT);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT);
+                }
+            });
         }
 
         slidingRootNav.closeMenu();
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 }

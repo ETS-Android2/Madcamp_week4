@@ -7,6 +7,7 @@ import com.example.travel.Adapter.DrawerAdapter;
 public abstract class DrawerItem<T extends DrawerAdapter.ViewHolder> {
 
     protected boolean isChecked;
+
     public abstract T createViewHolder(ViewGroup parent);
     public abstract void bindViewHolder(T holder);
 

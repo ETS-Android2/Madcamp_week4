@@ -81,4 +81,7 @@ public interface RetrofitInterface {
     @POST("/user/getFriendDays")
     Call <Dateinfo> getFriendDays(@Body HashMap<String,String> map);
 
+    @POST("/user/logout")
+    Call<Void> executeLogout(@Body HashMap<String, String> map);
+
 }

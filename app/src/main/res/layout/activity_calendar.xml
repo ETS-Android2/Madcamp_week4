@@ -10,17 +10,19 @@
     tools:context=".CalendarActivity">
 
     <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/rounded"
         android:layout_marginTop="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <org.naishadhparmar.zcustomcalendar.CustomCalendar
         android:id="@+id/custom_calendar"
@@ -30,29 +32,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="83dp"
+        android:text="새로고침"
+        android:id="@+id/refreshCalendar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/custom_calendar" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/sendCalendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:backgroundTint="@color/colorSplash"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="83dp"
+        android:layout_marginEnd="70dp"
+        android:text="저장"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="?attr/actionModeShareDrawable" />
+        app:layout_constraintTop_toBottomOf="@+id/custom_calendar" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/refreshCalendar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        app:backgroundTint="@color/colorSplash"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_rotate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

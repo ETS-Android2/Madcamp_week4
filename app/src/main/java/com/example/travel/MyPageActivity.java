@@ -75,7 +75,6 @@ public class MyPageActivity extends Fragment {
     private PathAdapter pathAdapter;
 
     TextView tvPosts, tvFriends , displayName;
-    EditText description;
     CircleImageView profileImg;
     RecyclerView recyclerView;
     FloatingActionButton pickDate;
@@ -85,7 +84,7 @@ public class MyPageActivity extends Fragment {
     private String BASE_URL = LoginActivity.BASE_URL;
 
     private String placetitle, placeregion;
-    private Button imagePickBtn, imageDeleteBtn;
+    private TextView imagePickBtn, imageDeleteBtn;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -95,7 +94,6 @@ public class MyPageActivity extends Fragment {
         tvPosts = view.findViewById(R.id.tvPosts);
         tvFriends = view.findViewById(R.id.tvFriends);
         displayName = view.findViewById(R.id.display_name);
-        description = view.findViewById(R.id.description);
         profileImg = view.findViewById(R.id.profile_image);
         recyclerView = view.findViewById(R.id.MyPageRecycler);
 
@@ -179,6 +177,8 @@ public class MyPageActivity extends Fragment {
             public void onResponse(Call<Userinfo> call, Response<Userinfo> response) {
                 if (response.code() == 200) {
                     Userinfo result = response.body();
+
+//                    tvFriends.setText(result.getFriends().size());
 
                     if(!result.getImage().equals("")){
                         // 프로필 사진 불러오기
@@ -313,8 +313,7 @@ public class MyPageActivity extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        Log.d("kyung", "2");
-        Log.d("kyung3", String.valueOf(resultCode));
+
         if (requestCode == REQUEST_CODE_CHOOSE) {
             try {
                 if(Matisse.obtainResult(data) != null){
@@ -350,8 +349,11 @@ public class MyPageActivity extends Fragment {
 
             //사진 orientation 저장하기
             ExifInterface exif = null;
+//            Log.d("kyung0", String.valueOf(uris.size()));
+//            Log.d("kyung1", paths.get(i));
             try {
                 exif = new ExifInterface(paths.get(i));
+//                Log.d("kyung", paths.get(i));
             } catch (IOException e) {
                 e.printStackTrace();
             }
