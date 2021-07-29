@@ -11,6 +11,7 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.location.Address;
 import android.location.Geocoder;
 import android.content.Intent;
@@ -92,6 +93,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private RetrofitInterface retrofitInterface;
     public static String BASE_URL = LoginActivity.BASE_URL;
     private String useremail = MainActivity.useremail;
+    ArrayList<String > friendlist =  new ArrayList<>();
 
 
 
@@ -107,6 +109,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         Intent intent = getIntent();
         place = intent.getStringExtra("place");
+        friendlist = (ArrayList<String>) intent.getSerializableExtra("friendlist");
 
         mainbtn = findViewById(R.id.mainbtn);
         toProf = findViewById(R.id.toProfile);
@@ -220,7 +223,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 animateFab();
-                Intent intent = new Intent(getApplicationContext(), CalendarActivity.class);
+                Intent intent = new Intent(getApplicationContext(), JoinCalendarActivity.class);
+                intent.putExtra("friendlist" , friendlist);
                 startActivity(intent);
 
                 overridePendingTransition(R.anim.anim_slide_in_bottom, 0);

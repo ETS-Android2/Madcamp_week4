@@ -31,8 +31,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.john.waveview.WaveView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
-import com.special.ResideMenu.ResideMenu;
-import com.special.ResideMenu.ResideMenuItem;
+
 
 import co.dift.ui.SwipeToAction;
 
@@ -49,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
 //    private MainAdapter mainAdapter;
     private ImageView pic;
     private SwipeToAction swipeToAction;
-    private  FlowingDrawer mDrawer;
+//    private  FlowingDrawer mDrawer;
     private FrameLayout containermenu;
 
     private Intent classs = new Intent();
     private Intent links = new Intent();
 
-    private ResideMenu resideMenu;
+//    private ResideMenu resideMenu;
 
 //    ArrayList<Main> mains = new ArrayList<>();
 
@@ -81,71 +80,71 @@ public class MainActivity extends AppCompatActivity {
         useremail = intent.getStringExtra("email");
 
         // attach to current activity;
-        resideMenu = new ResideMenu(this);
-//        resideMenu.setBackground(R.drawable.menu_background);
-        resideMenu.attachToActivity(this);
+//        resideMenu = new ResideMenu(this);
+////        resideMenu.setBackground(R.drawable.menu_background);
+//        resideMenu.attachToActivity(this);
 
-        // create menu items;
-        String titles[] = { "Home", "Gallery", "Calendar", "Settings" };
-        int icon[] = { R.drawable.whalehome, R.drawable.whalehome, R.drawable.whalehome, R.drawable.whalehome };
+//        // create menu items;
+//        String titles[] = { "Home", "Gallery", "Calendar", "Settings" };
+//        int icon[] = { R.drawable.whalehome, R.drawable.whalehome, R.drawable.whalehome, R.drawable.whalehome };
+//
+//        for (int i = 0; i < titles.length; i++){
+//            ResideMenuItem item = new ResideMenuItem(this, icon[i], titles[i]);
+//            item.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
+//            resideMenu.addMenuItem(item,  ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
+//        }
+//
+//        resideMenu.openMenu(ResideMenu.DIRECTION_LEFT); // or ResideMenu.DIRECTION_RIGHT
+//        resideMenu.closeMenu();
+//
+//        resideMenu.setMenuListener(menuListener);
+//        private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
+//            @Override
+//            public void openMenu() {
+//                Toast.makeText(mContext, "Menu is opened!", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void closeMenu() {
+//                Toast.makeText(mContext, "Menu is closed!", Toast.LENGTH_SHORT).show();
+//            }
+//        };
 
-        for (int i = 0; i < titles.length; i++){
-            ResideMenuItem item = new ResideMenuItem(this, icon[i], titles[i]);
-            item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        pic = findViewById(R.id.mainpic);
 
-                }
-            });
-            resideMenu.addMenuItem(item,  ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
-        }
-
-        resideMenu.openMenu(ResideMenu.DIRECTION_LEFT); // or ResideMenu.DIRECTION_RIGHT
-        resideMenu.closeMenu();
-
-        resideMenu.setMenuListener(menuListener);
-        private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
+        pic.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
             @Override
-            public void openMenu() {
-                Toast.makeText(mContext, "Menu is opened!", Toast.LENGTH_SHORT).show();
+            public void onSwipeRight() {
+                super.onSwipeRight();
+                Intent intent = new Intent(getApplicationContext(), JoinActivity.class);
+                startActivity(intent);
+                overridePendingTransition(0,0);
             }
 
             @Override
-            public void closeMenu() {
-                Toast.makeText(mContext, "Menu is closed!", Toast.LENGTH_SHORT).show();
-            }
-        };
+            public void onSwipeLeft() {
+                super.onSwipeLeft();
 
-//        pic = findViewById(R.id.mainpic);
-//
-//        pic.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
-//            @Override
-//            public void onSwipeRight() {
-//                super.onSwipeRight();
-//                Intent intent = new Intent(getApplicationContext(), JoinActivity.class);
-//                startActivity(intent);
-//                overridePendingTransition(0,0);
-//            }
-//
-//            @Override
-//            public void onSwipeLeft() {
-//                super.onSwipeLeft();
-//
-//                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-//                intent.putExtra("place", "대한민국");
-//                startActivity(intent);
-//                overridePendingTransition(0,0);
-//            }
-//
-//            @Override
-//            public void onSwipeBottom() {
-//                super.onSwipeBottom();
-//                Intent intent = new Intent(getApplicationContext(), UserPathActivity.class);
-//                startActivity(intent);
-//
-////                overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
-//            }
-//        });
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                intent.putExtra("place", "대한민국");
+                startActivity(intent);
+                overridePendingTransition(0,0);
+            }
+
+            @Override
+            public void onSwipeBottom() {
+                super.onSwipeBottom();
+                Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
+                startActivity(intent);
+
+//                overridePendingTransition(R.anim.anim_slide_in_right_fast, 0);
+            }
+        });
 //
 //
 //
@@ -246,34 +245,34 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
-    private void initialize(Bundle savedInstanceState) {
-        containermenu =(FrameLayout) findViewById(R.id.containermenu);
-        mDrawer =(FlowingDrawer) findViewById(R.id.drawerlayout);
-        mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
-
-        mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
-            @Override
-            public void onDrawerStateChange(int oldState, int newState) {
-                if (newState == ElasticDrawer.STATE_CLOSED) {
-                    Log.i("MainActivity", "Drawer STATE_CLOSED");
-                }
-            }
-
-            @Override
-            public void onDrawerSlide(float openRatio, int offsetPixels) {
-                Log.i("MainActivity", "openRatio=" + openRatio + " ,offsetPixels=" + offsetPixels);
-
-
-
-            }
-        });
-
-
-    }
-
-    private void initializeLogic() {
-        containermenu.setBackgroundColor(0xFFFFFFFF);
-    }
+//    private void initialize(Bundle savedInstanceState) {
+//        containermenu =(FrameLayout) findViewById(R.id.containermenu);
+//        mDrawer =(FlowingDrawer) findViewById(R.id.drawerlayout);
+//        mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
+//
+//        mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
+//            @Override
+//            public void onDrawerStateChange(int oldState, int newState) {
+//                if (newState == ElasticDrawer.STATE_CLOSED) {
+//                    Log.i("MainActivity", "Drawer STATE_CLOSED");
+//                }
+//            }
+//
+//            @Override
+//            public void onDrawerSlide(float openRatio, int offsetPixels) {
+//                Log.i("MainActivity", "openRatio=" + openRatio + " ,offsetPixels=" + offsetPixels);
+//
+//
+//
+//            }
+//        });
+//
+//
+//    }
+//
+//    private void initializeLogic() {
+//        containermenu.setBackgroundColor(0xFFFFFFFF);
+//    }
 
     private long time= 0;
 
