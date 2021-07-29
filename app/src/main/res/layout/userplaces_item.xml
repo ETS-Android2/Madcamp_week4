@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/placeImg"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:src="@drawable/route"
             android:scaleType="centerInside"/>
 
@@ -24,7 +24,7 @@
             android:id="@+id/placename"
             android:text="장소"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:layout_weight="4"
             android:layout_gravity="center_horizontal|center"
             android:gravity="center"

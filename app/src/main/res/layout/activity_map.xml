@@ -154,7 +154,7 @@
         app:elevation="0dp"
         app:pressedTranslationZ="5dp"
         app:tint="@null"
-        android:foreground="@drawable/followers"
+        android:foreground="@drawable/calendar"
         android:foregroundGravity="center"
 
         app:maxImageSize="@dimen/item_circle_size_small"

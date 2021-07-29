@@ -57,6 +57,11 @@ public class UserPlaceActivity extends AppCompatActivity {
     private Button imagePickBtn, imageDeleteBtn;
 
 
+    private Integer mainflag = MainActivity.mainflag;
+    private Integer mainchangeflag = MainActivity_ImageChange.mainchangeflag;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -244,9 +249,17 @@ public class UserPlaceActivity extends AppCompatActivity {
                 Intent intent = new Intent(UserPlaceActivity.this, MainActivity_ImageChange.class);
                 startActivity(intent);
                 MainActivity mainActivity = MainActivity.mainActivity;
-                mainActivity.finish();
-                finish();
+                MainActivity_ImageChange mainActivity_imageChange = MainActivity_ImageChange.mainActivity_imageChange;
 
+                Log.d("main", mainflag+" "+mainchangeflag);
+                if(mainflag==1){
+                    mainActivity.finish();
+                }
+                if(mainchangeflag==1){
+                    mainActivity_imageChange.finish();
+                }
+
+                finish();
             }
             @Override
             public void onFailure(Call<Void> call, Throwable t) {

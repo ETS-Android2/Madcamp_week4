@@ -78,6 +78,10 @@ public class MyPageActivity extends Fragment {
     public static ArrayList<Placeinfo> plist=new ArrayList<>();
     private PathAdapter pathAdapter;
 
+    private Integer mainflag = MainActivity.mainflag;
+    private Integer mainchangeflag = MainActivity_ImageChange.mainchangeflag;
+
+
     TextView tvPosts, tvFriends , displayName , period;
     CircleImageView profileImg;
     RecyclerView recyclerView;
