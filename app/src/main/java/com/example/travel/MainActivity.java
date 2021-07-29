@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
         Intent intent = getIntent();
         username = intent.getStringExtra("name");
-        Log.d("main" , username);
+//        Log.d("main" , username);
         useremail = intent.getStringExtra("email");
 
 

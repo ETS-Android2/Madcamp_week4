@@ -257,6 +257,7 @@ public class MyPageActivity extends Fragment {
             @SuppressLint("CheckResult")
             @Override
             public void onClick(View v){
+//                Log.d("kyung", "0");
                 RxPermissions rxPermissions = new RxPermissions(getActivity());
                 rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .subscribe(aBoolean -> {
@@ -283,6 +284,7 @@ public class MyPageActivity extends Fragment {
     }
 
     private void startAction(View v) {
+//        Log.d("kyung", "1");
         Matisse.from(this)
                 .choose(MimeType.ofImage(), false)
                 .countable(true)
@@ -311,6 +313,8 @@ public class MyPageActivity extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+//        Log.d("kyung", "2");
+        Log.d("kyung3", String.valueOf(resultCode));
         if (requestCode == REQUEST_CODE_CHOOSE) {
             try {
                 if(Matisse.obtainResult(data) != null){
@@ -354,7 +358,7 @@ public class MyPageActivity extends Fragment {
             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                     ExifInterface.ORIENTATION_UNDEFINED);
 
-            Log.d("kyung0", String.valueOf(orientation));
+//            Log.d("kyung0", String.valueOf(orientation));
 
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
             String filename = MainActivity.useremail+"_"+orientation+"_.jpg";
