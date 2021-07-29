@@ -329,6 +329,8 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         }
         else if(position==POS_MY_PROFILE){
             vf.setDisplayedChild(2);
+            Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
+            startActivity(intent);
         }
         else if(position==POS_LOGOUT){
 
