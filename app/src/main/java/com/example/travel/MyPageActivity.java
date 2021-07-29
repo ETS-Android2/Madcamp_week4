@@ -279,8 +279,20 @@ public class MyPageActivity extends Fragment {
             }
         });
 
+        tvFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Not yet", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
+
+//    public void onFriendsClick(View view){
+//        // 친구들 리싸이클러뷰에 띄우기
+//        Toast.makeText(getContext(), "Not yet", Toast.LENGTH_SHORT).show();
+//    }
 
     private void startAction(View v) {
         Matisse.from(this)
