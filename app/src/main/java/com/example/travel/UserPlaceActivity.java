@@ -49,7 +49,6 @@ public class UserPlaceActivity extends AppCompatActivity {
     private String useremail = MainActivity.useremail;
     private String title, region, latitude, longtitude;
     public static ArrayList<Placeinfo> plist;
-    private ArrayList<Placeinfo> ilist;
     private PlaceAdapter placeAdapter;
 
     private static final int REQUEST_CODE_CHOOSE = 23;

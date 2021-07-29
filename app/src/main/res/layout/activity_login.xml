@@ -95,7 +95,6 @@
             android:textColor="@color/white"
             android:textStyle="normal"
             android:layout_marginHorizontal="2dp"
-
             android:layout_below="@id/login"/>
 
     </RelativeLayout>
