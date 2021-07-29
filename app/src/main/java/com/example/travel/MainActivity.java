@@ -3,6 +3,7 @@ package com.example.travel;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     private Toolbar toolbar;
 
     ViewFlipper vf;
+    private FragmentManager fragmentManager;
 
 
 
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        vf = findViewById(R.id.vf);
+//        vf = findViewById(R.id.vf);
 
 
         slidingRootNav = new SlidingRootNavBuilder(this)
@@ -320,21 +322,31 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     @Override
     public void onItemSelected(int position) {
 
+        fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+
         if(position==POS_MAP){
-            vf.setDisplayedChild(0);
+            //vf.setDisplayedChild(0);
+            transaction.replace(R.id.container, new FrontActivity());
+
 
         }
         else if(position==POS_SEARCH){
-            vf.setDisplayedChild(1);
+           // vf.setDisplayedChild(1);
+            transaction.replace(R.id.container, new OtherPathActivity());
+
         }
         else if(position==POS_MY_PROFILE){
-            vf.setDisplayedChild(2);
+//            vf.setDisplayedChild(2);
+            transaction.replace(R.id.container, new MyPageActivity());
+
         }
         else if(position==POS_LOGOUT){
 
         }
 
         slidingRootNav.closeMenu();
-
+        transaction.commit();
     }
 }
