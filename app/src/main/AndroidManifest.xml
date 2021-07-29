@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
 
 
     <application
@@ -40,7 +42,8 @@
         <activity android:name=".UserPlaceActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".PlaceDetailActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".ImageFullActivity" />
 
         <meta-data

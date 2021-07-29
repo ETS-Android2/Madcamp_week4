@@ -7,7 +7,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -71,7 +73,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private FragmentManager fragmentManager;
     private MapFragment mapFragment;
-
+    private Integer mainflag = MainActivity.mainflag;
+    private Integer mainchangeflag = MainActivity_ImageChange.mainchangeflag;
 
     private GoogleMap mMap;
     private Geocoder geocoder;
@@ -313,7 +316,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onClick(View v) { //여기서 경로 저장한배열, 지역 , 경로제목을 보냄
 //                Log.d("Check" , useremail);
                 ArrayList<String> tmpParti = new ArrayList<>();
-                tmpParti.add(MainActivity.useremail);
+                //tmpParti.add(MainActivity.useremail);
                 for(int i=0;i<flist.size();i++){
                     tmpParti.add(flist.get(i));
                     Log.d("kyung", i+flist.get(i)+"");
@@ -327,11 +330,33 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         if (response.code() == 200) {
                             ad.cancel();
 
+                            ActivityManager activity_manager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+
+                            List<ActivityManager.RunningTaskInfo> task_info = activity_manager.getRunningTasks(9999);
+
+                            for(int i=0; i<task_info.size(); i++) {
+
+                                Log.d("log", "[" + i + "] activity:"+ task_info.get(i).topActivity.getPackageName() + " >> " + task_info.get(i).topActivity.getClassName());
+
+                            }
+
+
+
                             Intent intent = new Intent(MapActivity.this, MainActivity_ImageChange.class);
                             startActivity(intent);
                             MainActivity mainActivity = MainActivity.mainActivity;
-                            mainActivity.finish();
+                            MainActivity_ImageChange mainActivity_imageChange = MainActivity_ImageChange.mainActivity_imageChange;
+
+                            Log.d("main", mainflag+" "+mainchangeflag);
+                            if(mainflag==1){
+                                mainActivity.finish();
+                            }
+                            if(mainchangeflag==1){
+                                mainActivity_imageChange.finish();
+                            }
+
                             finish();
+                            ad.dismiss();
                         } else if (response.code() == 400) {
 
                         }
@@ -341,7 +366,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                     }
                 });
-                ad.dismiss();
+
             }
         });
     }

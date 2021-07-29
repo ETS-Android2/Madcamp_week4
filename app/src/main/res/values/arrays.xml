@@ -3,7 +3,6 @@
 
     <string-array name="id_activityScreenTitles">
 
-        <item> </item>
         <item>"여행 가기"</item>
         <item>구경하기</item>
         <item>마이페이지</item>
@@ -15,12 +14,12 @@
 
     <array name="id_activityScreenIcons">
 
-        <item>@drawable/whalehome</item>
-        <item>@drawable/whalehome</item>
-        <item>@drawable/whalehome</item>
-        <item>@drawable/whalehome</item>
+
+        <item>@drawable/balloon</item>
+        <item>@drawable/binoculars</item>
+        <item>@drawable/camera</item>
         <item> </item>
-        <item>@drawable/whalehome</item>
+        <item>@drawable/logout</item>
 
 
 

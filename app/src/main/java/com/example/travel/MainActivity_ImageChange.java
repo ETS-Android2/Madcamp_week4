@@ -30,10 +30,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity_ImageChange extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
 
     public static String username, useremail;
+    public static Integer mainchangeflag=0;
 //    private SeekBar seekBar;
 //    private WaveView waveView;
 //    private CardView mapcard, card;
@@ -47,11 +49,11 @@ public class MainActivity_ImageChange extends AppCompatActivity implements Drawe
     private Intent links = new Intent();
 
     private static final int POS_CLOSE=0;
-    private static final int POS_MAP=1;
-    private static final int POS_SEARCH=2;
-    private static final int POS_MY_PROFILE=3;
+    private static final int POS_MAP=0;
+    private static final int POS_SEARCH=1;
+    private static final int POS_MY_PROFILE=2;
 
-    private static final int POS_LOGOUT=5;
+    private static final int POS_LOGOUT=4;
 
     private String[] screenTitles;
     private Drawable[] screenIcons;
@@ -66,12 +68,16 @@ public class MainActivity_ImageChange extends AppCompatActivity implements Drawe
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = LoginActivity.BASE_URL;
 
+    public static MainActivity_ImageChange mainActivity_imageChange;
+
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainchangeflag=1;
 
-
+        mainActivity_imageChange = MainActivity_ImageChange.this;
         setContentView(R.layout.activity_main);
 
         if (getSupportActionBar() != null){
@@ -83,6 +89,13 @@ public class MainActivity_ImageChange extends AppCompatActivity implements Drawe
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
 
 //        vf = findViewById(R.id.vf);
 
@@ -103,7 +116,6 @@ public class MainActivity_ImageChange extends AppCompatActivity implements Drawe
         screenTitles = loadScreenTitles();
 
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
-                createItemFor(POS_CLOSE),
                 createItemFor(POS_MAP),
                 createItemFor(POS_SEARCH),
                 createItemFor(POS_MY_PROFILE).setChecked(true),
@@ -333,6 +345,11 @@ public class MainActivity_ImageChange extends AppCompatActivity implements Drawe
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.code()==200){
+
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(0,R.anim.anim_slide_out_bottom);
+
                         finish();
                     }
                     else if(response.code()==400){
@@ -350,5 +367,11 @@ public class MainActivity_ImageChange extends AppCompatActivity implements Drawe
         slidingRootNav.closeMenu();
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainchangeflag=0;
     }
 }

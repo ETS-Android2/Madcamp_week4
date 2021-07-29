@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
     private ImageView splash;
     private String loginemail="";
 
+    public static String useremail, username;
+
 
     static private String SHARE_NAME = "ID";
     static SharedPreferences sharePref = null;
@@ -55,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().hide();
         }
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         sharePref = this.getSharedPreferences(SHARE_NAME, Context.MODE_PRIVATE);
         editor = sharePref.edit();
 
@@ -96,9 +101,14 @@ public class LoginActivity extends AppCompatActivity {
 
                     if(result.getLogin()){
 
+                        Log.d("login", ""+result.getName()+result.getEmail() );
+
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.putExtra("name", result.getName());
                         intent.putExtra("email", result.getEmail());
+
+                        useremail = result.getEmail();
+                        username = result.getName();
 
                         updateData(result.getEmail());
 

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class FrontActivity extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_front, container, false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         ArrayList<String> blank = new ArrayList<>();
 //        blank.add(email);
@@ -74,6 +76,8 @@ public class FrontActivity extends Fragment {
                 if(tmpNum == 1){
                     Intent intent = new Intent(getActivity(), MapActivity.class);
                     intent.putExtra("place", getplace.getText().toString());
+                    blank.add(email);
+                    Log.d("myemail", email);
                     intent.putExtra("friendlist", blank);
                     startActivity(intent);
                     getActivity().overridePendingTransition(0,0);

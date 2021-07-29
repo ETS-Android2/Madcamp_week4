@@ -14,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +53,7 @@ public class JoinActivity extends AppCompatActivity {
     RecyclerView selected;
     TextView name, email;
     CircleImageView prof;
+    ImageView circlegif, highfive;
     JoinAdapter adapter;
     Bitmap bmRotated;
 
@@ -74,13 +76,17 @@ public class JoinActivity extends AppCompatActivity {
 
         search = findViewById(R.id.button);
         start = findViewById(R.id.start);
-        friend = findViewById(R.id.friend);
         selected = findViewById(R.id.selected);
         editText = findViewById(R.id.editText);
         name = findViewById(R.id.friendname);
         email = findViewById(R.id.friendemail);
-//        emails.add(useremail);
+        emails.add(useremail);
         prof= findViewById(R.id.profimg);
+        circlegif = findViewById(R.id.circlegif);
+        highfive = findViewById(R.id.highfive);
+
+        circlegif.setVisibility(View.GONE);
+        highfive.setVisibility(View.GONE);
 
         Intent intent = getIntent();
         place = intent.getStringExtra("place");
@@ -115,6 +121,10 @@ public class JoinActivity extends AppCompatActivity {
                             Userinfo user = response.body();
                             name.setText(user.getName());
                             email.setText(user.getEmail());
+                            circlegif.setVisibility(View.VISIBLE);
+                            Glide.with(getApplicationContext()).load(R.drawable.circle).into(circlegif);
+
+
                             Img = user.getImage();
 
                             if(Img.equals("")){
@@ -182,7 +192,7 @@ public class JoinActivity extends AppCompatActivity {
         });
 
         //찾은 친구 클릭하면 리스트에 추가
-        friend.setOnClickListener(new View.OnClickListener() {
+        prof.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -201,6 +211,20 @@ public class JoinActivity extends AppCompatActivity {
                 emails.add(email.getText().toString());
                 adapter = new JoinAdapter(getApplicationContext(), imgs);
                 selected.setAdapter(adapter);
+                circlegif.setVisibility(View.GONE);
+
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        highfive.setVisibility(View.GONE);
+                    }
+                },2000);
+                highfive.setVisibility(View.VISIBLE);
+                Glide.with(getApplicationContext()).load(R.drawable.highfive).into(highfive);
+
+
 
             }
         });
