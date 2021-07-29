@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="id_activityScreenTitles">
+
+        <item> </item>
+        <item>"여행 가기"</item>
+        <item>구경하기</item>
+        <item>마이페이지</item>
+        <item> </item>
+        <item>Log Out</item>
+
+
+    </string-array>
+
+    <array name="id_activityScreenIcons">
+
+        <item>@drawable/whalehome</item>
+        <item>@drawable/whalehome</item>
+        <item>@drawable/whalehome</item>
+        <item>@drawable/whalehome</item>
+        <item> </item>
+        <item>@drawable/whalehome</item>
+
+
+
+    </array>
+
+
+</resources>

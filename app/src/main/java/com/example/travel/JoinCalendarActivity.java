@@ -152,7 +152,7 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
             case Calendar.AUGUST:
                 arr[0] = new HashMap<>();
                 for(int i=0;i<August.size();i++){ // i = 0~30
-                    if(August.get(i+1) == 0){
+                    if(August.get(i) == 0){
                         arr[0].put( i+1 , "current");
                     }
                 }
@@ -160,7 +160,7 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
             case Calendar.SEPTEMBER:
                 arr[0] = new HashMap<>();
                 for(int i=0;i<September.size();i++){ // i = 0~30
-                    if(September.get(i+1) == 0){
+                    if(September.get(i) == 0){
                         arr[0].put( i+1 , "current");
                     }
                 }
@@ -168,7 +168,7 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
             case Calendar.JULY:
                 arr[0] = new HashMap<>();
                 for(int i=0;i<July.size();i++){ // i = 0~30
-                    if(July.get(i+1) == 0){
+                    if(July.get(i) == 0){
                         arr[0].put( i+1 , "current");
                     }
                 }

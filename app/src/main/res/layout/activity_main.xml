@@ -1,95 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<com.mxn.soul.flowingdrawer_core.FlowingDrawer
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawerlayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    app:edPosition="1"
-    app:edMenuSize="260dp"
-    app:edMenuBackground="#FFFFFF">
-    <!--content-->
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorSplash"
+    android:orientation="vertical">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <ViewFlipper
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorSplash"
-        android:orientation="vertical">
+        android:id="@+id/vf">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/whale"
-            android:layout_centerInParent="true"
-            android:id="@+id/mainpic"/>
+        <include android:id="@+id/dashboard" layout="@layout/activity_front" />
+        <include android:id="@+id/lookaround" layout="@layout/activity_other_path"/>
+        <include android:id="@+id/my" layout="@layout/activity_my_page" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/toMap"
-                android:layout_marginTop="70dp"
-                android:layout_marginHorizontal="30dp"
-                app:cardCornerRadius="43dp"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_centerVertical="true"
-                tools:ignore="MissingConstraints">
+    </ViewFlipper>
 
-                <EditText
-                    android:id="@+id/editTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:hint="여행 제목"
-                    android:textSize="20sp"
-                    android:layout_gravity="center_vertical|top"
-                    android:gravity="center_vertical"/>
+</RelativeLayout>
 
-                <EditText
-                    android:id="@+id/editPlace"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:hint="어디로 떠나고 싶으신가요?"
-                    android:textSize="20sp"
-                    android:layout_gravity="center_vertical|center"
-                    android:gravity="center_vertical"/>
+<!--<com.mxn.soul.flowingdrawer_core.FlowingDrawer-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:id="@+id/drawerlayout"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:clipChildren="false"-->
+<!--    android:clipToPadding="false"-->
+<!--    app:edPosition="1"-->
+<!--    app:edMenuSize="260dp"-->
+<!--    app:edMenuBackground="#FFFFFF">-->
+<!--    &lt;!&ndash;content&ndash;&gt;-->
 
-                //몇명인가
 
-                <Button
-                    android:id="@+id/placeBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="으로 떠나기"
-                    android:layout_gravity="bottom|center_vertical"
-                    android:layout_marginBottom="20dp"
-                    />
 
-            </androidx.cardview.widget.CardView>
-    </RelativeLayout>
 
-    <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
-        android:id="@+id/menulayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/containermenu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<!--    <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout-->
+<!--        android:id="@+id/menulayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
 
-            <include
-                layout="@layout/drawer"/>
+<!--       -->
+<!--        </FrameLayout>-->
 
-        </FrameLayout>
+<!--    </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>-->
 
-    </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>
-
-</com.mxn.soul.flowingdrawer_core.FlowingDrawer>
+<!--</com.mxn.soul.flowingdrawer_core.FlowingDrawer>-->
 
 <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
