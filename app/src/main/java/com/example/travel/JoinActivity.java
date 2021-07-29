@@ -75,6 +75,7 @@ public class JoinActivity extends AppCompatActivity {
         editText = findViewById(R.id.editText);
         name = findViewById(R.id.friendname);
         email = findViewById(R.id.friendemail);
+        emails.add(useremail);
         prof= findViewById(R.id.profimg);
 
         Intent intent = getIntent();

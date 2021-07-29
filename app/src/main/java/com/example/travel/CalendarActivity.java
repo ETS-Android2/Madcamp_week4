@@ -37,7 +37,7 @@ public class CalendarActivity extends AppCompatActivity  implements OnNavigation
 
     CustomCalendar customCalendar;
     ArrayList<String> days = new ArrayList<>();
-    FloatingActionButton sendCalendar ;
+    FloatingActionButton sendCalendar , refreshCalendar;
     Calendar calendar;
     HashMap<Integer,Object> dateHashMap;
 
@@ -60,6 +60,7 @@ public class CalendarActivity extends AppCompatActivity  implements OnNavigation
         //calendar
         customCalendar = findViewById(R.id.custom_calendar);
         sendCalendar = findViewById(R.id.sendCalendar);
+        refreshCalendar = findViewById(R.id.refreshCalendar);
 
         HashMap<Object, Property> descHashMap = new HashMap<>();
 
@@ -101,6 +102,13 @@ public class CalendarActivity extends AppCompatActivity  implements OnNavigation
 
                 days.add((selectedDate.get(Calendar.MONTH) + 1)+ "/" +selectedDate.get(Calendar.DAY_OF_MONTH)); //안되는 날짜들 list
                 // 8/20 이런식으로 저장
+            }
+        });
+
+        refreshCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

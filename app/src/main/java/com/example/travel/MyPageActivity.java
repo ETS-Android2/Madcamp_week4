@@ -35,6 +35,7 @@ import com.example.travel.items.PathItem;
 import com.example.travel.items.Pathinfo;
 import com.example.travel.items.Placeinfo;
 import com.example.travel.items.Userinfo;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -77,6 +78,7 @@ public class MyPageActivity extends Fragment {
     EditText description;
     CircleImageView profileImg;
     RecyclerView recyclerView;
+    FloatingActionButton pickDate;
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
@@ -99,6 +101,7 @@ public class MyPageActivity extends Fragment {
 
         imagePickBtn = view.findViewById(R.id.zhihu);
         imageDeleteBtn = view.findViewById(R.id.deletePic);
+        pickDate = view.findViewById(R.id.PickDate);
 
         displayName.setText(username);
 
@@ -266,6 +269,15 @@ public class MyPageActivity extends Fragment {
                                         .show();
                             }
                         }, Throwable::printStackTrace);
+            }
+        });
+
+        //버튼 누르면 캘린더 이동 , 날짜 선택
+        pickDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getActivity(), CalendarActivity.class);
+                startActivity(intent);
             }
         });
 

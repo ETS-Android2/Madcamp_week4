@@ -192,7 +192,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 animateFab();
-                Intent intent = new Intent(getApplicationContext(), CalendarActivity.class);
+                Intent intent = new Intent(getApplicationContext(), JoinCalendarActivity.class);
+                intent.putExtra("friendlist" , flist);
                 startActivity(intent);
 
                 overridePendingTransition(R.anim.anim_slide_in_bottom, 0);
@@ -312,7 +313,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onClick(View v) { //여기서 경로 저장한배열, 지역 , 경로제목을 보냄
 //                Log.d("Check" , useremail);
                 ArrayList<String> tmpParti = new ArrayList<>();
-                tmpParti.add(String.valueOf(useremail));
+//                tmpParti.add(String.valueOf(useremail));
+                for(int i=0;i<flist.size(); i++){
+                    tmpParti.add(flist.get(i));
+                }
                 SavePathInput savePathInput = new SavePathInput(tmpParti, pathTitle.getText().toString() ,place , String.valueOf(clickedPath.size()), clickedPath);
 
                 Call<Void> call = retrofitInterface.executeSavePath(savePathInput);
