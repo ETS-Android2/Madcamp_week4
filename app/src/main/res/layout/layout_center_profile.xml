@@ -27,6 +27,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="25"
+                    android:layout_marginTop="10dp"
                     android:layout_marginStart="25dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -43,7 +44,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="75"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginEnd="30dp"
                     >
 
@@ -73,15 +74,6 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/description"
-                    android:textColor="@color/black"
-                    android:text="여행이 조아~~"
-                    android:textSize="16sp"
-                    android:layout_marginTop="5dp"
-                    />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -90,34 +82,32 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/text4">
 
-                    <Button
+                    <TextView
                         android:id="@+id/zhihu"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="30dp"
                         android:layout_below="@id/address"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:minHeight="56dp"
+                        android:textAlignment="center"
+                        android:gravity="center"
                         android:text="프로필 사진 설정"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/white"
-                        android:theme="@style/ZhihuOverlay" />
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/custom_button_je"
+                        android:textColor="@color/black" />
 
-                    <Button
+                    <TextView
                         android:id="@+id/deletePic"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
                         android:minHeight="56dp"
+                        android:layout_marginTop="3dp"
                         android:text="사진 삭제"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/white"
-                        android:theme="@style/ZhihuOverlay"
+                        android:textColor="@color/black"
+                        android:textAlignment="center"
+                        android:background="@drawable/custom_button_je"
+                        android:gravity="center"
                         android:layout_below="@id/address"/>
 
                 </LinearLayout>
@@ -129,7 +119,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/relLayout3"
                 android:layout_below="@+id/linLayout2"
-                android:layout_marginBottom="50dp"
                 >
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/MyPageRecycler"
@@ -141,23 +130,23 @@
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"/>
 
+
             </RelativeLayout>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/PickDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:clickable="true"
-                app:backgroundTint="@color/colorSplash"
-                app:srcCompat="@drawable/ic_baseline_date_range_24" />
 
         </RelativeLayout>
 
-
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/PickDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            app:backgroundTint="@color/colorSplash"
+            app:srcCompat="@drawable/ic_baseline_date_range_24" />
     </RelativeLayout>
 
 </merge>

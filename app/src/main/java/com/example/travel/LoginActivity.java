@@ -43,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
     private ImageView splash;
     private String loginemail="";
 
+    public static String useremail, username;
+
 
     static private String SHARE_NAME = "ID";
     static SharedPreferences sharePref = null;
@@ -99,13 +101,19 @@ public class LoginActivity extends AppCompatActivity {
 
                     if(result.getLogin()){
 
+                        Log.d("login", ""+result.getName()+result.getEmail() );
+
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.putExtra("name", result.getName());
                         intent.putExtra("email", result.getEmail());
 
+                        useremail = result.getEmail();
+                        username = result.getName();
+
                         updateData(result.getEmail());
 
                         startActivity(intent);
+                        finish();
 
                         overridePendingTransition(0, R.anim.anim_slide_out_top);
 
@@ -174,6 +182,10 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this,
                                     "Signed up successfully", Toast.LENGTH_LONG).show();
                             ad.dismiss();
+                            Intent intent = getIntent();
+                            finish();
+                            startActivity(intent);
+
 
                         } else if (response.code() == 400) {
                             Toast.makeText(LoginActivity.this,
@@ -219,6 +231,7 @@ public class LoginActivity extends AppCompatActivity {
                     updateData(result.getEmail());
 
                     startActivity(intent);
+                    finish();
 
                     overridePendingTransition(0, R.anim.anim_slide_out_top);
 

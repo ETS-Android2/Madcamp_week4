@@ -40,20 +40,19 @@
             >
 
 
-            <TextView
-                android:id="@+id/pathTitle"
-                android:text="여행명"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_weight="4"
-                android:layout_gravity="center_horizontal|center"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/pathTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:text="여행명"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </androidx.cardview.widget.CardView>
 

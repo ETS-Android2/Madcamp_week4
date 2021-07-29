@@ -18,6 +18,8 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +77,6 @@ public class MyPageActivity extends Fragment {
     private PathAdapter pathAdapter;
 
     TextView tvPosts, tvFriends , displayName;
-    EditText description;
     CircleImageView profileImg;
     RecyclerView recyclerView;
     FloatingActionButton pickDate;
@@ -85,7 +86,7 @@ public class MyPageActivity extends Fragment {
     private String BASE_URL = LoginActivity.BASE_URL;
 
     private String placetitle, placeregion;
-    private Button imagePickBtn, imageDeleteBtn;
+    private TextView imagePickBtn, imageDeleteBtn;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -95,7 +96,6 @@ public class MyPageActivity extends Fragment {
         tvPosts = view.findViewById(R.id.tvPosts);
         tvFriends = view.findViewById(R.id.tvFriends);
         displayName = view.findViewById(R.id.display_name);
-        description = view.findViewById(R.id.description);
         profileImg = view.findViewById(R.id.profile_image);
         recyclerView = view.findViewById(R.id.MyPageRecycler);
 
@@ -109,7 +109,6 @@ public class MyPageActivity extends Fragment {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
@@ -125,7 +124,6 @@ public class MyPageActivity extends Fragment {
             public void onResponse(Call<List<Pathinfo>> call, Response<List<Pathinfo>> response) {
                 if(response.code() == 200) {
                     List<Pathinfo> resultList = response.body();
-//                    Log.d("check", resultList.get(0).getLocations().get(0).getAddress());
                     PathItem item = new PathItem();
 
                     for (Pathinfo result : resultList) {
@@ -180,7 +178,7 @@ public class MyPageActivity extends Fragment {
                 if (response.code() == 200) {
                     Userinfo result = response.body();
 
-//                    tvFriends.setText(result.getFriends().size());
+                    tvFriends.setText(String.valueOf(result.getFriends().size()));
 
                     if(!result.getImage().equals("")){
                         // 프로필 사진 불러오기
@@ -259,6 +257,7 @@ public class MyPageActivity extends Fragment {
             @SuppressLint("CheckResult")
             @Override
             public void onClick(View v){
+//                Log.d("kyung", "0");
                 RxPermissions rxPermissions = new RxPermissions(getActivity());
                 rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .subscribe(aBoolean -> {
@@ -281,10 +280,23 @@ public class MyPageActivity extends Fragment {
             }
         });
 
+        tvFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Not yet", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
 
+//    public void onFriendsClick(View view){
+//        // 친구들 리싸이클러뷰에 띄우기
+//        Toast.makeText(getContext(), "Not yet", Toast.LENGTH_SHORT).show();
+//    }
+
     private void startAction(View v) {
+//        Log.d("kyung", "1");
         Matisse.from(this)
                 .choose(MimeType.ofImage(), false)
                 .countable(true)
@@ -313,7 +325,7 @@ public class MyPageActivity extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        Log.d("kyung", String.valueOf(resultCode));
+
         if (requestCode == REQUEST_CODE_CHOOSE) {
             try {
                 if(Matisse.obtainResult(data) != null){

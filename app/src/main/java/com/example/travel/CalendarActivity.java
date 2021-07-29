@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -37,13 +38,18 @@ public class CalendarActivity extends AppCompatActivity  implements OnNavigation
 
     CustomCalendar customCalendar;
     ArrayList<String> days = new ArrayList<>();
-    FloatingActionButton sendCalendar , refreshCalendar;
+    Button sendCalendar , refreshCalendar;
     Calendar calendar;
     HashMap<Integer,Object> dateHashMap;
+    Dateinfo dateinfo;
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     public static String BASE_URL = LoginActivity.BASE_URL;
+
+    int [] july =      {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    int [] august =    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    int [] september = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +63,58 @@ public class CalendarActivity extends AppCompatActivity  implements OnNavigation
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
+        //접속한 유저 안되는 날짜 리스트 받아오기
+        HashMap<String, String> map = new HashMap<>();
+        map.put("email", MainActivity.useremail);
+        Call<Dateinfo> call = retrofitInterface.getFriendDays(map);
+
+        call.enqueue(new Callback<Dateinfo>() {
+            @Override
+            public void onResponse(Call<Dateinfo> call, Response<Dateinfo> response) {
+
+                if (response.code() == 200) {
+                    dateinfo = response.body();
+                    ArrayList<String> days = new ArrayList<String>();
+                    days = dateinfo.getDays();
+
+                    for(int j=0;j<days.size();j++){
+                        String [] parsed = days.get(j).split("/");
+
+                        if(parsed[0].equals("7")){
+                            july[Integer.parseInt(parsed[1])-1] = 1;
+                        }else if(parsed[0].equals("8")){
+                            august[Integer.parseInt(parsed[1])-1] = 1;
+                        }else if(parsed[0].equals("9")){
+                            september[Integer.parseInt(parsed[1])-1] = 1;
+                        }
+                    }
+
+                    for(int j=0;j<july.length;j++){
+                        if(july[j] != 1){
+                            dateHashMap.put(j+1 ,"current");
+                        }
+                    }
+                    customCalendar.setDate(calendar,dateHashMap);
+
+
+                } else if (response.code() == 404) {
+
+                }
+
+            }
+            @Override
+            public void onFailure(Call<Dateinfo> call, Throwable t) {
+
+            }
+        });
+
         //calendar
         customCalendar = findViewById(R.id.custom_calendar);
         sendCalendar = findViewById(R.id.sendCalendar);
         refreshCalendar = findViewById(R.id.refreshCalendar);
+
+        customCalendar.setOnNavigationButtonClickedListener(CustomCalendar.PREVIOUS, this);
+        customCalendar.setOnNavigationButtonClickedListener(CustomCalendar.NEXT, this);
 
         HashMap<Object, Property> descHashMap = new HashMap<>();
 
@@ -88,7 +142,7 @@ public class CalendarActivity extends AppCompatActivity  implements OnNavigation
         dateHashMap = new HashMap<>();
 
         calendar = Calendar.getInstance(); //현재 날짜가 속한 달
-        customCalendar.setDate(calendar,dateHashMap);
+        //customCalendar.setDate(calendar,dateHashMap);
         customCalendar.setOnDateSelectedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(View view, Calendar selectedDate, Object desc) {
@@ -108,7 +162,11 @@ public class CalendarActivity extends AppCompatActivity  implements OnNavigation
         refreshCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                days.clear();
+                dateHashMap.clear();
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
             }
         });
 
@@ -138,9 +196,6 @@ public class CalendarActivity extends AppCompatActivity  implements OnNavigation
             }
         });
 
-        customCalendar.setOnNavigationButtonClickedListener(CustomCalendar.PREVIOUS, this);
-        customCalendar.setOnNavigationButtonClickedListener(CustomCalendar.NEXT, this);
-
     }
 
     @Override
@@ -151,15 +206,33 @@ public class CalendarActivity extends AppCompatActivity  implements OnNavigation
                 arr[0] = new HashMap<>();
                 calendar.add(calendar.MONTH, 1);
                 dateHashMap.clear();
-                //arr[0].put(6, "current");
+                for (int i= 0; i<=30 ;i++){
+                    if(august[i] != 1){
+                        arr[0].put(i+1 , "current");
+                    }
+                }
                 break;
 
             case Calendar.SEPTEMBER:
                 arr[0] = new HashMap<>();
                 calendar.add(calendar.MONTH, 2);
+                for (int i= 0; i<=29 ;i++){
+                    if(september[i] != 1){
+                        arr[0].put(i+1 , "current");
+                    }
+                }
                 dateHashMap.clear();
                 break;
-
+            case Calendar.JULY:
+                arr[0] = new HashMap<>();
+                calendar = Calendar.getInstance();
+                dateHashMap.clear();
+                for (int i= 0; i<=30 ;i++){
+                    if(july[i] != 1){
+                        arr[0].put(i+1, "current");
+                    }
+                }
+                break;
             case Calendar.JUNE:
                 arr[0] = new HashMap<>();
                 dateHashMap.clear();

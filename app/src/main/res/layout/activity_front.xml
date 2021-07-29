@@ -1,52 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context=".FrontActivity">
 
+    <include layout="@layout/front_background" />
 
-
-    <EditText
-        android:id="@+id/editTitle"
+    <include layout="@layout/activity_front_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="여행 제목"
-        android:textSize="20sp"
-        android:layout_gravity="center_vertical|top"
-        android:gravity="center_vertical"/>
+        android:layout_margin="30dp"
+        android:layout_centerVertical="true" />
 
-    <EditText
-        android:id="@+id/editPlace"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="어디로 떠나고 싶으신가요?"
-        android:textSize="20sp"
-        android:layout_gravity="center_vertical|center"
-        android:gravity="center_vertical"/>
+<!--    <ImageView-->
+<!--        android:layout_width="350dp"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:src="@drawable/front_top"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_marginLeft="40dp"-->
+<!--        android:layout_marginRight="40dp"/>-->
 
-    <EditText
-        android:id="@+id/editNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="몇명이신가요?"
-        android:textSize="20sp"
-        android:layout_gravity="center_vertical|center"
-        android:gravity="center_vertical"/>
 
-    <Button
-        android:id="@+id/placeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="여행 시작"
-        android:layout_gravity="bottom|center_vertical"
-        android:layout_marginBottom="20dp"
-        />
 
-</LinearLayout>
+</RelativeLayout>

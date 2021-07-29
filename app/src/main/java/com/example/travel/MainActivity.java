@@ -86,7 +86,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
 
-    public static String username, useremail;
+//    public static String username = LoginActivity.username;
+//    public static String useremail = LoginActivity.useremail;
+        public static String username, useremail;
+        public static Integer mainflag=0;
 //    private SeekBar seekBar;
 //    private WaveView waveView;
 //    private CardView mapcard, card;
@@ -130,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mainflag=1;
         mainActivity = MainActivity.this;
 
         setContentView(R.layout.activity_main);
@@ -138,6 +142,11 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             getSupportActionBar().hide();
         }
 
+        Intent intent = getIntent();
+        username = intent.getStringExtra("name");
+        useremail = intent.getStringExtra("email");
+
+        Log.d("main", ""+useremail+username+"");
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -186,10 +195,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
 
 
-        Intent intent = getIntent();
-        username = intent.getStringExtra("name");
-        Log.d("main" , username);
-        useremail = intent.getStringExtra("email");
+
 
 
 
@@ -462,5 +468,12 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainflag=0;
+        Log.d("mainflag", mainflag+"");
     }
 }

@@ -47,10 +47,7 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull JoinAdapter.ViewHolder holder, int position) {
-        if(mList.get(position).equals("")){
-            Glide.with(context).load(R.drawable.whale).into(holder.pic);
 
-        }
         Glide.with(context).load(mList.get(position)).into(holder.pic);
 
     }
