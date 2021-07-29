@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,7 +75,7 @@ public class MyPageActivity extends Fragment {
     private String useremail = MainActivity.useremail;
 
     private ArrayList<PathItem> pathlist=new ArrayList<>();
-    private ArrayList<Placeinfo> plist=new ArrayList<>();
+    public static ArrayList<Placeinfo> plist=new ArrayList<>();
     private PathAdapter pathAdapter;
 
     TextView tvPosts, tvFriends , displayName , period;
@@ -85,7 +87,7 @@ public class MyPageActivity extends Fragment {
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = LoginActivity.BASE_URL;
 
-    private String placetitle, placeregion;
+    public static String placetitle, placeregion;
     private TextView imagePickBtn, imageDeleteBtn;
 
     @Nullable
@@ -103,6 +105,9 @@ public class MyPageActivity extends Fragment {
         imagePickBtn = view.findViewById(R.id.zhihu);
         imageDeleteBtn = view.findViewById(R.id.deletePic);
         pickDate = view.findViewById(R.id.PickDate);
+
+//        FragmentManager fragmentManager = getChildFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         displayName.setText(username);
 
@@ -149,7 +154,8 @@ public class MyPageActivity extends Fragment {
                             intent.putExtra("region", placeregion);
                             intent.putExtra("list", plist);
                             startActivity(intent);
-//                            overridePendingTransition( R.anim.anim_slide_in_right_fast, 0);
+                            getActivity().overridePendingTransition( R.anim.anim_slide_in_right_fast, 0);
+
 
                         }
                     });
@@ -446,4 +452,11 @@ public class MyPageActivity extends Fragment {
             return null;
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+
 }
