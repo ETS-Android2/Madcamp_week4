@@ -65,7 +65,7 @@ public class JoinActivity extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private LinearLayoutManager linearLayoutManager;
 
-    private String title, place, Img ;
+    private String place, Img ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +79,10 @@ public class JoinActivity extends AppCompatActivity {
         editText = findViewById(R.id.editText);
         name = findViewById(R.id.friendname);
         email = findViewById(R.id.friendemail);
-        emails.add(useremail);
+//        emails.add(useremail);
         prof= findViewById(R.id.profimg);
 
         Intent intent = getIntent();
-        title = intent.getStringExtra("title");
         place = intent.getStringExtra("place");
 
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -212,7 +211,6 @@ public class JoinActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                intent.putExtra("title", title);
                 intent.putExtra("place", place);
                 //인텐트로 친구리스트도 같이 보내기
                 intent.putExtra("friendlist", emails);

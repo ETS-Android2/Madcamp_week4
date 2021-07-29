@@ -26,6 +26,7 @@ import android.widget.EditText;
 
 
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.directions.route.AbstractRouting;
@@ -86,7 +87,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private List<Polyline> polylines = null;
 
-    private String place, title; // 이전 액티비티에서 어느 도시로 여행갈건지 입력 받음
+    private String place; // 이전 액티비티에서 어느 도시로 여행갈건지 입력 받음
     private ArrayList<String> flist;
 
     private Retrofit retrofit;
@@ -108,7 +109,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         Intent intent = getIntent();
         place = intent.getStringExtra("place");
-        title = intent.getStringExtra("title");
         flist = (ArrayList<String>)intent.getSerializableExtra("friendlist");
 
         mainbtn = findViewById(R.id.mainbtn);
@@ -313,8 +313,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onClick(View v) { //여기서 경로 저장한배열, 지역 , 경로제목을 보냄
 //                Log.d("Check" , useremail);
                 ArrayList<String> tmpParti = new ArrayList<>();
+                tmpParti.add(MainActivity.useremail);
                 for(int i=0;i<flist.size();i++){
                     tmpParti.add(flist.get(i));
+                    Log.d("kyung", i+flist.get(i)+"");
                 }
                 SavePathInput savePathInput = new SavePathInput(tmpParti, pathTitle.getText().toString() ,place , String.valueOf(clickedPath.size()), clickedPath);
 
@@ -324,6 +326,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.code() == 200) {
                             ad.cancel();
+
+                            Intent intent = new Intent(MapActivity.this, MainActivity_ImageChange.class);
+                            startActivity(intent);
+                            MainActivity mainActivity = MainActivity.mainActivity;
+                            mainActivity.finish();
                             finish();
                         } else if (response.code() == 400) {
 

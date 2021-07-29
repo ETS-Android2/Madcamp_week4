@@ -103,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                         updateData(result.getEmail());
 
                         startActivity(intent);
+                        finish();
 
                         overridePendingTransition(0, R.anim.anim_slide_out_top);
 
@@ -171,6 +172,10 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this,
                                     "Signed up successfully", Toast.LENGTH_LONG).show();
                             ad.dismiss();
+                            Intent intent = getIntent();
+                            finish();
+                            startActivity(intent);
+
 
                         } else if (response.code() == 400) {
                             Toast.makeText(LoginActivity.this,
@@ -216,6 +221,7 @@ public class LoginActivity extends AppCompatActivity {
                     updateData(result.getEmail());
 
                     startActivity(intent);
+                    finish();
 
                     overridePendingTransition(0, R.anim.anim_slide_out_top);
 
