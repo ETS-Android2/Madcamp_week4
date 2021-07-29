@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
                 new SpaceItem(260),
                 createItemFor(POS_LOGOUT)
 
-                ));
+        ));
 
         adapter.setListener(this);
 
@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
         Intent intent = getIntent();
         username = intent.getStringExtra("name");
+        Log.d("main" , username);
         useremail = intent.getStringExtra("email");
 
 

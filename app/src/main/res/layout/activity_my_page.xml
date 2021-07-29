@@ -9,8 +9,11 @@
     tools:context=".MyPageActivity">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_anchor="@+id/relativeLayout"
+        app:layout_anchorGravity="center">
 
         <include layout="@layout/layout_center_profile" />
 
