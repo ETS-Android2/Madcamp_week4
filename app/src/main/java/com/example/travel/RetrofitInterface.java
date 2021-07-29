@@ -8,6 +8,7 @@ import com.example.travel.items.SavePathInput;
 
 import com.example.travel.items.Placeinfo;
 
+import com.example.travel.items.SelectDay;
 import com.example.travel.items.Userinfo;
 
 import java.util.HashMap;
@@ -82,5 +83,11 @@ public interface RetrofitInterface {
 
     @POST("/user/logout")
     Call<Void> executeLogout(@Body HashMap<String, String> map);
+
+    @POST("/course/selectDays")
+    Call<Void> selectDays(@Body SelectDay selectDay);
+
+    @POST("/course/getDays")
+    Call <SelectDay> getDays(@Body HashMap<String,String> map);
 
 }

@@ -82,6 +82,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private FloatingActionButton button ;
 
     private EditText editText;
+    private String title;
 
     Polyline polyline = null;
     List<LatLng> latLngList = new ArrayList<>();
@@ -197,6 +198,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 animateFab();
                 Intent intent = new Intent(getApplicationContext(), JoinCalendarActivity.class);
                 intent.putExtra("friendlist" , flist);
+                intent.putExtra("place" ,place );
                 startActivity(intent);
 
                 overridePendingTransition(R.anim.anim_slide_in_bottom, 0);
@@ -322,6 +324,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     Log.d("kyung", i+flist.get(i)+"");
                 }
                 SavePathInput savePathInput = new SavePathInput(tmpParti, pathTitle.getText().toString() ,place , String.valueOf(clickedPath.size()), clickedPath);
+                title = pathTitle.getText().toString();
 
                 Call<Void> call = retrofitInterface.executeSavePath(savePathInput);
                 call.enqueue(new Callback<Void>() {

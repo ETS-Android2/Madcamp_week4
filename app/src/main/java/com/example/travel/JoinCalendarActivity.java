@@ -3,13 +3,17 @@ package com.example.travel;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.travel.items.Dateinfo;
+import com.example.travel.items.SelectDay;
 import com.example.travel.items.Userinfo;
 
 import org.naishadhparmar.zcustomcalendar.CustomCalendar;
@@ -22,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -33,9 +38,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class JoinCalendarActivity extends AppCompatActivity  implements OnNavigationButtonClickedListener {
 
     CustomCalendar customCalendar;
+    String place;
     Calendar calendar;
     HashMap<Integer,Object> dateHashMap =new HashMap<>();
     ArrayList<String> friends = new ArrayList<>();
+    ArrayList<String> travelDay = new ArrayList<>();
+
+    Button saveDays;
 
     ArrayList<Integer> July =      new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)); //31
     ArrayList<Integer> August =    new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)); //31
@@ -53,9 +62,11 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_calendar);
+        saveDays = findViewById(R.id.sendTravelDays);
 
         Intent intent =getIntent(); //친구 목록 받음.
         friends = (ArrayList<String>) intent.getSerializableExtra("friendlist");
+        place = intent.getStringExtra("place");
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -139,11 +150,6 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
 
                         calendar = Calendar.getInstance(); //현재 날짜가 속한 달
 
-
-
-
-
-
                     } else if (response.code() == 404) {
 
                     }
@@ -165,18 +171,52 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
 //            }
 //        }
 
+        saveDays.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SelectDay selectDay = new SelectDay(travelDay , place);
+                Call<Void> call = retrofitInterface.selectDays(selectDay);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.code() == 200) {
+
+                        } else if (response.code() == 400) {
+
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
 
 
-//        customCalendar.setOnDateSelectedListener(new OnDateSelectedListener() {
-//            @Override
-//            public void onDateSelected(View view, Calendar selectedDate, Object desc) {
-//                String sDate = selectedDate.get(Calendar.DAY_OF_MONTH)
-//                        +"/"+(selectedDate.get(Calendar.MONTH) + 1)
-//                        +"/" +selectedDate.get(Calendar.YEAR);
-//                Toast.makeText(getApplicationContext(), sDate, Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
+
+        customCalendar.setOnDateSelectedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(View view, Calendar selectedDate, Object desc) {
+                String sDate = selectedDate.get(Calendar.DAY_OF_MONTH)
+                        +"/"+(selectedDate.get(Calendar.MONTH) + 1)
+                        +"/" +selectedDate.get(Calendar.YEAR);
+                Toast.makeText(getApplicationContext(), sDate, Toast.LENGTH_SHORT).show();
+
+                if((selectedDate.get(Calendar.MONTH)+1) == 7 ){
+                    july[selectedDate.get(Calendar.DAY_OF_MONTH)-1] = 3;
+                }
+                else if((selectedDate.get(Calendar.MONTH)+1) == 8 ){
+                    august[selectedDate.get(Calendar.DAY_OF_MONTH)-1] = 3;
+                }
+                else if((selectedDate.get(Calendar.MONTH)+1) == 9 ){
+                    september[selectedDate.get(Calendar.DAY_OF_MONTH)-1] = 3;
+                }
+
+                travelDay.add((selectedDate.get(Calendar.MONTH)+1) + "/" + selectedDate.get(Calendar.DAY_OF_MONTH));
+
+            }
+        });
     }
     @Override
     public Map<Integer, Object>[] onNavigationButtonClicked(int whichButton, Calendar newMonth) {
@@ -184,40 +224,49 @@ public class JoinCalendarActivity extends AppCompatActivity  implements OnNaviga
         switch(newMonth.get(Calendar.MONTH)) {
             case Calendar.AUGUST:
                 arr[0] = new HashMap<>();
+                calendar.add(calendar.MONTH, 1);
 //                for(int i=0;i<August.size();i++){ // i = 0~30
 //                    if(August.get(i) == 0){
 //                        arr[0].put( i+1 , "current");
 //                    }
 //                }
                 for (int i= 0; i<=30 ;i++){
-                    if(august[i] != 1){
+                    if(august[i] != 1 && august[i]!=3){
                         arr[0].put(i+1 , "current");
+                    }else if(august[i] ==3){
+                        arr[0].put(i+1 ,"present");
                     }
                 }
                 break;
             case Calendar.SEPTEMBER:
                 arr[0] = new HashMap<>();
+                calendar.add(calendar.MONTH, 2);
 //                for(int i=0;i<September.size();i++){ // i = 0~30
 //                    if(September.get(i) == 0){
 //                        arr[0].put( i+1 , "current");
 //                    }
 //                }
                 for (int i= 0; i<=29 ;i++){
-                    if(september[i] != 1){
+                    if(september[i] != 1 && september[i] !=3 ){
                         arr[0].put(i+1 , "current");
+                    }else if(september[i] ==3){
+                        arr[0].put(i+1 ,"present");
                     }
                 }
                 break;
             case Calendar.JULY:
                 arr[0] = new HashMap<>();
+                calendar = Calendar.getInstance();
 //                for(int i=0;i<July.size();i++){ // i = 0~30
 //                    if(July.get(i) == 0){
 //                        arr[0].put( i+1 , "current");
 //                    }
 //                }
                 for (int i= 0; i<=30 ;i++){
-                    if(july[i] != 1){
+                    if(july[i] != 1 && july[i] !=3){
                         arr[0].put(i+1, "current");
+                    }else if(july[i] ==3){
+                        arr[0].put(i+1 ,"present");
                     }
                 }
                 break;

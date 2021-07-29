@@ -24,6 +24,7 @@ import com.example.travel.RetrofitInterface;
 import com.example.travel.items.PathItem;
 import com.example.travel.items.Pathinfo;
 import com.example.travel.R;
+import com.example.travel.items.SelectDay;
 import com.gjiazhe.panoramaimageview.GyroscopeObserver;
 import com.gjiazhe.panoramaimageview.PanoramaImageView;
 
@@ -117,17 +118,41 @@ public class PathAdapter extends RecyclerView.Adapter<PathAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull PathAdapter.ViewHolder holder, int position) {
         holder.title.setText(mList.get(position).getPathtitle());
 
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+        //날짜 불러오기
+        HashMap<String , String > datemap = new HashMap<>();
+        datemap.put("title" , mList.get(position).getPathtitle());
+        Call<SelectDay> calldays = retrofitInterface.getDays(datemap);
+
+        calldays.enqueue(new Callback<SelectDay>(){
+            @Override
+            public void onResponse(Call<SelectDay> call, retrofit2.Response<SelectDay> response) {
+                if(response.code()==200){
+                   SelectDay selectDay = response.body();
+                   ArrayList<String> days = selectDay.getDays();
+                   if(days.size() > 1){
+                       holder.days.setText(days.get(0) + " ~ " + days.get(days.size()-1));
+                   }else if(days.size() == 1) {
+                       holder.days.setText(days.get(0));
+                   }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SelectDay> call, Throwable t){
+
+            }
+        });
+
         String imageName = mList.get(position).getImage();
 //        Log.d("kyung", imageName);
         if(!mList.get(position).getImage().equals("")){
-
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            retrofitInterface = retrofit.create(RetrofitInterface.class);
-
             HashMap<String, String> map = new HashMap<>();
 
             map.put("name", imageName);
@@ -170,14 +195,14 @@ public class PathAdapter extends RecyclerView.Adapter<PathAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView title;
+        TextView title, days;
         PanoramaImageView panoramaImageView;
 
         public ViewHolder(View itemView, OnItemClickListener listener){
             super(itemView);
 
             title = itemView.findViewById(R.id.pathTitle);
-
+            days = itemView.findViewById(R.id.period);
 
             gyroscopeObserver = new GyroscopeObserver();
 //        // Set the maximum radian the device should rotate to show image's bounds.

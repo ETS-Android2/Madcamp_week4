@@ -76,7 +76,7 @@ public class MyPageActivity extends Fragment {
     private ArrayList<Placeinfo> plist=new ArrayList<>();
     private PathAdapter pathAdapter;
 
-    TextView tvPosts, tvFriends , displayName;
+    TextView tvPosts, tvFriends , displayName , period;
     CircleImageView profileImg;
     RecyclerView recyclerView;
     FloatingActionButton pickDate;
@@ -98,6 +98,7 @@ public class MyPageActivity extends Fragment {
         displayName = view.findViewById(R.id.display_name);
         profileImg = view.findViewById(R.id.profile_image);
         recyclerView = view.findViewById(R.id.MyPageRecycler);
+        period = view.findViewById(R.id.period);
 
         imagePickBtn = view.findViewById(R.id.zhihu);
         imageDeleteBtn = view.findViewById(R.id.deletePic);
@@ -166,6 +167,10 @@ public class MyPageActivity extends Fragment {
             }
 
         });
+
+        //---------------------------------------------
+
+        //---------------------------------------------
 
         // user info 불러오기
         HashMap<String, String> mapInfo = new HashMap<>();
